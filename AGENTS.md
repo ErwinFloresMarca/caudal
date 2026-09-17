@@ -41,7 +41,7 @@ pnpm screenshots  # capturas Playwright (1280px + 390px) en .screenshots/ — re
 ## Git y Linear (obligatorio)
 
 - **Repo**: `ErwinFloresMarca/caudal` — rama `main`. Trunk-based: se trabaja sobre `main`.
-- **Seguimiento**: cada feature/tarea tiene un issue en el proyecto **Caudal** de Linear (workspace `self-proyects`, ids tipo `CAU-xxx`). Toda implementación queda enlazada a su issue.
+- **Seguimiento**: cada feature/tarea tiene un issue en el proyecto **Caudal** de Linear ([Caudal](https://linear.app/self-proyects/project/caudal-52321193bd83), team `SEL`, ids tipo `SEL-xxx`). Toda implementación queda enlazada a su issue.
 
 Workflow por feature:
 
@@ -52,7 +52,7 @@ Workflow por feature:
 Formato de commit:
 
 ```
-CAU-007: transacciones + módulo money con tests
+SEL-042: transacciones + módulo money con tests
 ```
 
 Reglas:

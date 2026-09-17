@@ -9,7 +9,7 @@ Fuente de verdad de qué significa cada feature. Se escribe el spec ANTES de toc
 3. **`implementada`** — el código cumple el spec (según sus criterios).
 4. **`verificada`** — pasa los criterios de aceptación en tiempo de desarrollo (test + captura + lint/build). Idealmente verificado por alguien distinto de quien implementó.
 
-El estado se actualiza en el propio archivo. Los cambios de alcance se reflejan también en el issue de Linear (proyecto Caudal, ids `CAU-xxx`).
+El estado se actualiza en el propio archivo. Los cambios de alcance se reflejan también en el issue de Linear (proyecto Caudal, ids `SEL-xxx`).
 
 ## Orden de implementación
 
@@ -44,27 +44,29 @@ Depende de: SPC-0XX, SPC-0YY   <!-- opcional -->
 
 ## Índice de specs
 
-| # | Slug | Estado |
-|---|---|---|
-| SPC-001 | bootstrap-nuxt | propuesta |
-| SPC-002 | modelo-datos | propuesta |
-| SPC-003 | auth | propuesta |
-| SPC-004 | shell | propuesta |
-| SPC-005 | fondos | propuesta |
-| SPC-006 | cuentas | propuesta |
-| SPC-007 | categorias | propuesta |
-| SPC-008 | transacciones | propuesta |
-| SPC-009 | transferencias | propuesta |
-| SPC-010 | aportes-retiros | propuesta |
-| SPC-011 | recurrentes | propuesta |
-| SPC-012 | deudas-msi | propuesta |
-| SPC-013 | metas-ahorro | propuesta |
-| SPC-014 | dashboard | propuesta |
-| SPC-015 | reportes | propuesta |
-| SPC-016 | busqueda-filtros | propuesta |
-| SPC-017 | ajustes | propuesta |
-| SPC-018 | mcp-server | propuesta |
-| SPC-019 | pwa | propuesta |
-| SPC-020 | deploy | propuesta |
-| SPC-021 | pase-visual | propuesta |
-| SPC-022 | release | propuesta |
+Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-52321193bd83). Cada spec tiene su issue (`SEL-NNN`).
+
+| # | Slug | Issue | Estado |
+|---|---|---|---|
+| SPC-001 | bootstrap-nuxt | SEL-77 | propuesta |
+| SPC-002 | modelo-datos | SEL-78 | propuesta |
+| SPC-003 | auth | SEL-79 | propuesta |
+| SPC-004 | shell | SEL-80 | propuesta |
+| SPC-005 | fondos | SEL-81 | propuesta |
+| SPC-006 | cuentas | SEL-82 | propuesta |
+| SPC-007 | categorias | SEL-83 | propuesta |
+| SPC-008 | transacciones | SEL-84 | propuesta |
+| SPC-009 | transferencias | SEL-85 | propuesta |
+| SPC-010 | aportes-retiros | SEL-86 | propuesta |
+| SPC-011 | recurrentes | SEL-87 | propuesta |
+| SPC-012 | deudas-msi | SEL-88 | propuesta |
+| SPC-013 | metas-ahorro | SEL-89 | propuesta |
+| SPC-014 | dashboard | SEL-90 | propuesta |
+| SPC-015 | reportes | SEL-91 | propuesta |
+| SPC-016 | busqueda-filtros | SEL-92 | propuesta |
+| SPC-017 | ajustes | SEL-93 | propuesta |
+| SPC-018 | mcp-server | SEL-94 | propuesta |
+| SPC-019 | pwa | SEL-95 | propuesta |
+| SPC-020 | deploy | SEL-96 | propuesta |
+| SPC-021 | pase-visual | SEL-97 | propuesta |
+| SPC-022 | release | SEL-98 | propuesta |
