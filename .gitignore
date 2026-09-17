@@ -1,0 +1,32 @@
+# Nuxt
+.nuxt
+.nitro
+.cache
+.output
+.data
+dist
+
+# Capturas generadas
+.screenshots
+
+# Node
+node_modules
+logs
+*.log
+
+# Datos locales
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea
+.vscode
+.fleet
+.DS_Store

@@ -1,0 +1,70 @@
+# Especificaciones (SDD) — Caudal
+
+Fuente de verdad de qué significa cada feature. Se escribe el spec ANTES de tocar código.
+
+## Ciclo de vida
+
+1. **`propuesta`** — el spec existe, sin revisar.
+2. **`aprobada`** — dos personas (o el agente + el usuario) lo revisaron y aceptan. Se puede implementar.
+3. **`implementada`** — el código cumple el spec (según sus criterios).
+4. **`verificada`** — pasa los criterios de aceptación en tiempo de desarrollo (test + captura + lint/build). Idealmente verificado por alguien distinto de quien implementó.
+
+El estado se actualiza en el propio archivo. Los cambios de alcance se reflejan también en el issue de Linear (proyecto Caudal, ids `CAU-xxx`).
+
+## Orden de implementación
+
+Los specs tienen dependencias; NO se implementan por orden numérico sino por este orden:
+
+1. SPC-001 bootstrap → 2. SPC-002 BD → 3. SPC-003 auth → 4. SPC-005 fondos → 5. SPC-006 cuentas → 6. SPC-007 categorías → 7. SPC-008 transacciones → 8. SPC-009 transferencias → 9. SPC-010 aportes/retiros → 10. SPC-011 recurrentes → 11. SPC-012 deudas/MSI → 12. SPC-013 metas → 13. SPC-014 dashboard → 14. SPC-015 reportes → 15. SPC-016 búsqueda → 16. SPC-017 ajustes → 17. SPC-004 shell → 18. SPC-018 MCP → 19. SPC-019 PWA → 20. SPC-021 visual → 21. SPC-020 deploy → 22. SPC-022 release.
+
+Ver `docs/ROADMAP.md`.
+
+## Plantilla
+
+```markdown
+# SPC-NNN — Nombre del feature
+
+Estado: propuesta
+Depende de: SPC-0XX, SPC-0YY   <!-- opcional -->
+
+## Problema
+
+<!-- Por qué existe este feature. Un párrafo. -->
+
+## Requerimientos
+
+<!-- Qué hace y qué no hace. Bullets cortos, imperativos. Sin decisiones de UI
+     que se tomarán en wireframes (a menos que sean críticas). -->
+
+## Criterios de aceptación
+
+- [ ] <!-- Verificables. Una acción observable por vez. -->
+- [ ]
+```
+
+## Índice de specs
+
+| # | Slug | Estado |
+|---|---|---|
+| SPC-001 | bootstrap-nuxt | propuesta |
+| SPC-002 | modelo-datos | propuesta |
+| SPC-003 | auth | propuesta |
+| SPC-004 | shell | propuesta |
+| SPC-005 | fondos | propuesta |
+| SPC-006 | cuentas | propuesta |
+| SPC-007 | categorias | propuesta |
+| SPC-008 | transacciones | propuesta |
+| SPC-009 | transferencias | propuesta |
+| SPC-010 | aportes-retiros | propuesta |
+| SPC-011 | recurrentes | propuesta |
+| SPC-012 | deudas-msi | propuesta |
+| SPC-013 | metas-ahorro | propuesta |
+| SPC-014 | dashboard | propuesta |
+| SPC-015 | reportes | propuesta |
+| SPC-016 | busqueda-filtros | propuesta |
+| SPC-017 | ajustes | propuesta |
+| SPC-018 | mcp-server | propuesta |
+| SPC-019 | pwa | propuesta |
+| SPC-020 | deploy | propuesta |
+| SPC-021 | pase-visual | propuesta |
+| SPC-022 | release | propuesta |
