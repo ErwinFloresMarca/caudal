@@ -28,6 +28,7 @@ Llevar un registro claro y honesto de todo el dinero que entra y sale: lo person
 - SPC-002 Modelo de datos y acceso a BD
 - SPC-003 Auth multiusuario + API keys
 - SPC-004 Shell / layout / navegación / UI base
+- SPC-023 Login con Google (OAuth) — depende de 002/003/004
 
 ### 2. Núcleo del dinero (SPC-005…010)
 

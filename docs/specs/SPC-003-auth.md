@@ -11,6 +11,7 @@ Caudal es multiusuario (también para el asistente IA vía MCP). Hace falta regi
 
 - Registro por email + contraseña, hash con `scrypt` (stdlib).
 - Login/logout vía `nuxt-auth-utils` (sesión HTTP-only). Protección de rutas API y de página por defecto.
+- Login con Google como método alternativo: ver **SPC-023** (extiende este spec; `password_hash` nullable).
 - Alto: los email duplicados fallan registrando (no por críptico, con mensaje claro).
 - `me` endpoint para el front (¿quién soy?).
 - API keys: tabla `api_keys` (SPC-002) con `key_hash` (hash de la key), nombre y `last_used_at`. Solo el dueño las ve/crea/revoca. En Ajustes (SPC-017).

@@ -11,7 +11,8 @@ Caudal necesita persistir usuarios, fondos, cuentas, categorías, transacciones,
 - Motor SQLite (`node:sqlite`), acceso solo vía `server/utils/db.ts`.
 - Esquema idempotente en `server/utils/schema.ts` (`CREATE TABLE IF NOT EXISTS` + `PRAGMA user_version`).
 - Tablas (según decisión 0001 y el modelo de dominio acordado):
-  - `users(id, email, name, password_hash, timezone, created_at)`
+  - `users(id, email, name, password_hash, avatar_url, timezone, created_at)` — `password_hash` y `avatar_url` nullable (SPC-023: login con Google)
+  - `oauth_accounts(id, user_id, provider, provider_id, email, name, avatar_url, created_at)` con `UNIQUE(provider, provider_id)` (SPC-023)
   - `api_keys(id, user_id, nombre, key_hash, created_at, last_used_at)`
   - `fondos(id, user_id, nombre, tipo, moneda_base, color, icono, activo, created_at)`
   - `cuentas(id, user_id, fondo_id, nombre, tipo, moneda, saldo_inicial_centavos, activa, created_at)`
