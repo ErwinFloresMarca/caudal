@@ -15,7 +15,7 @@ El estado se actualiza en el propio archivo. Los cambios de alcance se reflejan 
 
 Los specs tienen dependencias; NO se implementan por orden numérico sino por este orden:
 
-1. SPC-001 bootstrap → 2. SPC-002 BD → 3. SPC-003 auth → 4. SPC-005 fondos → 5. SPC-006 cuentas → 6. SPC-007 categorías → 7. SPC-008 transacciones → 8. SPC-009 transferencias → 9. SPC-010 aportes/retiros → 10. SPC-011 recurrentes → 11. SPC-012 deudas/MSI → 12. SPC-013 metas → 13. SPC-014 dashboard → 14. SPC-015 reportes → 15. SPC-016 búsqueda → 16. SPC-017 ajustes → 17. SPC-004 shell → 18. SPC-023 Google OAuth → 19. SPC-018 MCP → 20. SPC-019 PWA → 21. SPC-021 visual → 22. SPC-020 deploy → 23. SPC-022 release.
+1. SPC-001 bootstrap → 2. SPC-002 BD → 3. SPC-003 auth → 4. SPC-005 fondos → 5. SPC-006 cuentas → 6. SPC-007 categorías → 7. SPC-008 transacciones → 8. SPC-009 transferencias → 9. SPC-010 aportes/retiros → 10. SPC-011 recurrentes → 11. SPC-012 deudas/MSI → 12. SPC-013 metas → 13. SPC-014 dashboard → 14. SPC-015 reportes → 15. SPC-016 búsqueda → 16. SPC-017 ajustes → 17. SPC-004 shell → 18. SPC-023 Google OAuth → 19. SPC-024 presupuestos → 20. SPC-018 MCP → 21. SPC-019 PWA → 22. SPC-021 visual → 23. SPC-020 deploy → 24. SPC-022 release.
 
 Ver `docs/ROADMAP.md`.
 
@@ -71,3 +71,4 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-021 | pase-visual | SEL-97 | propuesta |
 | SPC-022 | release | SEL-98 | propuesta |
 | SPC-023 | google-oauth | SEL-99 | propuesta |
+| SPC-024 | presupuestos | SEL-100 | propuesta |

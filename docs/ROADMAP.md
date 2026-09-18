@@ -19,7 +19,7 @@ Llevar un registro claro y honesto de todo el dinero que entra y sale: lo person
 - [x] AGENTS.md, DESIGN.md (borrador), README, ROADMAP
 - [x] docs/decisions/ (modelo de datos, multimoneda)
 - [x] specs README (plantilla + workflow)
-- [x] specs SPC-001…022 (estado `propuesta`)
+- [x] specs SPC-001…024 (estado `propuesta`)
 - [ ] aprobar specs contra Linear (issues) e implementar en orden
 
 ### 1. Fundación (SPC-001…004)
@@ -48,6 +48,7 @@ Llevar un registro claro y honesto de todo el dinero que entra y sale: lo person
 - SPC-015 Reportes y gráficas
 - SPC-016 Búsqueda y filtros
 - SPC-017 Ajustes
+- SPC-024 Presupuestos por categoría (wireframe `09.presupuestos`, entra en v1)
 
 ### 4. Integración y entrega (SPC-018…022)
 
@@ -59,7 +60,6 @@ Llevar un registro claro y honesto de todo el dinero que entra y sale: lo person
 
 ### Fase 2 (fuera de v1)
 
-- Presupuestos por categoría
 - Importar CSV / estados de cuenta
 - Sincronización bancaria (agregadores)
 - Multi-divisa avanzada / valuación real

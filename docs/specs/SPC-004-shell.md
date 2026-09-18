@@ -10,7 +10,9 @@ Sin un shell común, cada pantalla reinventará la navegación y el layout. Hace
 ## Requerimientos
 
 - Layout raíz con `App.vue` / `app.vue` y sidebar (escritorio `lg:`) + barra de navegación inferior/drawer (móvil) según DESIGN.md.
-- Navegación: dashboard, movimientos, cuentas, fondos, transferencias, recurrentes, deudas, metas, reportes, ajustes.
+- Navegación: dashboard, movimientos, cuentas, fondos, **presupuestos**, transferencias, recurrentes, deudas, metas, reportes, ajustes.
+- Tipografía **Inter** con monetarios `tabular-nums` (ver DESIGN.md y decisión 0004); sidebar 1280px y barra inferior móvil según los wireframes `04…/05…` de `docs/stitch_caudal_wireframe_specs/`.
+- Presupuestos (`/presupuestos`) nace solo con la ruta base en el shell; su contenido es SPC-024.
 - Cabecera con selector de **fondo activo** (persistido en la sesión del usuario) que pre-filtra las vistas de dinero (SPC-005).
 - Estado de sesión en el shell: si no hay sesión → página de login/registro; si la hay → app.
 - Componente `Balances` (saldo de cada cuenta del fondo activo, con formato por moneda `tabular-nums`).

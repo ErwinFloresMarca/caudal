@@ -1,10 +1,12 @@
 # Caudal — Prompt de wireframes (SPC-021)
 
-Este documento compila los specs (SPC-004…017) y la identidad de `DESIGN.md`.
-Se usa tal cual como **prompt de entrada** para generar los wireframes/mockups
-de alta fidelidad de T A D A S las pantallas. Los mockups generados se
-guardan en `docs/wireframes/` y se adjuntan al issue de Linear de su módulo
-para guiar la implementación.
+Este documento compila los specs (SPC-004…017 + SPC-023/024) y la identidad de
+`DESIGN.md`. Se usó como **prompt de entrada** para generar los wireframes/mockups
+de alta fidelidad. Los mockups generados están en
+`docs/stitch_caudal_wireframe_specs/` (una carpeta por pantalla, con `code.html`
+y `screen.png` en 390px y 1280px) y se adjuntan a los issues de Linear de cada
+módulo para guiar la implementación. Una segunda tanda (SPC-024) se
+genera con este mismo prompt ampliado.
 
 ## Contrato de entrega
 
@@ -36,7 +38,7 @@ grandes y legibles, cero decoración. El número manda.
 - Acción/navegación `#0E6FFF` (brand), hover `#0057D9`.
 - **Color semántico**: teal `#0FA47F` = dinero que ENTRA (ingresos, saldo positivo, aportes recibidos); coral `#E5484D` = dinero que SALE (egresos, saldo negativo, deudas por pagar); amber `#E8A13A` = avisos/metas lejanas.
 - Radios: cards `rounded-[20px]`; botones **píldora** `h-13 rounded-full`; inputs `rounded-xl` (12px). Sin sombras pesadas: elevación = borde `1px` `rgb(11 28 52 / 0.08)` + a lo sumo `shadow-sm`.
-- **Tipografía**: `ui-sans-serif/system-ui`; números **siempre tabulares** (columnas alineadas) en TODO monto. Titulares `font-extrabold tracking-tight`, con técnica **two-tone**: titular en ink con 1-2 palabras en brand.
+- **Tipografía**: **Inter** 400–800, fallback `ui-sans-serif/system-ui`; números **siempre tabulares** (columnas alineadas) en TODO monto. Titulares `font-extrabold tracking-tight`, con técnica **two-tone**: titular en ink con 1-2 palabras en brand.
 - **Iconos**: Material Symbols, variante redondeada (`rounded`). No mezclar otros sets.
 - Iconos de cuenta por tipo: efectivo `payments`, banco `account_balance`, tarjeta `credit_card`, ahorro `savings`.
 - Dinero: `Bs 12.345,67` (BOB) / `US$ 45,00` (USD). Ingreso con prefijo `+` (teal), egreso `−` (coral).
@@ -49,7 +51,7 @@ grandes y legibles, cero decoración. El número manda.
 
 - **Escritorio (1280px)**: sidebar izquierda fija — logo Caudal, ítems de navegación, fondo activo al final. Header con **selector de fondo activo**, saldo destacado y avatar.
 - **Móvil (390px)**: header compacto (logo + selector de fondo + avatar) y **barra inferior** con accesos principales: Inicio, Movimientos, **+** (registro rápido), Fondos, Ajustes. No drawer oculto.
-- Navegación completa (sidebar): **Inicio, Movimientos, Cuentas, Fondos, Transferencias, Recurrentes, Deudas, Metas, Reportes, Ajustes**.
+- Navegación completa (sidebar): **Inicio, Movimientos, Cuentas, Fondos, Presupuestos, Transferencias, Recurrentes, Deudas, Metas, Reportes, Ajustes**.
 - Sin sesión → `/login`. Con sesión → app.
 - Componente **Balances**: saldo de cada cuenta del fondo activo (icono por tipo, tabular, `Bs`/`US$`), visible en el shell o dashboard.
 
@@ -154,6 +156,14 @@ Lista de secciones (lista móvil / columnas en escritorio). Cada edición en sli
 - **Sesión**: cerrar sesión (y «cerrar todas las sesiones» si es barato).
 - **Datos**: exportar / **borrar cuenta** con confirmación explícita (danger).
 
+### 6.12 Presupuestos (`/presupuestos`, SPC-024)
+Estados: con datos · vacío (primera vez sin presupuestos).
+- Cabecera por fondo/moneda: **KPI**: Asignado, Consumido, Disponible restante y el mayor **disponible por día** (techo diario calculado: `disponible / días restantes del mes`).
+- Pills de filtro por estado: **En ritmo · Alerta (>80 %) · Sobregirados**.
+- Cards por categoría: icono+color, límite asignado mensual, progreso (barra y %) consumido del mes, ritmo diario comparado (proyectado vs. límite); estados: **En ritmo** (teal), **Alerta >80%** (amber), **Sobregiro** (coral, monto excedido y acción «Compensar categoría»).
+- Widgets: **distribución del ingreso (regla 50/30/20)**, histórico de cumplimiento (últimos meses en barras) y nota de **presupuesto base cero** (ZBB): todo ingreso se asigna a una categoría.
+- Alta/edición slideover: categoría (gasto), moneda (heredada del fondo), monto límite mensual; compensación = mueve el excedente a otra categoría sin alterar el total asignado.
+
 ## 7. Reglas transversales (toda pantalla)
 
 - Números **tabulares** en todo monto; sufijos `Bs` / `US$`; signo `+` teal / `−` coral.
@@ -180,9 +190,10 @@ Cada pantalla generada se une a su módulo del roadmap:
 | Recurrentes | SPC-011 | SEL-87 |
 | Deudas / MSI | SPC-012 | SEL-88 |
 | Metas | SPC-013 | SEL-89 |
+| Presupuestos | SPC-024 | SEL-100 |
 | Reportes | SPC-015 | SEL-91 |
 | Ajustes | SPC-017 | SEL-93 |
 | Shell / navegación | SPC-004 | SEL-80 |
 
-- Archivos en `docs/wireframes/` (subcarpeta por módulo) **y** adjuntos al issue de Linear correspondiente (`Estados con datos` = la variante a adjuntar; vacío/error quedan en el repo).
+- Archivos en `docs/stitch_caudal_wireframe_specs/` (subcarpeta por pantalla) **y** adjuntos al issue de Linear correspondiente (`Estados con datos` = la variante a adjuntar; vacío/error quedan en el repo).
 - Al implementar un módulo, su spec se enriquece con los criterios visuales aprobados de su wireframe; lo que el wireframe decida que el spec dejó abierto se vuelve decisión y se registra en `docs/decisions/` si es relevante.

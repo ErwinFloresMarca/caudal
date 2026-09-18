@@ -71,24 +71,28 @@ Reglas:
 ```
 caudal/
   app/
-    pages/            inicio (dashboard), movimientos, cuentas, fondos, transferencias,
-                      recurrentes, deudas, metas, reportes, ajustes, login, registro
+    pages/            inicio (dashboard), movimientos, cuentas, fondos, presupuestos,
+                      transferencias, recurrentes, deudas, metas, reportes, ajustes,
+                      login, registro
     components/       Nuxt UI components
     composables/
   server/
     api/              rutas Nitro (auth, fondos, cuentas, categorias, transacciones,
-                      transferencias, recurrentes, deudas, metas, reportes, api-keys, mcp)
+                      transferencias, recurrentes, deudas, metas, presupuestos, reportes,
+                      api-keys, mcp)
     utils/db.ts       ★ cliente Drizzle (único punto de acceso a la BD)
     db/schema.ts      ★ esquema Drizzle (tablas, enums, relaciones)
     db/migrations/    migraciones SQL generadas por drizzle-kit
     utils/*.ts        un repositorio por dominio (fondos, cuentas, transacciones…)
-  shared/             tipos + lógica pura (money, transacciones, recurrentes…) — sin imports de server
+  shared/             tipos + lógica pura (money, transacciones, recurrentes, presupuestos...) — sin imports de server
   drizzle.config.ts   configuración de drizzle-kit (schema, out, dialect)
   tests/              vitest: money, recurrentes, transacciones, aislamiento
   docs/
     ROADMAP.md
     specs/            specs SDD por feature (SPC-001…)
-    decisions/        decisiones marcadas (modelo de datos, multimoneda)
+    decisions/        decisiones marcadas (modelo de datos, multimoneda, diseño)
+    stitch_caudal_wireframe_specs/   mockups aprobados (36 pantallas 390px/1280px) + design canónico
+    wireframe-prompt.md              prompt compilado que generó los mockups (SPC-021)
   DESIGN.md
   AGENTS.md
 ```
@@ -102,8 +106,8 @@ caudal/
 - **Multimoneda**: cada `cuenta` tiene moneda fija (BOB|USD) y hereda su moneda a las transacciones. Las transacciones en USD guardan `tasa_ref` (BOB por USD, dólar paralelo). Ver `docs/decisions/0002-multimoneda.md`.
 - **Aportes/retiros entre fondos** = dos transacciones ligadas por `grupo_id` (gasto en origen + ingreso en destino). Transferencia es solo entre cuentas **del mismo fondo** y no afecta resultado.
 - **UI en español.** Toda la copia visible es en español.
-- **Style**: seguir `DESIGN.md`. Usar las utilidades `card` / `card-muted`, píldoras `h-13 rounded-full`, titulares two-tone. Solo son válidas las clases y tokens del DESIGN.md; no inventar paletas ni sistemas de iconos (Material Symbols).
-- **Color mode**: solo claro (`colorMode.preference: 'light'`).
+- **Style**: seguir `DESIGN.md`. Tipografía **Inter** (fallback system-ui), monetarios siempre `tabular-nums`. Usar las utilidades `card` / `card-muted`, píldoras `h-13 rounded-full`, titulares two-tone. Tokens: `bg #F6F8FC`, `surface`, `surface-muted #EDF1F8`, `surface-tint #EBF3FF`, `ink #0B1C34`, `brand #0E6FFF`/`#0057D9`, `positive #0FA47F`, `negative #E5484D`, `warning #E8A13A`. Solo son válidas las clases y tokens del DESIGN.md; no inventar paletas ni sistemas de iconos (Material Symbols). Detalle de componentes: `docs/stitch_caudal_wireframe_specs/caudal_ledger_standard/DESIGN.md`.
+- **Color mode**: solo claro (`colorMode.preference: 'light'`). El modo oscuro propuesto en `docs/stitch_caudal_wireframe_specs/design.md_modo_claro_y_oscuro.md` NO se adopta (contradice los mockups; ver decisión 0004).
 - **Responsive (mobile-first)**: toda página y componente debe verse y usarse bien en móvil (~360px) y escritorio. Rejillas colapsan a 1 columna. Navegación en sidebar (escritorio, `lg:`) + barra inferior/drawer (móvil). **Crear/editar va en `USlideover`/`UModal`**, no en formularios embebidos. Verificar con capturas en ambos anchos.
 - **Minimalismo / ponytail**: sin abstracciones especulativas; reusar Nuxt UI, stdlib y lo ya existente antes de añadir dependencias. El diff más corto que funcione, marcando con `ponytail:` toda simplificación deliberada con techo conocido.
 
