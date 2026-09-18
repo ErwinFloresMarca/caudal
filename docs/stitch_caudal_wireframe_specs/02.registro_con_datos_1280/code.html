@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50 antialiased" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Caudal Ledger — Registro y Creación de Cuenta (SPC-003)</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            caudal: {
+              blue: '#0e6fff',
+              'blue-hover': '#085ae0',
+              dark: '#0f172a',
+              subtle: '#f1f5f9',
+              border: '#e2e8f0',
+              accent: '#2563eb'
+            }
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for specific aesthetics matching design system -->
+<style data-purpose="custom-background">
+    body {
+      background: radial-gradient(circle at 10% 15%, #ffffff 0%, #f4f7fb 45%, #e9eff8 100%);
+      min-height: 100vh;
+    }
+    .card-glass {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+    }
+    .shadow-caudal {
+      box-shadow: 0 16px 40px -12px rgba(14, 111, 255, 0.08), 0 2px 10px -2px rgba(15, 23, 42, 0.04);
+    }
+    .shadow-modal {
+      box-shadow: 0 25px 60px -15px rgba(30, 58, 138, 0.12), 0 0 1px 1px rgba(226, 232, 240, 0.8);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800">
+<!-- BEGIN: TopBar -->
+<header class="w-full px-6 lg:px-12 py-4 flex items-center justify-between z-10" data-purpose="system-header">
+<div class="flex items-center space-x-3">
+<!-- Caudal Monogram / Brand Emblem -->
+<div class="h-9 w-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-sm shadow-blue-500/20">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+<path d="M6 6h10"></path>
+<path d="M6 10h7"></path>
+</svg>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-bold text-slate-900 tracking-tight text-lg">Caudal</span>
+<span class="text-xs font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 border border-blue-200/70 px-2 py-0.5 rounded-md">Ledger</span>
+</div>
+<span class="hidden sm:inline-block text-xs font-mono font-medium text-slate-500 bg-slate-200/60 border border-slate-300/60 px-2 py-0.5 rounded ml-2">
+        SPC-003
+      </span>
+</div>
+<!-- System Status Indicator Badge -->
+<div class="flex items-center gap-2 bg-white/90 border border-slate-200/80 px-3 py-1.5 rounded-full shadow-sm text-xs font-medium text-slate-600">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span>Sistema contable operativo</span>
+<span class="text-slate-300">•</span>
+<span class="font-mono text-slate-500">v2.4.0</span>
+</div>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-4 lg:py-8 flex items-center">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 w-full items-center">
+<!-- BEGIN: LeftColumn (Value Proposition & Trust Signals) -->
+<div class="lg:col-span-6 xl:col-span-6 flex flex-col justify-center space-y-6" data-purpose="brand-architecture-info">
+<!-- Category Pill Badge -->
+<div class="inline-flex items-center gap-2 bg-blue-50/80 border border-blue-200/80 text-blue-700 px-3.5 py-1.5 rounded-full text-xs font-semibold w-fit tracking-wide shadow-xs">
+<svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Gestión Patrimonial Integral BOB / USD
+        </div>
+<!-- Main Hero Headline -->
+<div class="space-y-3">
+<h1 class="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 leading-[1.12]">
+            Comienza tu control patrimonial <span class="text-blue-600">sin sesgo.</span>
+</h1>
+<p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl font-normal">
+            El libro contable personal y corporativo que no miente. Diseñado bajo el principio estricto de partida doble, separación por fondos y auditoría multimoneda en tiempo real.
+          </p>
+</div>
+<!-- 2x2 Feature Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2" data-purpose="ledger-guarantees">
+<!-- Card 1: Integridad Cripto-Contable -->
+<div class="bg-white/80 border border-slate-200/90 p-4 rounded-2xl shadow-caudal flex items-start space-x-3.5">
+<div class="flex-shrink-0 w-9 h-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mt-0.5">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<h2 class="text-xs font-bold text-slate-900 leading-snug">Integridad Cripto-Contable</h2>
+<p class="text-[11px] text-slate-500 mt-0.5 leading-normal">Partida doble verificada matemáticamente y hashes no alterables.</p>
+</div>
+</div>
+<!-- Card 2: Multimoneda Real BOB / USD -->
+<div class="bg-white/80 border border-slate-200/90 p-4 rounded-2xl shadow-caudal flex items-start space-x-3.5">
+<div class="flex-shrink-0 w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 mt-0.5">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<h2 class="text-xs font-bold text-slate-900 leading-snug">Multimoneda Real BOB / USD</h2>
+<p class="text-[11px] text-slate-500 mt-0.5 leading-normal">Paralelo y oficial con tipo de cambio histórico indexado.</p>
+</div>
+</div>
+<!-- Card 3: Cero Revaluaciones Falsas -->
+<div class="bg-white/80 border border-slate-200/90 p-4 rounded-2xl shadow-caudal flex items-start space-x-3.5">
+<div class="flex-shrink-0 w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 mt-0.5">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="8" stroke-dasharray="3 3"></circle>
+<path d="M12 8v4l3 3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<h2 class="text-xs font-bold text-slate-900 leading-snug">Cero Revaluaciones Falsas</h2>
+<p class="text-[11px] text-slate-500 mt-0.5 leading-normal">Cálculo de ganancia o pérdida cambiaria real en balance.</p>
+</div>
+</div>
+<!-- Card 4: Privacidad y Cifrado Local -->
+<div class="bg-white/80 border border-slate-200/90 p-4 rounded-2xl shadow-caudal flex items-start space-x-3.5">
+<div class="flex-shrink-0 w-9 h-9 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600 mt-0.5">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect>
+<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+</svg>
+</div>
+<div>
+<h2 class="text-xs font-bold text-slate-900 leading-snug">Privacidad &amp; Cifrado Local</h2>
+<p class="text-[11px] text-slate-500 mt-0.5 leading-normal">Tus llaves y datos bajo tu control exclusivo con exportación abierta.</p>
+</div>
+</div>
+</div>
+<!-- Exchange Rate Bar -->
+<div class="bg-white/60 border border-slate-200/70 px-4 py-3 rounded-2xl flex items-center justify-between shadow-xs">
+<div class="flex items-center space-x-2 text-xs text-slate-500">
+<svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Tipo de cambio referencial mercado paralelo:</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="bg-white border border-slate-200 text-slate-900 font-bold font-mono text-xs px-2.5 py-1 rounded-lg shadow-2xs">
+              Bs. 9,45 / 1 USD
+            </span>
+<span class="text-[11px] text-slate-400 font-mono hidden sm:inline">
+              (Oficial: Bs. 6,96)
+            </span>
+</div>
+</div>
+</div>
+<!-- END: LeftColumn -->
+<!-- BEGIN: RightColumn (Register Modal Card) -->
+<div class="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end" data-purpose="auth-card-container">
+<div class="card-glass border border-slate-200/90 rounded-3xl p-7 sm:p-8 shadow-modal w-full max-w-[490px] relative">
+<!-- Segmented Navigation Pill (Login / Register Switch) -->
+<div class="bg-slate-100/90 p-1 rounded-xl flex mb-6 border border-slate-200/70" data-purpose="auth-mode-switch">
+<a class="flex-1 text-center py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-lg transition-colors" href="#">
+              Iniciar sesión
+            </a>
+<button class="flex-1 py-2 text-xs font-bold text-slate-900 bg-white rounded-lg shadow-sm cursor-default border border-slate-200/40" type="button">
+              Crear cuenta
+            </button>
+</div>
+<!-- Card Header Titles -->
+<div class="mb-5">
+<h2 class="text-2xl font-bold text-slate-900 tracking-tight">Crea tu cuenta en <span class="text-blue-600">Caudal</span></h2>
+<p class="text-xs text-slate-500 mt-1">Configura tu libro contable auditado en menos de 2 minutos.</p>
+</div>
+<!-- Google Social Sign Up -->
+<button class="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-semibold py-2.5 px-4 rounded-xl text-xs transition duration-150 shadow-2xs" type="button">
+<svg class="w-4 h-4" viewbox="0 0 24 24">
+<path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z" fill="#4285F4"></path>
+<path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z" fill="#34A853"></path>
+<path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z" fill="#FBBC05"></path>
+<path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
+</svg>
+            Registrarse con Google
+          </button>
+<!-- Divider -->
+<div class="relative my-4">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-slate-200"></div>
+</div>
+<div class="relative flex justify-center text-[10px] uppercase font-bold tracking-widest text-slate-400">
+<span class="bg-white px-3">O continúa con tu correo</span>
+</div>
+</div>
+<!-- Registration Form -->
+<form action="#" class="space-y-3.5" data-purpose="registration-form" method="POST">
+<!-- Field: Full Name -->
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1" for="fullName">Nombre completo</label>
+<div class="relative rounded-xl shadow-2xs">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<input class="block w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-800 placeholder-slate-400 bg-slate-50/50" id="fullName" name="fullName" placeholder="Carlos Mendoza" required="" type="text"/>
+</div>
+</div>
+<!-- Field: Professional Email -->
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1" for="email">Correo electrónico</label>
+<div class="relative rounded-xl shadow-2xs">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<input class="block w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-800 placeholder-slate-400 bg-slate-50/50" id="email" name="email" placeholder="carlos.mendoza@caudal.app" required="" type="email"/>
+</div>
+</div>
+<!-- Field: Ledger Initial Profile Mode -->
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1">Fondo contable inicial</label>
+<div class="grid grid-cols-2 gap-2" data-purpose="ledger-mode-selector">
+<label class="relative flex items-center justify-center p-2 text-xs font-medium border rounded-xl cursor-pointer select-none bg-blue-50/70 border-blue-500 text-blue-800">
+<input checked="" class="sr-only" name="account_type" type="radio" value="personal"/>
+<span class="flex items-center gap-1.5">
+<svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+                    Personal / Familiar
+                  </span>
+</label>
+<label class="relative flex items-center justify-center p-2 text-xs font-medium border border-slate-200 hover:border-slate-300 rounded-xl cursor-pointer select-none bg-white text-slate-600">
+<input class="sr-only" name="account_type" type="radio" value="corporate"/>
+<span class="flex items-center gap-1.5">
+<svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+                    Empresa / Negocio
+                  </span>
+</label>
+</div>
+</div>
+<!-- Field: Secure Password -->
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="block text-xs font-semibold text-slate-700" for="password">Contraseña maestra</label>
+<span class="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+<svg class="w-2.5 h-2.5" fill="currentColor" viewbox="0 0 8 8"><circle cx="4" cy="4" r="3"></circle></svg>
+                  Cifrado AES-256
+                </span>
+</div>
+<div class="relative rounded-xl shadow-2xs">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect>
+<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+</svg>
+</div>
+<input class="block w-full pl-9 pr-10 py-2 text-xs rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-800 placeholder-slate-400 bg-slate-50/50" id="password" name="password" placeholder="Mínimo 10 caracteres alfanuméricos" required="" type="password"/>
+<button aria-label="Mostrar contraseña" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600" type="button">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Password Strength Bar Indicator -->
+<div class="mt-1.5 flex items-center gap-1.5">
+<div class="h-1 flex-1 rounded-full bg-emerald-500"></div>
+<div class="h-1 flex-1 rounded-full bg-emerald-500"></div>
+<div class="h-1 flex-1 rounded-full bg-emerald-500"></div>
+<div class="h-1 flex-1 rounded-full bg-slate-200"></div>
+<span class="text-[10px] text-slate-500 font-medium ml-1">Seguridad Alta</span>
+</div>
+</div>
+<!-- Terms & Consent Checkbox -->
+<div class="pt-1">
+<label class="flex items-start cursor-pointer">
+<input class="h-4 w-4 mt-0.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" required="" type="checkbox"/>
+<span class="ml-2 text-[11px] text-slate-600 leading-snug">
+                  Acepto los <a class="text-blue-600 hover:underline font-medium" href="#">Términos de servicio</a>, el principio de no-custodia de claves y la <a class="text-blue-600 hover:underline font-medium" href="#">Política de privacidad</a>.
+                </span>
+</label>
+</div>
+<!-- Primary Action Button -->
+<div class="pt-2">
+<button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition duration-150 flex items-center justify-center gap-2 shadow-sm shadow-blue-500/25" type="submit">
+<span>Crear cuenta en Caudal</span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</form>
+<!-- Footer of Auth Card -->
+<div class="mt-4 text-center">
+<p class="text-xs text-slate-600">
+              ¿Ya tienes cuenta en Caudal? 
+              <a class="text-blue-600 hover:text-blue-700 font-semibold hover:underline" href="#">Iniciar sesión</a>
+</p>
+</div>
+<!-- Bottom Security Badge Inside Card -->
+<div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center gap-2 text-[11px] text-slate-500 bg-slate-50/60 rounded-xl py-2">
+<svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Cifrado local AES-256 de extremo a extremo</span>
+</div>
+</div>
+</div>
+<!-- END: RightColumn -->
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: Footer -->
+<footer class="w-full border-t border-slate-200/80 bg-white/40 py-3.5 px-6 lg:px-12 text-xs text-slate-500 z-10" data-purpose="system-footer">
+<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
+<!-- Left Security and Compliance Status -->
+<div class="flex items-center space-x-2 text-[11px]">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect>
+<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+</svg>
+<span>Cifrado local de extremo a extremo</span>
+<span>•</span>
+<span>Compatible con autenticación 2FA</span>
+<span>•</span>
+<span class="font-mono">Versión 2.4.0 (SPC-003 / SPC-021)</span>
+</div>
+<!-- Right Policy Links -->
+<nav aria-label="Enlaces legales" class="flex items-center space-x-4 text-[11px]">
+<a class="hover:text-slate-800 transition-colors" href="#">Términos de servicio</a>
+<span>•</span>
+<a class="hover:text-slate-800 transition-colors" href="#">Política de privacidad</a>
+<span>•</span>
+<a class="hover:text-slate-800 transition-colors" href="#">Estado del sistema</a>
+</nav>
+</div>
+</footer>
+<!-- END: Footer -->
+<!-- JavaScript for Radio Selection visual toggle -->
+<script data-purpose="radio-interactions">
+    document.addEventListener('DOMContentLoaded', () => {
+      const radioLabels = document.querySelectorAll('[data-purpose="ledger-mode-selector"] label');
+      radioLabels.forEach(label => {
+        label.addEventListener('click', () => {
+          radioLabels.forEach(l => {
+            l.classList.remove('bg-blue-50/70', 'border-blue-500', 'text-blue-800');
+            l.classList.add('bg-white', 'border-slate-200', 'text-slate-600');
+            const svg = l.querySelector('svg');
+            if (svg) {
+              svg.classList.remove('text-blue-600');
+              svg.classList.add('text-slate-500');
+            }
+          });
+          label.classList.remove('bg-white', 'border-slate-200', 'text-slate-600');
+          label.classList.add('bg-blue-50/70', 'border-blue-500', 'text-blue-800');
+          const activeSvg = label.querySelector('svg');
+          if (activeSvg) {
+            activeSvg.classList.remove('text-slate-500');
+            activeSvg.classList.add('text-blue-600');
+          }
+        });
+      });
+    });
+  </script>
+</body></html>

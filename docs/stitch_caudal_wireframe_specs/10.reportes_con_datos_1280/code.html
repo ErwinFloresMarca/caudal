@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "surface-container-highest": "#d6e3ff",
+        "on-error-container": "#93000a",
+        "surface-container-high": "#dfe8ff",
+        "on-primary-fixed": "#001946",
+        "surface-dim": "#cbdbfb",
+        "tertiary": "#b1212d",
+        "secondary-fixed": "#7ef8ce",
+        "outline": "#727787",
+        "inverse-primary": "#b1c5ff",
+        "background": "#f9f9ff",
+        "on-tertiary": "#ffffff",
+        "secondary-fixed-dim": "#60dcb3",
+        "on-secondary-fixed": "#002117",
+        "primary": "#0055c9",
+        "on-tertiary-fixed": "#410006",
+        "on-primary": "#ffffff",
+        "inverse-surface": "#21314a",
+        "on-secondary-container": "#007056",
+        "inverse-on-surface": "#ecf0ff",
+        "secondary": "#006c52",
+        "on-secondary": "#ffffff",
+        "primary-fixed-dim": "#b1c5ff",
+        "primary-fixed": "#dae2ff",
+        "tertiary-fixed-dim": "#ffb3b0",
+        "on-tertiary-container": "#fffbff",
+        "surface": "#f9f9ff",
+        "error": "#ba1a1a",
+        "secondary-container": "#7bf6cb",
+        "surface-tint": "#0057ce",
+        "outline-variant": "#c2c6d8",
+        "on-background": "#0b1c34",
+        "on-primary-container": "#fefcff",
+        "on-secondary-fixed-variant": "#00513d",
+        "surface-variant": "#d6e3ff",
+        "tertiary-fixed": "#ffdad8",
+        "surface-bright": "#f9f9ff",
+        "on-surface-variant": "#424655",
+        "tertiary-container": "#d43c42",
+        "on-surface": "#0b1c34",
+        "on-tertiary-fixed-variant": "#92011a",
+        "primary-container": "#006bfb",
+        "on-primary-fixed-variant": "#00419e",
+        "surface-container-lowest": "#ffffff",
+        "on-error": "#ffffff",
+        "error-container": "#ffdad6",
+        "surface-container": "#e7eeff",
+        "surface-container-low": "#f0f3ff"
+      },
+      "borderRadius": {
+        "DEFAULT": "1rem",
+        "lg": "2rem",
+        "xl": "3rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "space-3xl": "3rem",
+        "margin": "1rem",
+        "gutter": "1rem",
+        "space-xl": "1.5rem",
+        "space-xs": "0.5rem",
+        "margin-tablet": "1.5rem",
+        "margin-desktop": "2.5rem",
+        "gutter-desktop": "1.5rem",
+        "space-2xs": "0.25rem",
+        "space-2xl": "2rem",
+        "space-lg": "1.25rem",
+        "space-sm": "0.75rem",
+        "space-md": "1rem"
+      },
+      "fontFamily": {
+        "headline-lg": ["Inter"],
+        "headline-sm": ["Inter"],
+        "monetary-md": ["Inter"],
+        "body-sm": ["Inter"],
+        "headline-md": ["Inter"],
+        "label-md": ["Inter"],
+        "display-lg-mobile": ["Inter"],
+        "label-sm": ["Inter"],
+        "display-lg": ["Inter"],
+        "monetary-lg": ["Inter"],
+        "monetary-hero": ["Inter"],
+        "body-md": ["Inter"],
+        "body-lg": ["Inter"]
+      },
+      "fontSize": {
+        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+        "headline-sm": ["16px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "monetary-md": ["15px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+        "display-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.025em", "fontWeight": "800"}],
+        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+        "monetary-lg": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "monetary-hero": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+        "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 bottom-0 w-[260px] bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)] overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center justify-between"><div class="flex items-center gap-space-xs"><img alt="Brand logo. - Primary color: #0e6fff
+- Font: inter
+- Mode: light
+- Roundness: rounded-full
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XuS0l__I8kNnPs9zIHYFFNeNzURjCyYUpazQjkhdZlF_ciY_l4txIYvAGlHD7BnMTRqL5ejDxNT4lmWmvpPnu0tvUO4ZTMn41YkOvQFeK__t_yDvFWZ0dH5EAeiqSIOoRISwEXegTwgGTZ8H38MyFOf7Snbw8xkpFZ7xT7JbvFrTvPODx-9F4ABmq1XdJfhlekjjjnOEaQ3169AXXuTrzl0UwF-sMlHnJxiEpf5713vu_LfTUEYBc86JgR"/><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface">Caudal</span></div><span class="px-space-xs py-space-2xs rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant">V1.4</span></div><div class="px-space-md py-space-xs"><div class="p-space-sm rounded-DEFAULT bg-surface-container-low flex flex-col gap-space-2xs cursor-pointer hover:bg-surface-container transition-colors"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Personal • BOB</span><span class="material-symbols-outlined text-on-surface-variant text-[16px]">unfold_more</span></div><div class="font-monetary-md text-monetary-md text-on-surface font-semibold">Bs 11.410,50</div></div></div><div class="px-space-md mt-space-sm"><div class="px-space-xs mb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Gestión Patrimonial</div><nav class="flex flex-col gap-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-full"><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="inicio" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-md text-body-md">Inicio</span></a><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="movimientos" href="#"><span class="material-symbols-outlined text-[20px]">swap_horiz</span><span class="font-body-md text-body-md">Movimientos</span></a><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="cuentas" href="#"><span class="material-symbols-outlined text-[20px]">account_balance</span><span class="font-body-md text-body-md">Cuentas</span></a><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="fondos" href="#"><span class="material-symbols-outlined text-[20px]">pie_chart</span><span class="font-body-md text-body-md">Fondos</span></a><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="transferencias" href="#"><span class="material-symbols-outlined text-[20px]">sync_alt</span><span class="font-body-md text-body-md">Transferencias</span></a><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="recurrentes" href="#"><span class="material-symbols-outlined text-[20px]">update</span><span class="font-body-md text-body-md">Recurrentes</span></a><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="deudas" href="#"><span class="material-symbols-outlined text-[20px]">credit_score</span><span class="font-body-md text-body-md">Deudas</span></a><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="presupuestos" href="#"><span class="material-symbols-outlined text-[20px]">account_balance_wallet</span><span class="font-body-md text-body-md">Presupuestos</span></a><a aria-current="page" class="flex items-center gap-space-xs px-space-sm py-space-xs transition-colors bg-primary-container text-on-primary-container font-semibold rounded-full" data-path="reportes" href="#"><span class="material-symbols-outlined text-[20px]">insights</span><span class="font-body-md text-body-md">Reportes</span></a></nav></div></div><div class="p-space-md flex flex-col gap-space-xs"><a class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ajustes" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md">Ajustes</span></a><div class="px-space-sm py-space-xs rounded-full bg-surface-container-low flex items-center justify-between"><div class="flex items-center gap-space-2xs"><span class="h-2 w-2 rounded-full bg-secondary"></span><span class="font-label-sm text-label-sm text-on-surface-variant">Auditoría Activa</span></div><span class="font-label-sm text-label-sm text-secondary font-semibold">Sincronizado</span></div></div></aside><div class="pl-[260px]"><header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="max-w-[1280px] h-full mx-auto px-space-md flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-xs overflow-x-auto py-space-2xs"><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-low"><span class="font-label-sm text-label-sm text-on-surface-variant">Liquidez:</span><span class="font-monetary-md text-monetary-md text-on-surface font-semibold">Bs 11.410,50</span><span class="px-space-2xs py-[1px] rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant">(Operativa)</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-low"><span class="font-label-sm text-label-sm text-on-surface-variant">Banco Unión:</span><span class="font-monetary-md text-monetary-md text-on-surface font-semibold">Bs 8.240,00</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-low"><span class="font-label-sm text-label-sm text-on-surface-variant">BNB Operativa:</span><span class="font-monetary-md text-monetary-md text-on-surface font-semibold">Bs 2.450,50</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-low"><span class="font-label-sm text-label-sm text-on-surface-variant">Efectivo:</span><span class="font-monetary-md text-monetary-md text-on-surface font-semibold">Bs 720,00</span></div></div><div class="flex items-center gap-space-sm flex-shrink-0"><div class="px-space-sm py-space-2xs rounded-full bg-surface-container font-label-md text-label-md text-on-surface-variant"><span class="font-semibold text-on-surface">1 USD</span> = 6,96 BOB</div><button class="h-10 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container flex items-center gap-space-2xs font-headline-sm text-body-md transition-colors"><span class="material-symbols-outlined text-[18px]">add</span><span>Nuevo Movimiento</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 min-h-screen bg-surface"><div class="max-w-[1280px] mx-auto px-space-md py-space-lg"><div class="flex flex-col w-full">
+<!-- BANNER TÉCNICO SPC-015 -->
+<div class="flex items-center justify-between px-space-md py-space-xs rounded-full bg-surface-container-low mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary text-on-primary">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">
+        ESPECIFICACIÓN SPC-015 • ANÁLISIS DE FLUJO &amp; PATRIMONIO CONSOLIDADO
+      </span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">ISSUE LINEAR: <span class="font-semibold text-on-surface">SEL-91</span></span>
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Integridad Cripto-Contable OK</span>
+</div>
+</div>
+<!-- ENCABEZADO PRINCIPAL & CONTROLES PERSISTIDOS -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md pb-space-lg">
+<div class="flex flex-col max-w-2xl">
+<h1 class="font-display-lg text-display-lg tracking-tight text-on-surface">
+        Reportes &amp; <span class="text-primary font-extrabold">Auditoría Patrimonial</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-2xs">
+        Flujo de caja neto histórico, distribución del gasto por categorías y evolución de solvencia sin revaluaciones ficticias.
+      </p>
+</div>
+<!-- Barra de Herramientas / Filtros -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<!-- Selector de Período -->
+<div class="inline-flex items-center bg-surface-container-lowest shadow-sm rounded-full px-space-xs py-1">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<div class="flex items-center gap-space-2xs px-space-xs cursor-pointer">
+<span class="material-symbols-outlined text-primary text-[18px]">calendar_today</span>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[14px]">Marzo 2025</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-normal">(Mes actual)</span>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant opacity-40 cursor-not-allowed">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<!-- Toggle Moneda -->
+<div class="inline-flex p-1 rounded-full bg-surface-container-low">
+<button class="px-space-sm py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-md text-label-md shadow-sm font-semibold">
+          BOB (Base)
+        </button>
+<button class="px-space-sm py-1.5 rounded-full text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors">
+          USD (Histórico)
+        </button>
+</div>
+<!-- Botón Exportar CSV -->
+<button class="h-10 px-space-md rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface flex items-center gap-space-2xs font-headline-sm text-body-md transition-colors">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Exportar CSV</span>
+</button>
+<!-- Botón Acción Primaria Auditoría -->
+<button class="h-10 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container flex items-center gap-space-2xs font-headline-sm text-body-md shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[18px]">account_balance</span>
+<span>Generar Balance Fiscal</span>
+</button>
+</div>
+</div>
+<!-- GRID DE KPIS FINANCIEROS (4 CARDS) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Card 1: Ingresos Totales -->
+<div class="p-space-lg rounded-[20px] bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Ingresos del Período</span>
+<span class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">south_west</span>
+</span>
+</div>
+<div class="font-monetary-hero text-monetary-hero text-secondary tabular-nums font-bold">
+          +Bs 4.500,00
+        </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs truncate">
+          Sueldo mensual + venta servicio 3D
+        </div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary font-semibold bg-secondary/10 px-space-xs py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +8,5%
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">vs. febrero 2025</span>
+</div>
+</div>
+<!-- Card 2: Egresos Totales -->
+<div class="p-space-lg rounded-[20px] bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Egresos Auditados</span>
+<span class="w-8 h-8 rounded-full bg-tertiary-container/10 text-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">north_east</span>
+</span>
+</div>
+<div class="font-monetary-hero text-monetary-hero text-tertiary-container tabular-nums font-bold">
+          −Bs 2.145,50
+        </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs truncate">
+          61,3% del límite presupuestario
+        </div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary font-semibold bg-secondary/10 px-space-xs py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> −4,2%
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ritmo controlado</span>
+</div>
+</div>
+<!-- Card 3: Flujo de Caja Neto -->
+<div class="p-space-lg rounded-[20px] bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Flujo de Caja Neto</span>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary/10 font-label-sm text-label-sm text-secondary font-semibold">
+            Superávit Saludable
+          </span>
+</div>
+<div class="font-monetary-hero text-monetary-hero text-secondary tabular-nums font-extrabold">
+          +Bs 2.354,50
+        </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+          Retención de liquidez: <strong class="text-on-surface font-semibold">52,3%</strong> del ingreso
+        </div>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="w-full bg-surface-container-low h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 52.3%"></div>
+</div>
+</div>
+</div>
+<!-- Card 4: Patrimonio Neto Consolidado -->
+<div class="p-space-lg rounded-[20px] bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Patrimonio Neto</span>
+<span class="w-8 h-8 rounded-full bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+</span>
+</div>
+<div class="font-monetary-hero text-monetary-hero text-on-surface tabular-nums font-bold">
+          Bs 11.410,50
+        </div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+          Unión Bs 8.240 • BNB Bs 2.450 • Caja Bs 720
+        </div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm">TC Ponderado Contable:</span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">1 USD = 6,96 BOB</span>
+</div>
+</div>
+</div>
+<!-- SECCIÓN PRINCIPAL: 2 COLUMNAS (8 / 4) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- COLUMNA IZQUIERDA: GRÁFICOS & AUDITORÍA SEMESTRAL (8 COLS) -->
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<!-- Tarjeta A: Histórico Semestral -->
+<div class="p-space-lg rounded-[20px] bg-surface-container-lowest shadow-sm flex flex-col">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs mb-space-lg">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">
+              Ingresos vs. Egresos — Histórico Semestral
+            </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              Octubre 2024 – Marzo 2025 • Consolidación sin transferencias internas neutras
+            </p>
+</div>
+<!-- Leyenda Interactiva -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Ingreso</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-tertiary-container"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Egreso</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Neto</span>
+</div>
+</div>
+</div>
+<!-- Gráfico de Barras Tailwind / HTML semántico -->
+<div class="pt-space-md pb-space-xs bg-surface-container-low/40 rounded-DEFAULT px-space-md">
+<div class="grid grid-cols-6 gap-space-sm items-end h-64 w-full">
+<!-- Oct 2024 -->
+<div class="flex flex-col items-center h-full justify-end group">
+<span class="font-label-sm text-label-sm font-semibold text-secondary tabular-nums mb-1 opacity-0 group-hover:opacity-100 transition-opacity">+Bs 1.400</span>
+<div class="w-full max-w-[54px] flex items-end justify-center gap-1 h-44">
+<!-- Barra Ingreso 4.200 (72%) -->
+<div class="w-1/2 bg-secondary rounded-t-sm h-[72%] transition-all group-hover:brightness-95" title="Ingreso: Bs 4.200,00"></div>
+<!-- Barra Egreso 2.800 (48%) -->
+<div class="w-1/2 bg-tertiary-container rounded-t-sm h-[48%] transition-all group-hover:brightness-95" title="Egreso: Bs 2.800,00"></div>
+</div>
+<div class="w-full text-center mt-space-xs">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface block">Oct 24</span>
+<span class="font-body-sm text-[11px] text-secondary tabular-nums">+1.400</span>
+</div>
+</div>
+<!-- Nov 2024 -->
+<div class="flex flex-col items-center h-full justify-end group">
+<span class="font-label-sm text-label-sm font-semibold text-secondary tabular-nums mb-1 opacity-0 group-hover:opacity-100 transition-opacity">+Bs 1.400</span>
+<div class="w-full max-w-[54px] flex items-end justify-center gap-1 h-44">
+<!-- Ingreso 4.500 (77%) -->
+<div class="w-1/2 bg-secondary rounded-t-sm h-[77%] transition-all group-hover:brightness-95" title="Ingreso: Bs 4.500,00"></div>
+<!-- Egreso 3.100 (53%) -->
+<div class="w-1/2 bg-tertiary-container rounded-t-sm h-[53%] transition-all group-hover:brightness-95" title="Egreso: Bs 3.100,00"></div>
+</div>
+<div class="w-full text-center mt-space-xs">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface block">Nov 24</span>
+<span class="font-body-sm text-[11px] text-secondary tabular-nums">+1.400</span>
+</div>
+</div>
+<!-- Dic 2024 (Aguinaldo) -->
+<div class="flex flex-col items-center h-full justify-end group">
+<span class="font-label-sm text-label-sm font-semibold text-secondary tabular-nums mb-1 opacity-0 group-hover:opacity-100 transition-opacity">+Bs 1.600</span>
+<div class="w-full max-w-[54px] flex items-end justify-center gap-1 h-44">
+<!-- Ingreso 5.800 (100% max) -->
+<div class="w-1/2 bg-secondary rounded-t-sm h-[100%] transition-all group-hover:brightness-95 relative" title="Ingreso (Aguinaldo): Bs 5.800,00">
+<span class="absolute -top-4 left-1/2 -translate-x-1/2 text-[9px] bg-primary text-on-primary px-1 rounded font-bold">Aguin.</span>
+</div>
+<!-- Egreso 4.200 (72%) -->
+<div class="w-1/2 bg-tertiary-container rounded-t-sm h-[72%] transition-all group-hover:brightness-95" title="Egreso: Bs 4.200,00"></div>
+</div>
+<div class="w-full text-center mt-space-xs">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface block">Dic 24</span>
+<span class="font-body-sm text-[11px] text-secondary tabular-nums">+1.600</span>
+</div>
+</div>
+<!-- Ene 2025 -->
+<div class="flex flex-col items-center h-full justify-end group">
+<span class="font-label-sm text-label-sm font-semibold text-secondary tabular-nums mb-1 opacity-0 group-hover:opacity-100 transition-opacity">+Bs 2.100</span>
+<div class="w-full max-w-[54px] flex items-end justify-center gap-1 h-44">
+<!-- Ingreso 4.500 (77%) -->
+<div class="w-1/2 bg-secondary rounded-t-sm h-[77%] transition-all group-hover:brightness-95" title="Ingreso: Bs 4.500,00"></div>
+<!-- Egreso 2.400 (41%) -->
+<div class="w-1/2 bg-tertiary-container rounded-t-sm h-[41%] transition-all group-hover:brightness-95" title="Egreso: Bs 2.400,00"></div>
+</div>
+<div class="w-full text-center mt-space-xs">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface block">Ene 25</span>
+<span class="font-body-sm text-[11px] text-secondary tabular-nums">+2.100</span>
+</div>
+</div>
+<!-- Feb 2025 -->
+<div class="flex flex-col items-center h-full justify-end group">
+<span class="font-label-sm text-label-sm font-semibold text-secondary tabular-nums mb-1 opacity-0 group-hover:opacity-100 transition-opacity">+Bs 2.250</span>
+<div class="w-full max-w-[54px] flex items-end justify-center gap-1 h-44">
+<!-- Ingreso 4.500 (77%) -->
+<div class="w-1/2 bg-secondary rounded-t-sm h-[77%] transition-all group-hover:brightness-95" title="Ingreso: Bs 4.500,00"></div>
+<!-- Egreso 2.250 (39%) -->
+<div class="w-1/2 bg-tertiary-container rounded-t-sm h-[39%] transition-all group-hover:brightness-95" title="Egreso: Bs 2.250,00"></div>
+</div>
+<div class="w-full text-center mt-space-xs">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface block">Feb 25</span>
+<span class="font-body-sm text-[11px] text-secondary tabular-nums">+2.250</span>
+</div>
+</div>
+<!-- Mar 2025 (Actual Proyectado) -->
+<div class="flex flex-col items-center h-full justify-end group bg-primary/5 rounded-DEFAULT p-1">
+<span class="font-label-sm text-label-sm font-bold text-primary tabular-nums mb-1">+Bs 2.354,50</span>
+<div class="w-full max-w-[54px] flex items-end justify-center gap-1 h-44">
+<!-- Ingreso 4.500 (77%) -->
+<div class="w-1/2 bg-secondary rounded-t-sm h-[77%] shadow-sm" title="Ingreso: Bs 4.500,00"></div>
+<!-- Egreso 2.145,50 (37%) -->
+<div class="w-1/2 bg-tertiary-container rounded-t-sm h-[37%] shadow-sm" title="Egreso acumulado: Bs 2.145,50"></div>
+</div>
+<div class="w-full text-center mt-space-xs">
+<span class="font-label-sm text-label-sm font-bold text-primary block">Mar 25 *</span>
+<span class="font-body-sm text-[11px] text-primary font-bold tabular-nums">+2.354,50</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Métricas Rápidas Semestrales -->
+<div class="grid grid-cols-3 gap-space-sm mt-space-md pt-space-sm">
+<div class="p-space-sm rounded-DEFAULT bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Ingresos Semestre</span>
+<span class="font-monetary-md text-monetary-md text-secondary font-bold tabular-nums">+Bs 28.000,00</span>
+</div>
+<div class="p-space-sm rounded-DEFAULT bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Egresos Semestre</span>
+<span class="font-monetary-md text-monetary-md text-tertiary-container font-bold tabular-nums">−Bs 16.895,50</span>
+</div>
+<div class="p-space-sm rounded-DEFAULT bg-surface-container-low">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Ahorro Neto Real</span>
+<span class="font-monetary-md text-monetary-md text-primary font-bold tabular-nums">+Bs 11.104,50</span>
+</div>
+</div>
+</div>
+<!-- Tarjeta B: Evolución de Solvencia & Liquidez Acumulada -->
+<div class="p-space-lg rounded-[20px] bg-surface-container-lowest shadow-sm flex flex-col">
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">
+              Evolución de Solvencia &amp; Liquidez Acumulada
+            </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Crecimiento neto real de capital de respaldo y blindaje de pasivos
+            </p>
+</div>
+<span class="px-space-xs py-1 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm font-semibold">
+            Tasa de Solvencia: 4,8x Cobertura
+          </span>
+</div>
+<!-- Curva / Indicadores de Hitos -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Hito Fondo de Emergencia -->
+<div class="p-space-md rounded-DEFAULT bg-surface-container-low flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">savings</span>
+</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Fondo de Emergencia</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Objetivo: Bs 20.000 (3 meses fijos)</span>
+</div>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">24%</span>
+</div>
+<div class="mt-space-md">
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 24%"></div>
+</div>
+<div class="flex justify-between items-center mt-space-2xs font-label-sm text-label-sm text-on-surface-variant">
+<span>Acumulado: <strong class="text-on-surface">Bs 4.800,00</strong></span>
+<span>Faltante: Bs 15.200,00</span>
+</div>
+</div>
+</div>
+<!-- Hito Reducción de Pasivos -->
+<div class="p-space-md rounded-DEFAULT bg-surface-container-low flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">credit_score</span>
+</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Amortización de Pasivos</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Reducción total de pasivos en 6 meses</span>
+</div>
+</div>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">−33%</span>
+</div>
+<div class="mt-space-md">
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 67%"></div>
+</div>
+<div class="flex justify-between items-center mt-space-2xs font-label-sm text-label-sm text-on-surface-variant">
+<span>Deuda actual: <strong class="text-on-surface">Bs 1.200,00</strong></span>
+<span>Original: Bs 1.800,00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Barra de Estado de Auditoría Inmediata -->
+<div class="mt-space-md p-space-sm rounded-DEFAULT bg-surface-container-low/60 flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">task_alt</span>
+<span class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-semibold">Cero descuadres contables:</strong> 48 asientos conciliados contra extractos bancarios de Marzo.
+            </span>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-primary cursor-pointer hover:underline">
+            Ver Acta Cierre 03/25
+          </span>
+</div>
+</div>
+</div>
+<!-- COLUMNA DERECHA: CATEGORÍAS & REGLA SPC-015 (4 COLS) -->
+<div class="lg:col-span-4 flex flex-col gap-space-md">
+<!-- Tarjeta C: Distribución del Gasto por Categoría -->
+<div class="p-space-lg rounded-[20px] bg-surface-container-lowest shadow-sm flex flex-col">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Gasto por Categoría</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Marzo 2025 • Total Bs 2.145,50</span>
+</div>
+<span class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">pie_chart</span>
+</span>
+</div>
+<!-- Segmented Mini Bar -->
+<div class="w-full h-3 rounded-full overflow-hidden flex my-space-sm">
+<div class="bg-tertiary-container h-full" style="width: 48.9%" title="Alimentación: 48.9%"></div>
+<div class="bg-primary h-full" style="width: 17.7%" title="Servicios: 17.7%"></div>
+<div class="bg-tertiary h-full" style="width: 18.4%" title="Ocio: 18.4%"></div>
+<div class="bg-secondary h-full" style="width: 8.6%" title="Transporte: 8.6%"></div>
+<div class="bg-on-surface-variant h-full" style="width: 6.4%" title="Educación: 6.4%"></div>
+</div>
+<!-- Lista de Desglose de Categorías -->
+<div class="flex flex-col mt-space-xs">
+<!-- Cat 1 -->
+<div class="py-space-xs flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-container"></span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface text-[14px]">Alimentación &amp; Súper</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Hipermaxi + Ketal + Feria</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-monetary-md text-monetary-md text-on-surface tabular-nums font-semibold">Bs 1.050,00</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">48,9%</span>
+</div>
+</div>
+<!-- Cat 2 -->
+<div class="py-space-xs flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface text-[14px]">Servicios &amp; Hogar</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Luz, Agua, Internet Entel</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-monetary-md text-monetary-md text-on-surface tabular-nums font-semibold">Bs 380,00</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">17,7%</span>
+</div>
+</div>
+<!-- Cat 3 -->
+<div class="py-space-xs flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface text-[14px]">Ocio, Salidas &amp; Café</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Cafeterías + Restaurantes</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-monetary-md text-monetary-md text-on-surface tabular-nums font-semibold">Bs 395,50</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">18,4%</span>
+</div>
+</div>
+<!-- Cat 4 -->
+<div class="py-space-xs flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface text-[14px]">Transporte</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Recarga tarjeta Mi Teleférico</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-monetary-md text-monetary-md text-on-surface tabular-nums font-semibold">Bs 185,00</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">8,6%</span>
+</div>
+</div>
+<!-- Cat 5 -->
+<div class="py-space-xs flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-on-surface-variant"></span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface text-[14px]">Educación &amp; Software</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">GitHub Pro + Cloud storage</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-monetary-md text-monetary-md text-on-surface tabular-nums font-semibold">Bs 135,00</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">6,4%</span>
+</div>
+</div>
+</div>
+<div class="mt-space-md p-space-xs rounded-full bg-surface-container-low text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Total Auditado: <strong class="text-on-surface font-semibold">Bs 2.145,50</strong> (100%)</span>
+</div>
+</div>
+<!-- Tarjeta D: Regla de Integridad Patrimonial SPC-015 -->
+<div class="p-space-lg rounded-[20px] bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-space-xs mb-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">shield_lock</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Regla de Integridad SPC-015</h3>
+<span class="font-label-sm text-label-sm text-primary font-bold uppercase">Auditoría Estricta</span>
+</div>
+</div>
+<div class="p-space-sm rounded-DEFAULT bg-surface-container-low text-on-surface-variant space-y-2">
+<p class="font-body-sm text-body-sm leading-relaxed">
+<strong class="text-on-surface font-semibold">Consolidación Multimoneda sin revaluación ficticia:</strong> Cada transacción en USD mantiene su tasa de cambio del día según libro contable.
+            </p>
+<p class="font-body-sm text-body-sm leading-relaxed">
+              Las transferencias entre cuentas propias se excluyen del cálculo de resultados para no inflar ingresos ni egresos.
+            </p>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Estado de Verificación:</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-secondary font-bold bg-secondary/10 px-space-xs py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Conforme
+            </span>
+</div>
+<a class="inline-flex items-center justify-center gap-space-2xs text-primary font-headline-sm text-[13px] hover:underline pt-space-xs" data-path="movimientos" href="#">
+<span>Ver conciliación detallada en Movimientos</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div></div></main></div></body></html>

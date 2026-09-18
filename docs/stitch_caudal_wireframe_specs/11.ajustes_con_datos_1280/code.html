@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Caudal</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#f9f9ff;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-highest": "#d6e3ff", "on-error-container": "#93000a", "surface-container-high": "#dfe8ff", "on-primary-fixed": "#001946", "surface-dim": "#cbdbfb", "tertiary": "#b1212d", "secondary-fixed": "#7ef8ce", "outline": "#727787", "inverse-primary": "#b1c5ff", "background": "#f9f9ff", "on-tertiary": "#ffffff", "secondary-fixed-dim": "#60dcb3", "on-secondary-fixed": "#002117", "primary": "#0055c9", "on-tertiary-fixed": "#410006", "on-primary": "#ffffff", "inverse-surface": "#21314a", "on-secondary-container": "#007056", "inverse-on-surface": "#ecf0ff", "secondary": "#006c52", "on-secondary": "#ffffff", "primary-fixed-dim": "#b1c5ff", "primary-fixed": "#dae2ff", "tertiary-fixed-dim": "#ffb3b0", "on-tertiary-container": "#fffbff", "surface": "#f9f9ff", "error": "#ba1a1a", "secondary-container": "#7bf6cb", "surface-tint": "#0057ce", "outline-variant": "#c2c6d8", "on-background": "#0b1c34", "on-primary-container": "#fefcff", "on-secondary-fixed-variant": "#00513d", "surface-variant": "#d6e3ff", "tertiary-fixed": "#ffdad8", "surface-bright": "#f9f9ff", "on-surface-variant": "#424655", "tertiary-container": "#d43c42", "on-surface": "#0b1c34", "on-tertiary-fixed-variant": "#92011a", "primary-container": "#006bfb", "on-primary-fixed-variant": "#00419e", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "error-container": "#ffdad6", "surface-container": "#e7eeff", "surface-container-low": "#f0f3ff" }, borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, spacing: { "space-3xl": "3rem", "margin": "1rem", "gutter": "1rem", "space-xl": "1.5rem", "space-xs": "0.5rem", "margin-tablet": "1.5rem", "margin-desktop": "2.5rem", "gutter-desktop": "1.5rem", "space-2xs": "0.25rem", "space-2xl": "2rem", "space-lg": "1.25rem", "space-sm": "0.75rem", "space-md": "1rem" }, fontFamily: { "headline-lg": ["Inter"], "headline-sm": ["Inter"], "monetary-md": ["Inter"], "body-sm": ["Inter"], "headline-md": ["Inter"], "label-md": ["Inter"], "display-lg-mobile": ["Inter"], "label-sm": ["Inter"], "display-lg": ["Inter"], "monetary-lg": ["Inter"], "monetary-hero": ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"] }, fontSize: { "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "monetary-md": ["15px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "display-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600" }], "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "monetary-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "monetary-hero": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }] } } } };</script></head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(11,28,52,0.04)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><img alt="Brand logo. - Primary color: #0e6fff
+- Font: inter
+- Mode: light
+- Roundness: rounded-full
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XuS0l__I8kNnPs9zIHYFFNeNzURjCyYUpazQjkhdZlF_ciY_l4txIYvAGlHD7BnMTRqL5ejDxNT4lmWmvpPnu0tvUO4ZTMn41YkOvQFeK__t_yDvFWZ0dH5EAeiqSIOoRISwEXegTwgGTZ8H38MyFOf7Snbw8xkpFZ7xT7JbvFrTvPODx-9F4ABmq1XdJfhlekjjjnOEaQ3169AXXuTrzl0UwF-sMlHnJxiEpf5713vu_LfTUEYBc86JgR"/><button class="inline-flex items-center gap-space-2xs px-space-sm py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface h-9"><span class="font-label-md text-label-md font-semibold tracking-tight">Personal • BOB</span><span class="material-symbols-outlined text-[18px] text-outline">expand_more</span></button></div><div class="flex items-center gap-space-2xs"><button aria-label="Notificaciones" class="w-11 h-11 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors relative"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-tertiary"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-28 bg-surface"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1280px] mx-auto px-margin-desktop py-space-xl flex flex-col gap-space-xl">
+<!-- Top Context Ribbon & System Metric Bar -->
+<div class="w-full bg-surface-container-lowest rounded-lg p-space-lg shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-1.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold tracking-wider uppercase">V1.4 • SPC-017</span>
+<span class="text-outline text-[12px]">|</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ajustes de Sistema y Políticas Contables</span>
+</div>
+<div class="h-6 w-[1px] bg-surface-container-highest hidden sm:block"></div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary">currency_exchange</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-medium">Paralelo P2P:</span>
+<span class="font-headline-sm text-headline-sm text-on-surface tabular-nums">1 USD = 6,96 BOB</span>
+</div>
+</div>
+<!-- Liquidity summary micro-pill cluster -->
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Liquidez Inmediata Total</span>
+<div class="flex items-baseline gap-space-2xs justify-end">
+<span class="font-monetary-hero text-monetary-hero text-on-surface tabular-nums font-bold">Bs 11.410,50</span>
+</div>
+</div>
+<div class="hidden xl:flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-xs rounded-full text-on-surface-variant font-label-sm text-label-sm tabular-nums">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-surface font-medium">Unión: 8.240,00</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-surface font-medium">BNB: 2.450,50</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-surface font-medium">Efectivo: 720,00</span>
+</div>
+<button class="h-11 px-space-lg rounded-full bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm flex items-center gap-space-xs shadow-sm active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Nuevo Movimiento</span>
+</button>
+</div>
+</div>
+<!-- Page Header (Two-Tone Brand Hierarchy) -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-xs text-primary font-label-md text-label-md uppercase tracking-widest mb-1">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Consola Central de Operaciones</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight">
+          Ajustes <span class="text-primary font-extrabold">&amp; Configuración</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-2xl">
+          Preferencias de cuenta, políticas contables de multimoneda, llaves API MCP y respaldo patrimonial.
+        </p>
+</div>
+<!-- Quick workspace indicator -->
+<div class="flex items-center gap-space-xs bg-surface-container px-space-md py-2 rounded-full">
+<span class="material-symbols-outlined text-[18px] text-secondary">verified_user</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Fondo Operativo: Personal • BOB</span>
+</div>
+</div>
+<!-- Main 2-Column Responsive Bento Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- ================= LEFT COLUMN (Col 1: 7 cols) ================= -->
+<div class="lg:col-span-7 flex flex-col gap-space-xl">
+<!-- CARD 1: Perfil y Seguridad -->
+<section class="bg-surface-container-lowest rounded-[20px] p-space-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-headline-lg text-headline-lg font-bold">
+                CM
+              </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-md text-headline-md text-on-surface">Carlos Mendoza</h2>
+<span class="inline-flex items-center gap-1 bg-secondary-container/30 text-on-secondary-container px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">shield</span> 2FA Activa
+                  </span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant">carlos.mendoza@caudal.app</span>
+</div>
+</div>
+<span class="bg-surface-container-low px-space-sm py-1 rounded-full text-on-surface-variant font-label-sm text-label-sm tabular-nums">
+              ID: CDL-9042
+            </span>
+</div>
+<!-- Metadata Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md pt-space-xs">
+<div class="bg-surface-container-low p-space-md rounded-DEFAULT flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Zona Horaria Asignada</span>
+<span class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">schedule</span>
+                America/La_Paz (UTC-4)
+              </span>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-DEFAULT flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Entorno de Almacenamiento</span>
+<span class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">encrypted</span>
+                Cifrado Local + Cloud Sync
+              </span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm pt-space-xs">
+<button class="h-11 px-space-lg rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-headline-sm text-headline-sm transition-colors flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+              Editar perfil
+            </button>
+<button class="h-11 px-space-lg rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-headline-sm text-headline-sm transition-colors flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">key</span>
+              Cambiar contraseña
+            </button>
+</div>
+</section>
+<!-- CARD 2: Moneda y Tasa de Cambio (SPC-015 / SPC-017) -->
+<section class="bg-surface-container-lowest rounded-[20px] p-space-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">price_change</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Moneda y Tasa de Cambio</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Políticas contables multimoneda (SPC-015 / SPC-017)</span>
+</div>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold px-3 py-1 rounded-full uppercase">
+              Base: BOB
+            </span>
+</div>
+<!-- Current Exchange Rate Box -->
+<div class="bg-surface-container-low rounded-DEFAULT p-space-lg flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Tasa Dólar Paralelo (Referencial)</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-monetary-hero text-monetary-hero text-on-surface font-extrabold tabular-nums">1 USD = 6,96 BOB</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Última sincronización: Hoy, 08:30 AM (Manual / Validador)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="relative flex items-center">
+<input class="w-24 h-11 px-3 bg-surface-container-lowest text-on-surface font-headline-sm text-headline-sm tabular-nums rounded-xl focus:outline-none focus:ring-2 focus:ring-primary shadow-sm text-right pr-9" type="text" value="6.96"/>
+<span class="absolute right-2.5 font-label-sm text-label-sm text-on-surface-variant pointer-events-none">BOB</span>
+</div>
+<button class="h-11 px-space-md rounded-full bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm shadow-sm transition-all flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+                Actualizar
+              </button>
+</div>
+</div>
+<!-- Historical Pegs Tape -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Historial reciente de cotizaciones aplicadas</span>
+<div class="grid grid-cols-3 gap-space-sm">
+<div class="bg-surface-container-lowest p-space-sm rounded-DEFAULT flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Hoy</span>
+<span class="font-monetary-md text-monetary-md text-on-surface tabular-nums font-semibold">6,96 BOB</span>
+<span class="font-body-sm text-body-sm text-secondary flex items-center gap-0.5 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +0.01
+                </span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-DEFAULT flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ayer</span>
+<span class="font-monetary-md text-monetary-md text-on-surface tabular-nums font-semibold">6,95 BOB</span>
+<span class="font-body-sm text-body-sm text-outline flex items-center gap-0.5 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">horizontal_rule</span> 0.00
+                </span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-DEFAULT flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">1 Mar</span>
+<span class="font-monetary-md text-monetary-md text-on-surface tabular-nums font-semibold">6,92 BOB</span>
+<span class="font-body-sm text-body-sm text-secondary flex items-center gap-0.5 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +0.03
+                </span>
+</div>
+</div>
+</div>
+<!-- Strict Accounting Policy Callout -->
+<div class="bg-surface-container p-space-md rounded-DEFAULT flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-primary mt-0.5">verified</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Regla de Invariabilidad Contable</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Las transacciones pasadas conservan su tasa histórica registrada en su asiento original sin revaluaciones ficticias en balances cerrados.
+              </p>
+</div>
+</div>
+</section>
+<!-- CARD 3: Categorías y Reglas de Gasto -->
+<section class="bg-surface-container-lowest rounded-[20px] p-space-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">category</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Categorías de Gasto</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Reglas contables para Fondo Personal</span>
+</div>
+</div>
+<button class="h-9 px-space-md rounded-full bg-primary/10 hover:bg-primary/20 text-primary font-label-md text-label-md font-semibold transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add</span>
+              Nueva Categoría
+            </button>
+</div>
+<!-- Category Rows List -->
+<div class="flex flex-col gap-space-2xs">
+<!-- Alimentación -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-DEFAULT">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-secondary/15 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">restaurant</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Alimentación</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Insumos, víveres y restaurantes</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums">42 movs</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface-container-lowest after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Servicios -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-DEFAULT">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary/15 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Servicios</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Agua, energía eléctrica, internet</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums">18 movs</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface-container-lowest after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Ocio -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-DEFAULT">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-tertiary/15 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">sports_esports</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Ocio &amp; Recreación</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Suscripciones, salidas y ocio personal</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums">9 movs</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface-container-lowest after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Transporte -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-DEFAULT">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-secondary/15 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">directions_car</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Transporte</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Combustible, teleférico, mantenimiento</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums">26 movs</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface-container-lowest after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Educación -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-DEFAULT">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary/15 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">school</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Educación</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Libros, cursos y material formativo</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums">4 movs</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-surface-container-lowest after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span>Ocultar una categoría mantiene intacto el historial de asientos contables.</span>
+</div>
+</section>
+</div>
+<!-- ================= RIGHT COLUMN (Col 2: 5 cols) ================= -->
+<div class="lg:col-span-5 flex flex-col gap-space-xl">
+<!-- CARD 4: Asistente IA & Llaves API (MCP) -->
+<section class="bg-surface-container-lowest rounded-[20px] p-space-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">smart_toy</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Asistente IA &amp; MCP</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Model Context Protocol</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 bg-secondary-container/30 text-on-secondary-container px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold">
+              Servidor Activo
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Conecta tu cliente Claude Desktop o Cursor para consultar y registrar movimientos contables por lenguaje natural con contexto patrimonial seguro.
+          </p>
+<!-- Key List -->
+<div class="flex flex-col gap-space-sm">
+<div class="bg-surface-container-low p-space-md rounded-DEFAULT flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface">laptop_mac</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Claude Desktop (MacBook Pro)</span>
+</div>
+<span class="bg-secondary-container/40 text-on-secondary-container text-label-sm font-label-sm font-bold px-2 py-0.5 rounded-full">Activa</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<code class="font-label-sm text-label-sm bg-surface-container-lowest px-2 py-1 rounded text-on-surface-variant font-mono">caudal_live_7x9...8b2</code>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Último uso: Hace 12 min</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-DEFAULT flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface">terminal</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Cursor Agent Dev</span>
+</div>
+<span class="bg-secondary-container/40 text-on-secondary-container text-label-sm font-label-sm font-bold px-2 py-0.5 rounded-full">Activa</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<code class="font-label-sm text-label-sm bg-surface-container-lowest px-2 py-1 rounded text-on-surface-variant font-mono">caudal_live_3k1...9a4</code>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Último uso: Ayer</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<button class="w-full h-12 rounded-full bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm transition-all flex items-center justify-center gap-space-xs shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add_moderator</span>
+              Generar nueva API Key (MCP)
+            </button>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-center mt-1">
+              Las llaves son secretas y se revelan por única vez al momento de creación.
+            </span>
+</div>
+</section>
+<!-- CARD 5: Gestión de Fondos & Cuentas -->
+<section class="bg-surface-container-lowest rounded-[20px] p-space-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Fondos Patrimoniales</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2 fondos operativos configurados</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="p-space-md rounded-DEFAULT bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Personal BOB</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">3 cuentas activas • Liquidez familiar</span>
+</div>
+</div>
+<span class="font-monetary-md text-monetary-md text-on-surface font-semibold tabular-nums">Bs 11.410,50</span>
+</div>
+<div class="p-space-md rounded-DEFAULT bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Impresión 3D USD</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2 cuentas activas • Taller y servicios</span>
+</div>
+</div>
+<span class="font-monetary-md text-monetary-md text-on-surface font-semibold tabular-nums">US$ 1.840,00</span>
+</div>
+</div>
+<a class="h-11 px-space-lg rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-headline-sm text-headline-sm transition-colors flex items-center justify-center gap-space-xs" href="#">
+<span>Administrar fondos y cuentas bancarias</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</section>
+<!-- CARD 6: Respaldo, Exportación y Zona de Peligro -->
+<section class="bg-surface-container-lowest rounded-[20px] p-space-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">download_for_offline</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Respaldo &amp; Seguridad</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Exportación de asientos e integridad contable</span>
+</div>
+</div>
+<!-- Backup Download Buttons -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Exportar Copia Contable</span>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="h-11 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-headline-sm text-headline-sm transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">data_object</span>
+                JSON Completo
+              </button>
+<button class="h-11 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-headline-sm text-headline-sm transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">table_view</span>
+                CSV Libro Diario
+              </button>
+</div>
+</div>
+<!-- Active Sessions Counter -->
+<div class="bg-surface-container-low p-space-md rounded-DEFAULT flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-outline">devices</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">2 Sesiones Activas</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">MacBook Pro y iPhone 15</span>
+</div>
+</div>
+<button class="text-primary font-label-md text-label-md font-semibold hover:underline">
+              Cerrar demás sesiones
+            </button>
+</div>
+<!-- Danger Zone Module -->
+<div class="bg-error-container/20 p-space-md rounded-DEFAULT flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-error">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="font-headline-sm text-headline-sm font-bold">Zona de Peligro</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              La eliminación de la base de datos local purgará todos los registros en este navegador sin posibilidad de recuperación inmediata.
+            </p>
+<div class="flex items-center gap-space-sm pt-space-xs">
+<button class="h-11 px-space-md rounded-full bg-error text-on-error hover:bg-on-error-container font-headline-sm text-headline-sm transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">delete_forever</span>
+                Eliminar datos locales
+              </button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</div></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-1px_12px_rgba(11,28,52,0.05)]" data-active-classes="text-primary font-bold"><div class="relative flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant hover:text-on-surface transition-colors gap-0.5" data-path="inicio" href="#"><span class="material-symbols-outlined text-[22px]">home</span><span class="font-label-sm text-label-sm">Inicio</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant hover:text-on-surface transition-colors gap-0.5" data-path="movimientos" href="#"><span class="material-symbols-outlined text-[22px]">receipt_long</span><span class="font-label-sm text-label-sm">Movimientos</span></a><div class="flex items-center justify-center w-14 h-14"><a aria-label="Registrar transacción" class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_4px_16px_rgba(0,107,251,0.35)] active:scale-95 transition-transform" data-path="nuevo-movimiento" href="#"><span class="material-symbols-outlined text-[26px]">add</span></a></div><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant hover:text-on-surface transition-colors gap-0.5" data-path="fondos" href="#"><span class="material-symbols-outlined text-[22px]">account_balance_wallet</span><span class="font-label-sm text-label-sm">Fondos</span></a><a aria-current="page" class="flex flex-col items-center justify-center w-14 h-14 transition-colors gap-0.5 text-primary font-bold" data-path="reportes" href="#"><span class="material-symbols-outlined text-[22px]">bar_chart</span><span class="font-label-sm text-label-sm">Reportes</span></a></div></nav></body></html>

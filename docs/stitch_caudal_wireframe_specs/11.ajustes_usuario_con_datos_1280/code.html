@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Caudal Ledger</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"error-container":"#ffdad6","on-primary-fixed":"#001946","on-secondary-fixed-variant":"#00513d","secondary":"#006c52","inverse-on-surface":"#ecf0ff","outline":"#727787","on-primary-fixed-variant":"#00419e","on-secondary-fixed":"#002117","outline-variant":"#c2c6d8","surface-container-high":"#dfe8ff","tertiary-fixed-dim":"#ffb3b0","primary-container":"#006bfb","tertiary-fixed":"#ffdad8","on-error-container":"#93000a","surface-container-highest":"#d6e3ff","secondary-fixed-dim":"#60dcb3","inverse-primary":"#b1c5ff","secondary-container":"#7bf6cb","secondary-fixed":"#7ef8ce","surface-bright":"#f9f9ff","surface-container-low":"#f0f3ff","tertiary":"#b1212d","error":"#ba1a1a","on-tertiary":"#ffffff","surface":"#f9f9ff","surface-tint":"#0057ce","on-primary-container":"#fefcff","background":"#f9f9ff","primary-fixed-dim":"#b1c5ff","on-secondary":"#ffffff","inverse-surface":"#21314a","on-error":"#ffffff","on-secondary-container":"#007056","tertiary-container":"#d43c42","surface-container":"#e7eeff","surface-container-lowest":"#ffffff","on-tertiary-container":"#fffbff","primary-fixed":"#dae2ff","on-background":"#0b1c34","primary":"#0055c9","on-tertiary-fixed":"#410006","on-primary":"#ffffff","on-surface":"#0b1c34","surface-variant":"#d6e3ff","on-tertiary-fixed-variant":"#92011a","on-surface-variant":"#424655","surface-dim":"#cbdbfb"},borderRadius:{DEFAULT:"1rem",lg:"2rem",xl:"3rem",full:"9999px"},spacing:{"gutter-desktop":"1.5rem","space-xs":"0.5rem","space-2xs":"0.25rem","margin-desktop":"2.5rem","margin-tablet":"1.5rem",margin:"1rem","space-sm":"0.75rem",gutter:"1rem","space-md":"1rem","space-xl":"1.5rem","space-2xl":"2rem","space-lg":"1.25rem","space-3xl":"3rem"},fontFamily:{"display-lg-mobile":["Inter"],"body-md":["Inter"],"label-md":["Inter"],"headline-sm":["Inter"],"headline-lg":["Inter"],"headline-md":["Inter"],"monetary-lg":["Inter"],"label-sm":["Inter"],"body-sm":["Inter"],"monetary-md":["Inter"],"display-lg":["Inter"],"monetary-hero":["Inter"],"body-lg":["Inter"]},fontSize:{"display-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.025em",fontWeight:"800"}],"body-md":["14px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.04em",fontWeight:"600"}],"headline-sm":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg":["24px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"700"}],"monetary-lg":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.05em",fontWeight:"600"}],"body-sm":["12px",{lineHeight:"16px",letterSpacing:"0.01em",fontWeight:"400"}],"monetary-md":["15px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"600"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.03em",fontWeight:"800"}],"monetary-hero":["32px",{lineHeight:"40px",letterSpacing:"-0.02em",fontWeight:"700"}],"body-lg":["16px",{lineHeight:"24px",letterSpacing:"0em",fontWeight:"400"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-full"><div class="h-16 px-space-xl flex items-center gap-space-sm"><img alt="Brand logo. - Primary color: #0e6fff
+- Font: inter
+- Mode: light
+- Roundness: rounded-full
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XAVFOO65II8FHBNVUJkz0ajnWjeKQcMt4PjGtFAwU7OISy5W5E0SmgeRrN-DyoI_d3Ah9d9DqiUhVpNfckSATrfB8KLRQhwX7FLZJdhVpXK2szkdezd1G5URHZLnM2tdBZqwQOuHhX9Cn33npAJGcbpZlezEgTKGQ287ZAH7732H-W9UdTvy27ADRbxjqe3u7Ese29kX_S1t8zRvPZm6UaB2QlncWCq1udFXl2JMqsw1eb9Pqditii_akC"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Caudal</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Ledger v2.4</span></div></div><div class="flex-1 overflow-y-auto px-space-sm py-space-xs"><div class="px-space-sm mb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Tesorería &amp; Flujos</div><nav class="flex flex-col gap-space-2xs" data-active-classes="bg-surface-container-high text-primary font-semibold shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="inicio" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Inicio</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="movimientos" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Movimientos</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="cuentas" href="#"><span class="material-symbols-outlined text-[20px]">account_balance</span><span>Cuentas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="fondos" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Fondos</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="transferencias" href="#"><span class="material-symbols-outlined text-[20px]">sync_alt</span><span>Transferencias</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="recurrentes" href="#"><span class="material-symbols-outlined text-[20px]">update</span><span>Recurrentes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="deudas" href="#"><span class="material-symbols-outlined text-[20px]">credit_score</span><span>Deudas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="presupuestos" href="#"><span class="material-symbols-outlined text-[20px]">pie_chart</span><span>Presupuestos</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="metas" href="#"><span class="material-symbols-outlined text-[20px]">flag</span><span>Metas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reportes" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span>Reportes</span></a></nav></div><div class="p-space-sm bg-surface-container-low/60 mx-space-sm mb-space-sm rounded-lg flex flex-col gap-space-2xs"><div class="px-space-xs font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Cuenta &amp; Ajustes</div><nav class="flex flex-col gap-space-2xs" data-active-classes="bg-surface-container-high text-primary font-semibold shadow-sm"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full transition-colors bg-surface-container-high text-primary font-semibold shadow-sm" data-path="perfil-de-usuario" href="#"><span class="material-symbols-outlined text-[20px]">manage_accounts</span><span>Perfil de Usuario</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="configuracion-general" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Configuración</span></a></nav></div></div></aside><div class="pl-[260px]"><header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-xl flex items-center justify-between"><div class="flex items-center gap-space-md"><button class="flex items-center gap-space-xs h-10 px-space-md rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors text-left" type="button"><span class="material-symbols-outlined text-primary text-[18px]">account_tree</span><div class="flex items-baseline gap-space-2xs"><span class="font-label-md text-label-md font-bold text-on-surface">Personal</span><span class="font-label-sm text-label-sm text-on-surface-variant">•</span><span class="font-label-md text-label-md font-semibold text-secondary">BOB</span></div><span class="material-symbols-outlined text-on-surface-variant text-[16px]">expand_more</span></button><div class="flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">USD Paralelo</span><span class="font-monetary-md text-monetary-md text-on-surface font-semibold">Bs 9,18</span><span class="flex items-center text-secondary font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[14px]">arrow_drop_up</span>0.4%</span></div></div><div class="flex items-center gap-space-md"><button aria-label="Buscar transacciones" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><div class="relative"><button aria-label="Notificaciones del sistema" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tertiary"></span></button></div><div class="h-6 w-[1px] bg-surface-container-high"></div><div class="flex items-center gap-space-xs pl-space-2xs"><div class="flex flex-col text-right hidden sm:flex"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Alejandro V.</span><span class="font-label-sm text-label-sm text-secondary font-semibold">Admin Principal</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 bg-background min-h-screen"><div class="max-w-[1280px] mx-auto px-gutter-desktop py-space-xl"><div class="flex flex-col w-full">
+<!-- Header de página con jerarquía institucional y badge técnico -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mb-space-2xl pb-space-lg">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center gap-1 px-space-xs py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          SPC-017 / USER-ACC
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Bóveda Criptográfica Caudal</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Perfil y Cuenta de Usuario</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+        Gestión de identidad, seguridad de acceso criptográfico y preferencias del operador de tesorería y libros contables.
+      </p>
+</div>
+<!-- Quick action de sincronización de estado de clave -->
+<div class="flex items-center gap-space-xs self-start md:self-auto bg-surface-container-lowest px-space-md py-space-xs rounded-full shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified_user</span>
+<div class="flex flex-col pr-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Cifrado Operativo</span>
+<span class="font-label-md text-label-md text-secondary font-bold leading-tight">AES-GCM-256 Sincronizado</span>
+</div>
+</div>
+</header>
+<!-- Segmented Navigation / Tabs internos -->
+<nav aria-label="Secciones del perfil" class="flex items-center gap-space-xs p-1.5 bg-surface-container-low rounded-full mb-space-2xl overflow-x-auto">
+<button class="flex items-center gap-space-xs px-space-lg py-2.5 rounded-full bg-surface-container-lowest text-primary font-headline-sm text-headline-sm shadow-sm whitespace-nowrap transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">person</span>
+<span>Perfil general</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-lg py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest/50 font-body-md text-body-md font-medium whitespace-nowrap transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span>Seguridad &amp; Llaves</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-lg py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest/50 font-body-md text-body-md font-medium whitespace-nowrap transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">devices</span>
+<span>Sesiones activas</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">2</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-lg py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest/50 font-body-md text-body-md font-medium whitespace-nowrap transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">notifications_active</span>
+<span>Notificaciones &amp; Alertas</span>
+</button>
+</nav>
+<!-- Grid Principal de dos columnas -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- COLUMNA IZQUIERDA: Tarjeta de Identidad y Bóveda Criptográfica (4 cols) -->
+<aside class="lg:col-span-4 flex flex-col gap-space-lg">
+<!-- Card Maestro de Identidad -->
+<div class="bg-surface-container-lowest rounded-lg p-space-xl shadow-sm flex flex-col items-center text-center relative overflow-hidden">
+<!-- Scrim de fondo sutil -->
+<div class="absolute -top-12 -left-12 w-40 h-40 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -right-10 w-32 h-32 bg-secondary/5 rounded-full blur-xl pointer-events-none"></div>
+<!-- Avatar con status y botón de cambio -->
+<div class="relative mb-space-md group">
+<div class="w-24 h-24 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-lg text-headline-lg shadow-md select-none tracking-tight">
+            CM
+          </div>
+<button aria-label="Actualizar fotografía de perfil" class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-surface-container-lowest text-on-surface shadow-md hover:bg-surface-container-high hover:text-primary transition-all flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</button>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Carlos Mendoza</h2>
+<span class="font-label-md text-label-md text-primary font-semibold mb-space-xs mt-0.5">Administrador / Propietario del Libro</span>
+<!-- Email verificado -->
+<div class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-low mb-space-lg">
+<span class="font-body-sm text-body-sm text-on-surface-variant">carlos.mendoza@caudal.app</span>
+<span class="material-symbols-outlined text-secondary text-[16px]" title="Correo verificado por firma">verified</span>
+</div>
+<!-- Metadatos de auditoría contable -->
+<div class="w-full bg-surface-container-low/70 rounded-DEFAULT p-space-md flex flex-col gap-space-sm text-left mb-space-lg">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Estado Contable</span>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm font-semibold text-secondary px-2 py-0.5 rounded-full bg-secondary-container/40">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+              Partida Doble Activa
+            </span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Registro Inicial</span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Miembro desde Ene 2024</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Permisos de Caja</span>
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Total (BOB &amp; USD)</span>
+</div>
+</div>
+<!-- Cifrado local de llaves y Seed -->
+<div class="w-full bg-surface-container p-space-md rounded-DEFAULT flex flex-col gap-space-xs text-left mb-space-lg">
+<div class="flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]">lock</span>
+<span class="font-headline-sm text-headline-sm font-semibold">Cifrado Local AES-256</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Las claves criptográficas privadas que firman conciliaciones y transferencias se encuentran sincronizadas en el dispositivo.
+          </p>
+<div class="flex items-center gap-space-xs mt-space-2xs text-secondary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Llave maestra sincronizada</span>
+</div>
+</div>
+<!-- Botón Exportar Llaves de Recuperación (Seed) -->
+<button class="w-full h-11 px-space-lg rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-headline-sm text-headline-sm flex items-center justify-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">vpn_key</span>
+<span>Exportar llave Seed (12 palabras)</span>
+</button>
+</div>
+<!-- Card de integridad de cuenta e historial de llaves -->
+<div class="bg-surface-container-lowest rounded-lg p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Huella Criptográfica</span>
+<span class="font-label-sm text-label-sm text-primary font-mono">0x4F...9C18</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface text-[20px]">fingerprint</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Hardware Security Module</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Enclave seguro de Apple verificado</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- COLUMNA DERECHA: Formularios de configuración por bloques (8 cols) -->
+<main class="lg:col-span-8 flex flex-col gap-space-xl">
+<!-- SECCIÓN 1: Información Personal y Contable -->
+<section class="bg-surface-container-lowest rounded-lg p-space-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface">Información Personal &amp; Contable</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Datos del titular de la cuenta operativa y parámetros regionales de cálculo.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">badge</span>
+</div>
+<form class="flex flex-col gap-space-lg" onsubmit="event.preventDefault();">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Campo Nombre Completo -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="fullName">Nombre completo</label>
+<div class="relative">
+<input class="w-full h-12 px-space-md rounded-DEFAULT bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" id="fullName" name="fullName" required="" type="text" value="Carlos Mendoza"/>
+</div>
+</div>
+<!-- Campo Correo Electrónico -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="email">Correo electrónico registrado</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 pl-space-md pr-10 rounded-DEFAULT bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" id="email" name="email" required="" type="email" value="carlos.mendoza@caudal.app"/>
+<span class="material-symbols-outlined absolute right-3 text-secondary text-[20px]" title="Verificado">verified</span>
+</div>
+</div>
+<!-- Campo Teléfono / Contacto -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="phone">Teléfono móvil / Notificaciones SMS</label>
+<input class="w-full h-12 px-space-md rounded-DEFAULT bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-mono" id="phone" name="phone" type="tel" value="+591 70012345"/>
+</div>
+<!-- Moneda de referencia personal predeterminada -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="currencyRef">Moneda contable predeterminada</label>
+<div class="relative">
+<select class="w-full h-12 px-space-md pr-10 rounded-DEFAULT bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer" id="currencyRef" name="currencyRef">
+<option selected="" value="BOB">BOB — Bolivianos (Bs)</option>
+<option value="USD">USD — Dólar Estadounidense ($)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3.5 text-on-surface-variant pointer-events-none text-[20px]">unfold_more</span>
+</div>
+</div>
+</div>
+<!-- Zona horaria contable -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="timezone">Zona horaria contable &amp; timestamps fiscales</label>
+<div class="flex items-center gap-space-sm bg-surface-container-low p-space-sm rounded-DEFAULT">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">schedule</span>
+<div class="flex flex-col flex-1">
+<span class="font-body-md text-body-md text-on-surface font-medium">America/La_Paz (UTC-04:00)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Se sincroniza con las marcas de tiempo de las transacciones bancarias nacionales</span>
+</div>
+<button class="text-primary font-label-md text-label-md font-semibold hover:underline px-space-xs" type="button">Ajustar</button>
+</div>
+</div>
+<!-- Botón Guardar Cambios -->
+<div class="flex items-center justify-end pt-space-xs">
+<button class="h-[52px] px-space-xl rounded-full bg-primary text-on-primary hover:bg-[#0057D9] transition-all font-headline-sm text-headline-sm shadow-sm flex items-center gap-space-xs" type="submit">
+<span class="material-symbols-outlined text-[20px]">save</span>
+<span>Guardar cambios de perfil</span>
+</button>
+</div>
+</form>
+</section>
+<!-- SECCIÓN 2: Seguridad & Autenticación Criptográfica -->
+<section class="bg-surface-container-lowest rounded-lg p-space-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface">Seguridad y Autenticación</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Protección del libro mayor contra accesos no autorizados y factor de doble paso.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">shield</span>
+</div>
+<!-- 2FA Status Card -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md p-space-md rounded-DEFAULT bg-surface-container-low">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary/10 text-secondary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">phonelink_lock</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Autenticación de Dos Factores (TOTP)</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/40 text-secondary font-label-sm text-label-sm font-semibold">Activado</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Generador de códigos tipo RFC 6238 enlazado (1Password / Google Authenticator).</span>
+</div>
+</div>
+<button class="h-10 px-space-md rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md font-semibold whitespace-nowrap self-start sm:self-auto" type="button">
+            Reconfigurar app autenticadora
+          </button>
+</div>
+<!-- Cambio de Contraseña Maestra -->
+<div class="flex flex-col gap-space-md pt-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Contraseña Maestra de Desencriptación</span>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="currentPassword">Contraseña actual</label>
+<input class="w-full h-12 px-space-md rounded-DEFAULT bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-mono" id="currentPassword" placeholder="••••••••••••••••" type="password"/>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-semibold" for="newPassword">Nueva contraseña maestra</label>
+<input class="w-full h-12 px-space-md rounded-DEFAULT bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-mono" id="newPassword" placeholder="Mínimo 14 caracteres alfanuméricos" type="password"/>
+</div>
+</div>
+<!-- Medidor de fuerza de contraseña con micro barras -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Fuerza criptográfica de la clave:</span>
+<span class="text-secondary font-semibold">Excelente (256-bit entropy)</span>
+</div>
+<div class="grid grid-cols-4 gap-1.5 h-1.5 w-full">
+<div class="h-full rounded-full bg-secondary"></div>
+<div class="h-full rounded-full bg-secondary"></div>
+<div class="h-full rounded-full bg-secondary"></div>
+<div class="h-full rounded-full bg-secondary"></div>
+</div>
+</div>
+</div>
+<!-- Toggle: Notificaciones de inicio de sesión -->
+<div class="flex items-center justify-between p-space-md bg-surface-container-low/60 rounded-DEFAULT">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-primary text-[22px]">mark_email_unread</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Notificaciones de inicio de sesión por correo</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Recibe una alerta inmediata si un dispositivo o IP desconocida accede a la tesorería.</span>
+</div>
+</div>
+<!-- Pill Switch Control -->
+<label class="relative inline-flex items-center cursor-pointer select-none">
+<input checked="" class="sr-only peer" id="loginAlertsToggle" type="checkbox"/>
+<div class="w-12 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-6 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</section>
+<!-- SECCIÓN 3: Sesiones y Dispositivos Activos -->
+<section class="bg-surface-container-lowest rounded-lg p-space-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs pb-space-xs">
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface">Sesiones y Dispositivos Activos</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Terminales con autorización de acceso y tokens de lectura contable vigentes.</p>
+</div>
+<button class="text-tertiary hover:bg-error-container/30 px-space-md py-1.5 rounded-full font-label-md text-label-md font-semibold transition-colors self-start sm:self-auto flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">logout</span>
+            Cerrar todas las demás sesiones
+          </button>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Dispositivo 1: Actual -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-space-md rounded-DEFAULT bg-surface-container-low gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-[20px]">laptop_mac</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface">MacBook Pro 16" — Chrome 122</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/40 text-secondary font-label-sm text-label-sm font-semibold">Esta sesión (Activa)</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">La Paz, Bolivia • IP 181.115.42.10 • Cliente Web</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm font-semibold self-end sm:self-center">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+              En línea
+            </div>
+</div>
+<!-- Dispositivo 2: Secundario -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-space-md rounded-DEFAULT bg-surface-container-low gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-[20px]">smartphone</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">iPhone 15 Pro — App Caudal v2.4</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">La Paz, Bolivia • IP 190.181.33.8 • Última actividad: Hace 2 horas</span>
+</div>
+</div>
+<button class="h-9 px-space-md rounded-full bg-surface-container text-on-surface-variant hover:text-tertiary hover:bg-error-container/30 transition-colors font-label-sm text-label-sm font-semibold self-end sm:self-center" type="button">
+              Revocar token
+            </button>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 4: Zona de Riesgo y Privacidad de Datos -->
+<section class="bg-surface-container-lowest rounded-lg p-space-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs text-tertiary">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+<h3 class="font-headline-sm text-headline-sm font-bold uppercase tracking-wider">Zona de Respaldo &amp; Privacidad Crítica</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Exportación en bruto de la contabilidad para custodia en frío o desvinculación definitiva del terminal.
+        </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md pt-space-xs">
+<!-- Backup JSON / CSV -->
+<div class="p-space-md rounded-DEFAULT bg-surface-container-low flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs text-on-surface font-headline-sm text-headline-sm">
+<span class="material-symbols-outlined text-[18px]">download_for_offline</span>
+<span>Descarga de Copia Integral</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+                Paquete cifrado conteniendo asientos, partidas de balance, cuentas corrientes y tasas históricas (.json / .csv).
+              </span>
+</div>
+<button class="h-10 px-space-md rounded-full bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary transition-colors font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 self-start" type="button">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Exportar Libro (.zip cifrado)</span>
+</button>
+</div>
+<!-- Desvincular / Purgar Caché -->
+<div class="p-space-md rounded-DEFAULT bg-error-container/20 flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs text-tertiary font-headline-sm text-headline-sm">
+<span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+<span>Borrado de Caché &amp; Desvinculación</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+                Elimina las bases de datos locales IndexedDB y la memoria intermedia del navegador de este ordenador.
+              </span>
+</div>
+<button class="h-10 px-space-md rounded-full bg-error-container text-on-error-container hover:bg-tertiary hover:text-on-tertiary transition-colors font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 self-start" type="button">
+<span class="material-symbols-outlined text-[16px]">power_settings_new</span>
+<span>Desvincular y purgar caché</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+<script>
+  // Micro-interacción ligera para selector de pestañas (Tabs)
+  document.querySelectorAll('nav[aria-label="Secciones del perfil"] button').forEach((tabBtn) => {
+    tabBtn.addEventListener('click', () => {
+      document.querySelectorAll('nav[aria-label="Secciones del perfil"] button').forEach((btn) => {
+        btn.className = 'flex items-center gap-space-xs px-space-lg py-2.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-lowest/50 font-body-md text-body-md font-medium whitespace-nowrap transition-all';
+      });
+      tabBtn.className = 'flex items-center gap-space-xs px-space-lg py-2.5 rounded-full bg-surface-container-lowest text-primary font-headline-sm text-headline-sm shadow-sm whitespace-nowrap transition-all';
+    });
+  });
+</script></div></main></div></body></html>

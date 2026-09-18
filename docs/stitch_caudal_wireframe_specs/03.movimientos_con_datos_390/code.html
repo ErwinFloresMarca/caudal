@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><title>Caudal</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "error-container": "#ffdad6", "on-secondary-fixed-variant": "#00513d", "secondary": "#006c52", "on-tertiary-fixed": "#410006", "primary-container": "#006bfb", "secondary-fixed-dim": "#60dcb3", "on-secondary-fixed": "#002117", "surface-container-low": "#f0f3ff", "on-surface-variant": "#424655", "on-primary-container": "#fefcff", "surface-bright": "#f9f9ff", "background": "#f9f9ff", "inverse-primary": "#b1c5ff", "surface": "#f9f9ff", "secondary-container": "#7bf6cb", "on-surface": "#0b1c34", "outline": "#727787", "surface-tint": "#0057ce", "primary-fixed": "dae2ff", "on-primary-fixed": "#001946", "on-tertiary-fixed-variant": "#92011a", "on-primary": "#ffffff", "on-secondary-container": "#007056", "on-tertiary-container": "#fffbff", "inverse-on-surface": "#ecf0ff", "outline-variant": "#c2c6d8", "surface-container-highest": "#d6e3ff", "error": "#ba1a1a", "primary-fixed-dim": "#b1c5ff", "on-error": "#ffffff", "on-secondary": "#ffffff", "tertiary-fixed-dim": "#ffb3b0", "surface-container": "#e7eeff", "tertiary-fixed": "#ffdad8", "tertiary-container": "#d43c42", "on-tertiary": "#ffffff", "inverse-surface": "#21314a", "on-primary-fixed-variant": "#00419e", "surface-container-lowest": "#ffffff", "tertiary": "#b1212d", "on-error-container": "#93000a", "on-background": "#0b1c34", "surface-variant": "#d6e3ff", "surface-container-high": "#dfe8ff", "surface-dim": "#cbdbfb", "primary": "#0055c9", "secondary-fixed": "#7ef8ce" }, borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, spacing: { "margin-desktop": "2.5rem", "space-md": "1rem", "space-2xl": "2rem", "space-3xl": "3rem", "space-xl": "1.5rem", "gutter": "1rem", "space-sm": "0.75rem", "space-2xs": "0.25rem", "space-lg": "1.25rem", "space-xs": "0.5rem", "margin-tablet": "1.5rem", "margin": "1rem", "gutter-desktop": "1.5rem" }, fontFamily: { "headline-md": ["Inter"], "headline-lg": ["Inter"], "body-md": ["Inter"], "display-lg": ["Inter"], "label-md": ["Inter"], "label-sm": ["Inter"], "body-lg": ["Inter"], "monetary-lg": ["Inter"], "monetary-md": ["Inter"], "display-lg-mobile": ["Inter"], "monetary-hero": ["Inter"], "body-sm": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "monetary-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "monetary-md": ["15px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600" }], "display-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "monetary-hero": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script><style>@layer base { html, body { margin: 0; padding: 0; min-height: 100%; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } } .material-symbols-rounded { font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24; }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(11,28,52,0.04)]"><div class="h-16 px-margin flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><img alt="Brand logo. - Primary color: #0e6fff
+- Font: inter
+- Mode: light
+- Roundness: rounded-full
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XuS0l__I8kNnPs9zIHYFFNeNzURjCyYUpazQjkhdZlF_ciY_l4txIYvAGlHD7BnMTRqL5ejDxNT4lmWmvpPnu0tvUO4ZTMn41YkOvQFeK__t_yDvFWZ0dH5EAeiqSIOoRISwEXegTwgGTZ8H38MyFOf7Snbw8xkpFZ7xT7JbvFrTvPODx-9F4ABmq1XdJfhlekjjjnOEaQ3169AXXuTrzl0UwF-sMlHnJxiEpf5713vu_LfTUEYBc86JgR"><button class="min-h-[44px] flex items-center gap-space-2xs bg-surface-container-low hover:bg-surface-container px-space-sm py-space-2xs rounded-full transition-colors text-left" type="button"><span class="w-2 h-2 rounded-full bg-secondary shrink-0"></span><span class="font-label-md text-label-md text-on-surface truncate max-w-[110px]">Personal • BOB</span><span class="material-symbols-rounded text-[18px] text-on-surface-variant">expand_more</span></button></div><div class="flex items-center gap-space-xs"><span class="sr-only">Inicio</span><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 px-margin bg-surface"><div class="flex flex-col w-full pb-6">
+<!-- Header two-tone + Period Subtitle -->
+<section class="flex flex-col mb-4">
+<div class="flex items-center justify-between">
+<div>
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-on-surface">
+<span class="font-normal opacity-80">Movimientos de</span> <span class="font-extrabold text-primary">Personal</span>
+</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 flex items-center gap-1.5">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          18 registrados en Marzo 2025
+        </p>
+</div>
+<button aria-label="Exportar movimientos" class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-colors" type="button">
+<span class="material-symbols-rounded text-[20px]">file_download</span>
+</button>
+</div>
+<!-- Quick Period Ledger Summary Card -->
+<div class="mt-4 p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between pb-2.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Balance del período</span>
+<div class="flex items-center gap-1 text-secondary font-monetary-md text-monetary-md">
+<span class="material-symbols-rounded text-[18px]">trending_up</span>
+<span class="tabular-nums">+Bs 2.544,50</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-2.5 bg-surface-container-low rounded-lg p-2.5">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Ingresos
+          </span>
+<span class="font-monetary-md text-monetary-md text-secondary font-semibold tabular-nums mt-0.5">
+            +Bs 4.500,00
+          </span>
+</div>
+<div class="flex flex-col border-l border-outline-variant/30 pl-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Egresos
+          </span>
+<span class="font-monetary-md text-monetary-md text-tertiary font-semibold tabular-nums mt-0.5">
+            −Bs 1.955,50
+          </span>
+</div>
+</div>
+</div>
+<!-- Action Trigger -->
+<button class="mt-3.5 w-full h-12 px-6 rounded-full bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(0,85,201,0.22)] active:scale-[0.99] transition-all" type="button">
+<span class="material-symbols-rounded text-[22px]">add_circle</span>
+<span>Registrar movimiento</span>
+</button>
+</section>
+<!-- Search and Interactive Filters (SPC-016) -->
+<section class="flex flex-col gap-2.5 mb-5">
+<!-- Search Bar -->
+<div class="relative w-full">
+<span class="material-symbols-rounded absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] pointer-events-none">search</span>
+<input class="w-full h-11 pl-10 pr-9 rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="Buscar por concepto, monto o nota..." type="text">
+<button aria-label="Limpiar búsqueda" class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-rounded text-[18px]">cancel</span>
+</button>
+</div>
+<!-- Filter Pills Row -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+<!-- Filter Trigger with Badge -->
+<button class="h-9 px-3.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface flex items-center gap-1.5 shrink-0 transition-colors" type="button">
+<span class="material-symbols-rounded text-[17px] text-primary">tune</span>
+<span class="font-label-md text-label-md">Filtros</span>
+<span class="w-4 h-4 rounded-full bg-primary text-on-primary font-label-sm text-[10px] flex items-center justify-center font-bold">2</span>
+</button>
+<!-- Active Filter Pill 1: Mes -->
+<button class="h-9 px-3 rounded-full bg-primary/10 hover:bg-primary/15 text-primary flex items-center gap-1 shrink-0 font-label-md text-label-md" type="button">
+<span>Marzo 2025</span>
+<span class="material-symbols-rounded text-[16px]">close</span>
+</button>
+<!-- Active Filter Pill 2: Tipo -->
+<button class="h-9 px-3.5 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface flex items-center gap-1 shrink-0 shadow-sm font-label-md text-label-md" type="button">
+<span>Tipo: Todos</span>
+<span class="material-symbols-rounded text-[18px] text-on-surface-variant">expand_more</span>
+</button>
+<!-- Filter Pill 3: Cuenta -->
+<button class="h-9 px-3.5 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface flex items-center gap-1 shrink-0 shadow-sm font-label-md text-label-md" type="button">
+<span>Cuenta: Todas</span>
+<span class="material-symbols-rounded text-[18px] text-on-surface-variant">expand_more</span>
+</button>
+<!-- Filter Pill 4: Categoria -->
+<button class="h-9 px-3.5 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface flex items-center gap-1 shrink-0 shadow-sm font-label-md text-label-md" type="button">
+<span>Categoría</span>
+<span class="material-symbols-rounded text-[18px] text-on-surface-variant">expand_more</span>
+</button>
+<!-- Clear All Trigger -->
+<button class="h-9 px-2.5 text-on-surface-variant hover:text-error font-label-md text-label-md underline underline-offset-4 shrink-0 transition-colors" type="button">
+        Limpiar
+      </button>
+</div>
+</section>
+<!-- Ledger Grouped Transaction List (SPC-008) -->
+<section class="flex flex-col gap-4">
+<!-- Day Group: Hoy, 05 de Marzo -->
+<div class="flex flex-col">
+<div class="flex items-center justify-between px-1 mb-1.5">
+<span class="font-headline-sm text-[13px] font-bold uppercase tracking-wider text-on-surface">Hoy, 05 de Marzo</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold tabular-nums">+Bs 4.500,00</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col">
+<!-- Item 1: Sueldo -->
+<article class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-rounded text-[22px]">payments</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Sueldo mensual</h2>
+<span class="px-1.5 py-0.5 rounded-md bg-secondary/10 text-secondary font-label-sm text-[10px] uppercase font-bold shrink-0">Sueldo</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5">
+                Efectivo • Ingreso
+              </p>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 text-right">
+<span class="font-monetary-md text-monetary-md font-semibold text-secondary tabular-nums">
+              +Bs 4.500,00
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums mt-0.5">
+              Saldo: Bs 11.410,50
+            </span>
+</div>
+</article>
+</div>
+</div>
+<!-- Day Group: Ayer, 04 de Marzo -->
+<div class="flex flex-col">
+<div class="flex items-center justify-between px-1 mb-1.5">
+<span class="font-headline-sm text-[13px] font-bold uppercase tracking-wider text-on-surface">Ayer, 04 de Marzo</span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold tabular-nums">−Bs 120,50</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col">
+<!-- Item 2: Supermercado -->
+<article class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-rounded text-[22px]">shopping_cart</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Supermercado semanal</h2>
+<span class="px-1.5 py-0.5 rounded-md bg-tertiary/10 text-tertiary font-label-sm text-[10px] uppercase font-bold shrink-0">Comida</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5">
+                Tarjeta Débito (BNB) • Egreso
+              </p>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 text-right">
+<span class="font-monetary-md text-monetary-md font-semibold text-tertiary tabular-nums">
+              −Bs 120,50
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums mt-0.5">
+              Saldo: Bs 6.910,50
+            </span>
+</div>
+</article>
+</div>
+</div>
+<!-- Day Group: Domingo, 02 de Marzo -->
+<div class="flex flex-col">
+<div class="flex items-center justify-between px-1 mb-1.5">
+<span class="font-headline-sm text-[13px] font-bold uppercase tracking-wider text-on-surface">Domingo, 02 de Marzo</span>
+<span class="font-label-sm text-label-sm text-tertiary font-semibold tabular-nums">−Bs 1.800,00</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col divide-y divide-surface-container-high/60">
+<!-- Item 3: Alquiler -->
+<article class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-rounded text-[22px]">home</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Alquiler departamento</h2>
+<span class="px-1.5 py-0.5 rounded-md bg-tertiary/10 text-tertiary font-label-sm text-[10px] uppercase font-bold shrink-0">Vivienda</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5">
+                BNB Banco • Egreso
+              </p>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 text-right">
+<span class="font-monetary-md text-monetary-md font-semibold text-tertiary tabular-nums">
+              −Bs 1.800,00
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums mt-0.5">
+              Saldo: Bs 7.031,00
+            </span>
+</div>
+</article>
+<!-- Item 4: Transferencia Interna -->
+<article class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-rounded text-[22px]">sync_alt</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Transferencia a Efectivo</h2>
+<span class="px-1.5 py-0.5 rounded-md bg-surface-container-highest text-primary font-label-sm text-[10px] uppercase font-bold shrink-0">Interna</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5">
+                BNB Banco → Efectivo
+              </p>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 text-right">
+<span class="font-monetary-md text-monetary-md font-semibold text-on-surface tabular-nums">
+              Bs 500,00
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums mt-0.5">
+              Saldo: Bs 8.831,00
+            </span>
+</div>
+</article>
+</div>
+</div>
+<!-- Day Group: Sábado, 01 de Marzo -->
+<div class="flex flex-col">
+<div class="flex items-center justify-between px-1 mb-1.5">
+<span class="font-headline-sm text-[13px] font-bold uppercase tracking-wider text-on-surface">Sábado, 01 de Marzo</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold tabular-nums">+Bs 313,00 net</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col divide-y divide-surface-container-high/60">
+<!-- Item 5: Streaming -->
+<article class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-rounded text-[22px]">movie</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Streaming / Suscripción</h2>
+<span class="px-1.5 py-0.5 rounded-md bg-tertiary/10 text-tertiary font-label-sm text-[10px] uppercase font-bold shrink-0">Ocio</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5">
+                Tarjeta Débito • Egreso
+              </p>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 text-right">
+<span class="font-monetary-md text-monetary-md font-semibold text-tertiary tabular-nums">
+              −Bs 35,00
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums mt-0.5">
+              Saldo: Bs 8.831,00
+            </span>
+</div>
+</article>
+<!-- Item 6: Aporte entre Fondos (Multimoneda) -->
+<article class="p-3.5 flex items-center justify-between gap-3 hover:bg-surface-container-low/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-rounded text-[22px]">input</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Aporte desde Impresión 3D</h2>
+<span class="px-1.5 py-0.5 rounded-md bg-secondary-container text-on-secondary-container font-label-sm text-[10px] uppercase font-bold shrink-0">Entre fondos</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5">
+                Mercantil USD → BNB <span class="font-mono text-[11px] text-on-surface">(US$ 50 @ 6,96)</span>
+</p>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0 text-right">
+<span class="font-monetary-md text-monetary-md font-semibold text-secondary tabular-nums">
+              +Bs 348,00
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums mt-0.5">
+              Saldo: Bs 8.866,00
+            </span>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- Pagination & Delightful Educational Footer -->
+<section class="mt-6 flex flex-col items-center gap-3.5">
+<div class="flex flex-col items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface-variant">Mostrando 6 de 18 movimientos</span>
+<button class="h-10 px-5 rounded-full bg-surface-container-low hover:bg-surface-container text-primary font-headline-sm text-headline-sm flex items-center gap-1.5 transition-colors" type="button">
+<span>Cargar más anteriores</span>
+<span class="material-symbols-rounded text-[18px]">expand_more</span>
+</button>
+</div>
+<!-- Educational Ledger Card -->
+<div class="w-full mt-2 p-3 rounded-xl bg-surface-container-low/70 flex items-start gap-2.5 text-on-surface-variant">
+<span class="material-symbols-rounded text-[20px] text-primary shrink-0 mt-0.5">lightbulb</span>
+<p class="font-body-sm text-body-sm leading-relaxed">
+        Los saldos running reflejan la cronología contable acumulada dentro de tu fondo <strong class="text-on-surface font-semibold">Personal</strong> en bolivianos.
+      </p>
+</div>
+</section>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(11,28,52,0.05)]" data-active-classes="text-primary font-semibold"><div class="h-16 px-space-xs flex items-center justify-around"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] transition-colors text-primary font-semibold" data-path="inicio" href="#"><span class="material-symbols-rounded text-[22px]">grid_view</span><span class="font-label-sm text-label-sm mt-space-2xs">Inicio</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="movimientos" href="#"><span class="material-symbols-rounded text-[22px]">receipt_long</span><span class="font-label-sm text-label-sm mt-space-2xs">Movimientos</span></a><div class="flex items-center justify-center min-w-[56px] min-h-[44px]"><a class="w-11 h-11 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-[0_4px_12px_rgba(0,85,201,0.28)] hover:bg-primary-container active:scale-95 transition-all" data-path="nuevo-registro" href="#"><span class="material-symbols-rounded text-[24px]">add</span></a></div><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="fondos" href="#"><span class="material-symbols-rounded text-[22px]">account_balance_wallet</span><span class="font-label-sm text-label-sm mt-space-2xs">Fondos</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="ajustes" href="#"><span class="material-symbols-rounded text-[22px]">settings</span><span class="font-label-sm text-label-sm mt-space-2xs">Ajustes</span></a></div></nav></body></html>

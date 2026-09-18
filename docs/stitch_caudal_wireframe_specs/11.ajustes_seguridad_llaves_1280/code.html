@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Caudal Ledger</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"error-container":"#ffdad6","on-primary-fixed":"#001946","on-secondary-fixed-variant":"#00513d","secondary":"#006c52","inverse-on-surface":"#ecf0ff","outline":"#727787","on-primary-fixed-variant":"#00419e","on-secondary-fixed":"#002117","outline-variant":"#c2c6d8","surface-container-high":"#dfe8ff","tertiary-fixed-dim":"#ffb3b0","primary-container":"#006bfb","tertiary-fixed":"#ffdad8","on-error-container":"#93000a","surface-container-highest":"#d6e3ff","secondary-fixed-dim":"#60dcb3","inverse-primary":"#b1c5ff","secondary-container":"#7bf6cb","secondary-fixed":"#7ef8ce","surface-bright":"#f9f9ff","surface-container-low":"#f0f3ff","tertiary":"#b1212d","error":"#ba1a1a","on-tertiary":"#ffffff","surface":"#f9f9ff","surface-tint":"#0057ce","on-primary-container":"#fefcff","background":"#f9f9ff","primary-fixed-dim":"#b1c5ff","on-secondary":"#ffffff","inverse-surface":"#21314a","on-error":"#ffffff","on-secondary-container":"#007056","tertiary-container":"#d43c42","surface-container":"#e7eeff","surface-container-lowest":"#ffffff","on-tertiary-container":"#fffbff","primary-fixed":"#dae2ff","on-background":"#0b1c34","primary":"#0055c9","on-tertiary-fixed":"#410006","on-primary":"#ffffff","on-surface":"#0b1c34","surface-variant":"#d6e3ff","on-tertiary-fixed-variant":"#92011a","on-surface-variant":"#424655","surface-dim":"#cbdbfb"},borderRadius:{DEFAULT:"1rem",lg:"2rem",xl:"3rem",full:"9999px"},spacing:{"gutter-desktop":"1.5rem","space-xs":"0.5rem","space-2xs":"0.25rem","margin-desktop":"2.5rem","margin-tablet":"1.5rem",margin:"1rem","space-sm":"0.75rem",gutter:"1rem","space-md":"1rem","space-xl":"1.5rem","space-2xl":"2rem","space-lg":"1.25rem","space-3xl":"3rem"},fontFamily:{"display-lg-mobile":["Inter"],"body-md":["Inter"],"label-md":["Inter"],"headline-sm":["Inter"],"headline-lg":["Inter"],"headline-md":["Inter"],"monetary-lg":["Inter"],"label-sm":["Inter"],"body-sm":["Inter"],"monetary-md":["Inter"],"display-lg":["Inter"],"monetary-hero":["Inter"],"body-lg":["Inter"]},fontSize:{"display-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.025em",fontWeight:"800"}],"body-md":["14px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.04em",fontWeight:"600"}],"headline-sm":["16px",{lineHeight:"24px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg":["24px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.015em",fontWeight:"700"}],"monetary-lg":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.05em",fontWeight:"600"}],"body-sm":["12px",{lineHeight:"16px",letterSpacing:"0.01em",fontWeight:"400"}],"monetary-md":["15px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"600"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.03em",fontWeight:"800"}],"monetary-hero":["32px",{lineHeight:"40px",letterSpacing:"-0.02em",fontWeight:"700"}],"body-lg":["16px",{lineHeight:"24px",letterSpacing:"0em",fontWeight:"400"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-[260px] bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-full"><div class="h-16 px-space-xl flex items-center gap-space-sm"><img alt="Brand logo. - Primary color: #0e6fff
+- Font: inter
+- Mode: light
+- Roundness: rounded-full
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XAVFOO65II8FHBNVUJkz0ajnWjeKQcMt4PjGtFAwU7OISy5W5E0SmgeRrN-DyoI_d3Ah9d9DqiUhVpNfckSATrfB8KLRQhwX7FLZJdhVpXK2szkdezd1G5URHZLnM2tdBZqwQOuHhX9Cn33npAJGcbpZlezEgTKGQ287ZAH7732H-W9UdTvy27ADRbxjqe3u7Ese29kX_S1t8zRvPZm6UaB2QlncWCq1udFXl2JMqsw1eb9Pqditii_akC"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Caudal</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Ledger v2.4</span></div></div><div class="flex-1 overflow-y-auto px-space-sm py-space-xs"><div class="px-space-sm mb-space-xs font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Tesorería &amp; Flujos</div><nav class="flex flex-col gap-space-2xs" data-active-classes="bg-surface-container-high text-primary font-semibold shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="inicio" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Inicio</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="movimientos" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Movimientos</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="cuentas" href="#"><span class="material-symbols-outlined text-[20px]">account_balance</span><span>Cuentas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="fondos" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Fondos</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="transferencias" href="#"><span class="material-symbols-outlined text-[20px]">sync_alt</span><span>Transferencias</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="recurrentes" href="#"><span class="material-symbols-outlined text-[20px]">update</span><span>Recurrentes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="deudas" href="#"><span class="material-symbols-outlined text-[20px]">credit_score</span><span>Deudas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="presupuestos" href="#"><span class="material-symbols-outlined text-[20px]">pie_chart</span><span>Presupuestos</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="metas" href="#"><span class="material-symbols-outlined text-[20px]">flag</span><span>Metas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="reportes" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span>Reportes</span></a></nav></div><div class="p-space-sm bg-surface-container-low/60 mx-space-sm mb-space-sm rounded-lg flex flex-col gap-space-2xs"><div class="px-space-xs font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Cuenta &amp; Ajustes</div><nav class="flex flex-col gap-space-2xs" data-active-classes="bg-surface-container-high text-primary font-semibold shadow-sm"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full transition-colors bg-surface-container-high text-primary font-semibold shadow-sm" data-path="perfil-de-usuario" href="#"><span class="material-symbols-outlined text-[20px]">manage_accounts</span><span>Perfil de Usuario</span></a><a class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="configuracion-general" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Configuración</span></a></nav></div></div></aside><div class="pl-[260px]"><header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-xl flex items-center justify-between"><div class="flex items-center gap-space-md"><button class="flex items-center gap-space-xs h-10 px-space-md rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors text-left" type="button"><span class="material-symbols-outlined text-primary text-[18px]">account_tree</span><div class="flex items-baseline gap-space-2xs"><span class="font-label-md text-label-md font-bold text-on-surface">Personal</span><span class="font-label-sm text-label-sm text-on-surface-variant">•</span><span class="font-label-md text-label-md font-semibold text-secondary">BOB</span></div><span class="material-symbols-outlined text-on-surface-variant text-[16px]">expand_more</span></button><div class="flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">USD Paralelo</span><span class="font-monetary-md text-monetary-md text-on-surface font-semibold">Bs 9,18</span><span class="flex items-center text-secondary font-label-sm text-label-sm font-semibold"><span class="material-symbols-outlined text-[14px]">arrow_drop_up</span>0.4%</span></div></div><div class="flex items-center gap-space-md"><button aria-label="Buscar transacciones" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><div class="relative"><button aria-label="Notificaciones del sistema" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tertiary"></span></button></div><div class="h-6 w-[1px] bg-surface-container-high"></div><div class="flex items-center gap-space-xs pl-space-2xs"><div class="flex flex-col text-right hidden sm:flex"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Alejandro V.</span><span class="font-label-sm text-label-sm text-secondary font-semibold">Admin Principal</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 bg-background min-h-screen"><div class="max-w-[1280px] mx-auto px-gutter-desktop py-space-xl"><div class="flex flex-col w-full gap-space-xl pb-space-3xl">
+<!-- Header & Metadatos Criptográficos -->
+<div class="flex flex-col gap-space-sm">
+<nav class="flex items-center gap-space-2xs font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase">
+<span>Ajustes</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold">Seguridad &amp; Llaves</span>
+<span class="mx-space-xs text-outline-variant">•</span>
+<span class="text-outline">SPC-017 / SEC-KEYS</span>
+</nav>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-2xs">
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight">Seguridad, Bóvedas Criptográficas &amp; Agentes MCP</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+          Gestión de llaves de cifrado AES-256 de arquitectura Zero-Knowledge, autenticación por hardware y emisión de credenciales de protocolo Model Context Protocol (MCP) para la orquestación segura de agentes IA.
+        </p>
+</div>
+<!-- Quick Action Buttons -->
+<div class="flex items-center gap-space-xs self-start lg:self-center">
+<button class="h-10 px-space-md rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors flex items-center gap-space-2xs font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Verificar Enclave</span>
+</button>
+<button class="h-10 px-space-md rounded-full bg-primary text-on-primary hover:bg-primary-container transition-all shadow-sm flex items-center gap-space-2xs font-label-md text-label-md font-semibold" type="button">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span>Auditar Llaves</span>
+</button>
+</div>
+</div>
+<!-- Security Badges Bar -->
+<div class="flex flex-wrap items-center gap-space-xs mt-space-2xs">
+<div class="inline-flex items-center gap-space-2xs px-space-sm py-1 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm font-semibold tracking-wide">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span>Hardware Security Module (HSM) Activo</span>
+</div>
+<div class="inline-flex items-center gap-space-2xs px-space-sm py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[15px]">balance</span>
+<span>Partida Doble Auditada (Zero-Knowledge)</span>
+</div>
+<div class="inline-flex items-center gap-space-2xs px-space-sm py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[15px]">neurology</span>
+<span>Protocolo MCP v1.3 Compatible</span>
+</div>
+<div class="inline-flex items-center gap-space-2xs px-space-sm py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm font-medium">
+<span class="material-symbols-outlined text-[15px]">lock_clock</span>
+<span>Cifrado Local WebCrypto API (256-bit GCM)</span>
+</div>
+</div>
+</div>
+<!-- Tabs Navigation -->
+<div class="flex items-center gap-space-xs bg-surface-container-low p-1.5 rounded-full overflow-x-auto shadow-sm max-w-fit">
+<a class="px-space-md py-2 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md whitespace-nowrap" href="#">
+      Perfil General
+    </a>
+<a class="px-space-md py-2 rounded-full bg-surface-container-lowest text-primary font-semibold shadow-sm flex items-center gap-space-2xs font-label-md text-label-md whitespace-nowrap" href="#">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+<span>Seguridad &amp; Llaves</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+</a>
+<a class="px-space-md py-2 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md flex items-center gap-space-2xs whitespace-nowrap" href="#">
+<span>Sesiones Activas</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-on-surface text-[10px] font-bold">2</span>
+</a>
+<a class="px-space-md py-2 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md whitespace-nowrap" href="#">
+      Notificaciones &amp; Auditoría
+    </a>
+</div>
+<!-- Grid Principal Superior: Bóveda Criptográfica + Autenticación Humana -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- SECCIÓN 1: Cifrado Maestro & Llave Seed (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col gap-space-md bg-surface-container-lowest rounded-lg p-space-xl shadow-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">vpn_key</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Llave Maestra de Bóveda</h2>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm font-bold">256-bit BIP-39</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Frase mnemónica de 12 palabras para la derivación del árbol de sub-llaves contables</p>
+</div>
+</div>
+<button class="h-9 px-space-md rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center gap-space-2xs font-label-md text-label-md" id="toggle-seed-btn" type="button">
+<span class="material-symbols-outlined text-[16px]" id="toggle-seed-icon">visibility</span>
+<span id="toggle-seed-text">Mostrar Palabras</span>
+</button>
+</div>
+<!-- Zero-Knowledge Callout -->
+<div class="flex items-center gap-space-sm p-space-sm rounded-DEFAULT bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">verified</span>
+<span><strong>Cero Conocimiento (Zero-Knowledge):</strong> Caudal Ledger nunca transfiere ni preserva tu llave en la nube. Perder esta frase imposibilita la recuperación del libro contable cifrado.</span>
+</div>
+<!-- 12 Words Seed Grid -->
+<div class="grid grid-cols-3 sm:grid-cols-4 gap-2.5 p-space-md rounded-DEFAULT bg-surface-container-low/70">
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">01</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">glacier</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">02</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">harvest</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">03</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">quantum</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">04</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">ledger</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">05</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">summit</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">06</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">matrix</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">07</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">canyon</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">08</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">orbital</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">09</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">timber</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">10</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">balance</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">11</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">dynamic</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="text-[10px] font-bold text-outline font-label-sm">12</span>
+<span class="font-mono text-[13px] font-semibold text-on-surface seed-word tracking-wide blur-[5px] select-none">beacon</span>
+</div>
+</div>
+<!-- Entropy & Actions Footer -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-xs">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-full bg-secondary/15 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Entropía: 256 bits criptográficos</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Generada localmente vía PRNG CSPRNG hardware</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs w-full sm:w-auto">
+<button class="flex-1 sm:flex-initial h-10 px-space-md rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors flex items-center justify-center gap-space-2xs font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>Descargar .caudal-key</span>
+</button>
+<button class="flex-1 sm:flex-initial h-10 px-space-md rounded-full bg-surface-container hover:bg-surface-container-high text-tertiary transition-colors flex items-center justify-center gap-space-2xs font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+<span>Rotar Llave</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SECCIÓN 2: Autenticación & Control de Acceso Humano (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-md bg-surface-container-lowest rounded-lg p-space-xl shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">fingerprint</span>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Control de Acceso Humano</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Validaciones FIDO2, biometría y contraseñas maestras</p>
+</div>
+</div>
+<!-- Item 1: 2FA TOTP -->
+<div class="flex items-center justify-between p-space-sm rounded-DEFAULT bg-surface-container-low/60">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface shadow-sm">
+<span class="material-symbols-outlined text-[18px]">password</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs">
+<span class="font-label-md text-label-md font-semibold text-on-surface">2FA TOTP Criptográfico</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm font-bold">Activado</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Google Auth / 1Password</span>
+</div>
+</div>
+<button class="h-8 px-space-sm rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold transition-colors shadow-sm" type="button">
+          YubiKey / FIDO2
+        </button>
+</div>
+<!-- Item 2: Biometría WebAuthn -->
+<div class="flex items-center justify-between p-space-sm rounded-DEFAULT bg-surface-container-low/60">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface shadow-sm">
+<span class="material-symbols-outlined text-[18px]">laptop_mac</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs">
+<span class="font-label-md text-label-md font-semibold text-on-surface">WebAuthn / Touch ID</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm font-bold">Enlazado</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">MacBook Pro Enclave Seguro</span>
+</div>
+</div>
+<button class="h-8 px-space-sm rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold transition-colors shadow-sm" type="button">
+          Verificar
+        </button>
+</div>
+<!-- Item 3: Contraseña Maestra -->
+<div class="flex items-center justify-between p-space-sm rounded-DEFAULT bg-surface-container-low/60">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface shadow-sm">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Contraseña Maestra</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Actualizada hace 42 días (Fuerza 98%)</span>
+</div>
+</div>
+<button class="h-8 px-space-sm rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold transition-colors shadow-sm" type="button">
+          Cambiar
+        </button>
+</div>
+</div>
+</div>
+<!-- SECCIÓN 3 (PROTAGONISTA): CREDENCIALES & SERVIDOR MCP (Model Context Protocol) -->
+<div class="flex flex-col gap-space-lg bg-surface-container-lowest rounded-lg p-space-xl shadow-sm">
+<!-- Sección Encabezado & Estado Local Server -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-sm">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[28px]">neurology</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Credenciales &amp; Servidor MCP</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-bold uppercase tracking-wider">Model Context Protocol</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl mt-1">
+            Genera tokens de contexto seguro con permisos acotados para asistentes de inteligencia artificial (Claude Desktop, Cursor IDE, Goose, Ollama). Los agentes consultan libros contables, concilian extractos y simulan flujos de caja respetando las reglas criptográficas de Caudal.
+          </p>
+</div>
+</div>
+<!-- Action Button Primario -->
+<button class="h-12 px-space-xl rounded-full bg-primary text-on-primary hover:bg-primary-container transition-all shadow-md flex items-center justify-center gap-space-2xs font-label-md text-label-md font-semibold shrink-0" type="button">
+<span class="material-symbols-outlined text-[20px]">add_moderator</span>
+<span>+ Generar Nueva Credencial MCP</span>
+</button>
+</div>
+<!-- MCP Server Status Banner -->
+<div class="p-space-md rounded-DEFAULT bg-surface-container-high/60 flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Daemon MCP Local Activo:</span>
+<code class="font-mono text-body-sm text-primary font-semibold px-2 py-1 rounded bg-surface-container-lowest shadow-sm">http://localhost:8765/mcp/v1</code>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Transportes: <strong>SSE &amp; Stdio</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Túnel Seguro: <strong>mTLS Localhost-only</strong></span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="h-8 px-space-sm rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-sm text-label-sm font-semibold transition-colors shadow-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+<span>Configurar Daemon</span>
+</button>
+<button class="h-8 px-space-sm rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-sm text-label-sm font-semibold transition-colors shadow-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">terminal</span>
+<span>Logs de Daemon</span>
+</button>
+</div>
+</div>
+<!-- Lista de Credenciales MCP -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Credenciales &amp; Agentes Registrados (3)</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Frecuencia de refresco: Tiempo real</span>
+</div>
+<!-- Credencial 1: Claude Desktop -->
+<div class="p-space-lg rounded-lg bg-surface-container-low/70 flex flex-col gap-space-md transition-all hover:bg-surface-container-low">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm font-bold text-headline-sm">
+<span class="material-symbols-outlined text-[22px]">smart_toy</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Claude Desktop — Asistente de Finanzas</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary font-label-sm text-label-sm font-bold">Activo</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">• Protocol v1.3</span>
+</div>
+<div class="flex items-center gap-space-sm mt-0.5">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Creado: <strong>12 Feb 2025</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-secondary font-semibold">Último uso: Hace 14 minutos</span>
+</div>
+</div>
+</div>
+<!-- Token String & Quick Copy -->
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-outline text-[16px]">key</span>
+<span class="font-mono text-body-sm text-on-surface font-semibold" id="token-claude">caudal_mcp_live_9f82••••••••3d4a</span>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="navigator.clipboard.writeText('caudal_mcp_live_9f828a1c902b4ef43d4a')" title="Copiar Token" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Scopes / Permisos -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-2xs">
+<div class="flex flex-wrap items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold mr-1">Permisos (Scopes):</span>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-mono text-[11px] font-semibold">read:movimientos</span>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-mono text-[11px] font-semibold">read:cuentas</span>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-mono text-[11px] font-semibold">read:fondos</span>
+<span class="px-2.5 py-0.5 rounded-full bg-secondary/15 text-secondary font-mono text-[11px] font-semibold">audit:partida_doble</span>
+<span class="font-body-sm text-body-sm text-outline ml-2">(Lectura financiera estricta)</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors" type="button">
+              Regenerar
+            </button>
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors" type="button">
+              Editar Scopes
+            </button>
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-tertiary font-label-sm text-label-sm font-semibold transition-colors" type="button">
+              Revocar
+            </button>
+</div>
+</div>
+</div>
+<!-- Credencial 2: Cursor IDE -->
+<div class="p-space-lg rounded-lg bg-surface-container-low/70 flex flex-col gap-space-md transition-all hover:bg-surface-container-low">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm font-bold text-headline-sm">
+<span class="material-symbols-outlined text-[22px]">code</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Cursor IDE — Agente de Conciliación Automática</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary font-label-sm text-label-sm font-bold">Activo</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">• stdio wrapper</span>
+</div>
+<div class="flex items-center gap-space-sm mt-0.5">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Creado: <strong>01 Mar 2025</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-secondary font-semibold">Último uso: Hace 2 horas</span>
+</div>
+</div>
+</div>
+<!-- Token String & Quick Copy -->
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-outline text-[16px]">key</span>
+<span class="font-mono text-body-sm text-on-surface font-semibold">caudal_mcp_live_4a11••••••••99bc</span>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="navigator.clipboard.writeText('caudal_mcp_live_4a117b4c810d7a2299bc')" title="Copiar Token" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Scopes / Permisos -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-2xs">
+<div class="flex flex-wrap items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold mr-1">Permisos (Scopes):</span>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-mono text-[11px] font-semibold">read:*</span>
+<span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-mono text-[11px] font-semibold">propose:transacciones</span>
+<span class="font-body-sm text-body-sm text-outline ml-2">(Requiere confirmación humana antes de asentar)</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors" type="button">
+              Regenerar
+            </button>
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors" type="button">
+              Editar Scopes
+            </button>
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-tertiary font-label-sm text-label-sm font-semibold transition-colors" type="button">
+              Revocar
+            </button>
+</div>
+</div>
+</div>
+<!-- Credencial 3: Llama-3 Local -->
+<div class="p-space-lg rounded-lg bg-surface-container-low/40 flex flex-col gap-space-md transition-all hover:bg-surface-container-low/60 opacity-80">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-full bg-surface-container-lowest flex items-center justify-center text-outline shadow-sm font-bold text-headline-sm">
+<span class="material-symbols-outlined text-[22px]">memory</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Agente Local Llama-3 (Ollama / Custom)</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-bold">Pausado</span>
+</div>
+<div class="flex items-center gap-space-sm mt-0.5">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Creado: <strong>20 Ene 2025</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Último uso: Inactivo hace 18 días</span>
+</div>
+</div>
+</div>
+<!-- Token String & Quick Copy -->
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-1.5 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-outline text-[16px]">key_off</span>
+<span class="font-mono text-body-sm text-on-surface-variant font-semibold">caudal_mcp_dev_77e0••••••••12aa</span>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" onclick="navigator.clipboard.writeText('caudal_mcp_dev_77e04f91bb2201aa')" title="Copiar Token" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Scopes / Permisos -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-2xs">
+<div class="flex flex-wrap items-center gap-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold mr-1">Permisos (Scopes):</span>
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-mono text-[11px] font-semibold">read:reportes</span>
+<span class="font-body-sm text-body-sm text-outline ml-2">(Acceso restringido a balances finales)</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold transition-colors" type="button">
+              Reanudar
+            </button>
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-tertiary font-label-sm text-label-sm font-semibold transition-colors" type="button">
+              Revocar
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Configuración JSON para Claude Desktop / Cursor -->
+<div class="flex flex-col gap-space-sm p-space-lg rounded-lg bg-surface-container-low/90">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">integration_instructions</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Configuración MCP JSON (Claude Desktop / Cursor)</span>
+</div>
+<button class="h-9 px-space-md rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md font-semibold transition-colors shadow-sm flex items-center gap-space-2xs" id="copy-json-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span id="copy-json-text">Copiar Fragmento JSON</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Pega esta especificación en tu archivo <code class="font-mono bg-surface-container px-1.5 py-0.5 rounded text-on-surface">claude_desktop_config.json</code> o en la pestaña de herramientas MCP de Cursor IDE para conectar inmediatamente tus agentes.
+      </p>
+<pre class="bg-inverse-surface text-inverse-on-surface p-space-md rounded-DEFAULT font-mono text-[13px] leading-relaxed overflow-x-auto selection:bg-primary selection:text-on-primary"><code>{
+  "mcpServers": {
+    "caudal-ledger": {
+      "command": "caudal-mcp",
+      "args": ["--daemon-port", "8765", "--enforce-zero-knowledge"],
+      "env": {
+        "CAUDAL_API_KEY": "caudal_mcp_live_9f828a1c902b4ef43d4a",
+        "CAUDAL_DEFAULT_CURRENCY": "BOB",
+        "CAUDAL_PARALLEL_USD": "9.18"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<!-- SECCIÓN 4: REGISTRO DE AUDITORÍA EN VIVO (Live MCP Audit Log) -->
+<div class="flex flex-col gap-space-md bg-surface-container-lowest rounded-lg p-space-xl shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Auditoría de Invocaciones MCP en Vivo</h2>
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Trazabilidad inmutable de llamadas de agentes a funciones del libro contable</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">filter_list</span>
+<span>Filtrar Logs</span>
+</button>
+<button class="h-8 px-space-sm rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">file_download</span>
+<span>Exportar Syslog</span>
+</button>
+</div>
+</div>
+<!-- Rows de Auditoría -->
+<div class="flex flex-col divide-y divide-surface-container">
+<!-- Entry 1 -->
+<div class="py-space-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm hover:bg-surface-container-low/40 px-2 rounded-DEFAULT transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-1 rounded bg-secondary/10 text-secondary font-mono text-[11px] font-bold">200 OK</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Claude Desktop</span>
+<span class="text-outline-variant">•</span>
+<span class="font-mono text-body-sm text-primary">tools/get_cash_flow_summary</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Filtro: Mes actual (BOB + USD)</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Caller IP: 127.0.0.1 (Local IPC) — Duración: 38 ms</span>
+</div>
+</div>
+<span class="font-mono text-body-sm text-on-surface-variant self-end sm:self-center">Hace 14 min</span>
+</div>
+<!-- Entry 2 -->
+<div class="py-space-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm hover:bg-surface-container-low/40 px-2 rounded-DEFAULT transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-1 rounded bg-secondary/10 text-secondary font-mono text-[11px] font-bold">200 OK</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Cursor IDE</span>
+<span class="text-outline-variant">•</span>
+<span class="font-mono text-body-sm text-primary">tools/validate_double_entry_balance</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Verificación de ecuación contable pasivo = activo</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Caller IP: 127.0.0.1 (Stdio) — Duración: 15 ms</span>
+</div>
+</div>
+<span class="font-mono text-body-sm text-on-surface-variant self-end sm:self-center">Hace 2 horas</span>
+</div>
+<!-- Entry 3: Bloqueado -->
+<div class="py-space-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm hover:bg-surface-container-low/40 px-2 rounded-DEFAULT transition-colors bg-tertiary/5">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-1 rounded bg-tertiary/15 text-tertiary font-mono text-[11px] font-bold">403 FORBIDDEN</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-md text-label-md font-semibold text-tertiary">Intento Bloqueado: Claude Desktop</span>
+<span class="text-outline-variant">•</span>
+<span class="font-mono text-body-sm text-on-surface">tools/update_account_settings</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase tracking-wider">Falta Scope write:ajustes</span>
+</div>
+<span class="font-body-sm text-body-sm text-tertiary">El token solo posee privilegios de lectura y auditoría. Operación denegada por Sandbox HSM.</span>
+</div>
+</div>
+<span class="font-mono text-body-sm text-tertiary self-end sm:self-center font-semibold">Ayer, 18:42</span>
+</div>
+<!-- Entry 4 -->
+<div class="py-space-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm hover:bg-surface-container-low/40 px-2 rounded-DEFAULT transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-1 rounded bg-secondary/10 text-secondary font-mono text-[11px] font-bold">200 OK</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Claude Desktop</span>
+<span class="text-outline-variant">•</span>
+<span class="font-mono text-body-sm text-primary">tools/list_liquidity_accounts</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cuentas en Bs y Dólares Paralelos</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Caller IP: 127.0.0.1 (Local IPC) — Duración: 22 ms</span>
+</div>
+</div>
+<span class="font-mono text-body-sm text-on-surface-variant self-end sm:self-center">Ayer, 17:15</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Micro-interacción: Revelar/Ocultar Frase Semilla
+  const toggleBtn = document.getElementById('toggle-seed-btn');
+  const toggleIcon = document.getElementById('toggle-seed-icon');
+  const toggleText = document.getElementById('toggle-seed-text');
+  const seedWords = document.querySelectorAll('.seed-word');
+  let seedRevealed = false;
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      seedRevealed = !seedRevealed;
+      seedWords.forEach(word => {
+        if (seedRevealed) {
+          word.classList.remove('blur-[5px]', 'select-none');
+        } else {
+          word.classList.add('blur-[5px]', 'select-none');
+        }
+      });
+      toggleIcon.textContent = seedRevealed ? 'visibility_off' : 'visibility';
+      toggleText.textContent = seedRevealed ? 'Ocultar Palabras' : 'Mostrar Palabras';
+    });
+  }
+
+  // Micro-interacción: Feedback al copiar Configuración JSON
+  const copyJsonBtn = document.getElementById('copy-json-btn');
+  const copyJsonText = document.getElementById('copy-json-text');
+
+  if (copyJsonBtn) {
+    copyJsonBtn.addEventListener('click', () => {
+      const jsonSnippet = `{
+  "mcpServers": {
+    "caudal-ledger": {
+      "command": "caudal-mcp",
+      "args": ["--daemon-port", "8765", "--enforce-zero-knowledge"],
+      "env": {
+        "CAUDAL_API_KEY": "caudal_mcp_live_9f828a1c902b4ef43d4a",
+        "CAUDAL_DEFAULT_CURRENCY": "BOB",
+        "CAUDAL_PARALLEL_USD": "9.18"
+      }
+    }
+  }
+}`;
+      navigator.clipboard.writeText(jsonSnippet).then(() => {
+        copyJsonText.textContent = '¡Copiado al Portapapeles!';
+        copyJsonBtn.classList.add('bg-secondary/15', 'text-secondary');
+        setTimeout(() => {
+          copyJsonText.textContent = 'Copiar Fragmento JSON';
+          copyJsonBtn.classList.remove('bg-secondary/15', 'text-secondary');
+        }, 2200);
+      });
+    });
+  }
+</script></div></main></div></body></html>

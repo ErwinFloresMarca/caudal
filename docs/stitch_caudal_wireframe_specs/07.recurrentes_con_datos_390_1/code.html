@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Recurrentes &amp; Suscripciones - Caudal Ledger</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#0055c9",
+          "primary-container": "#006bfb",
+          "on-primary": "#ffffff",
+          "on-primary-container": "#fefcff",
+          "secondary": "#006c52",
+          "secondary-container": "#7bf6cb",
+          "on-secondary": "#ffffff",
+          "on-secondary-container": "#007056",
+          "surface": "#f9f9ff",
+          "background": "#f9f9ff",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#f0f3ff",
+          "surface-container": "#e7eeff",
+          "surface-container-high": "#dfe8ff",
+          "surface-container-highest": "#d6e3ff",
+          "on-surface": "#0b1c34",
+          "on-surface-variant": "#424655",
+          "outline": "#727787",
+          "outline-variant": "#c2c6d8",
+          "tertiary": "#b1212d",
+          "tertiary-container": "#d43c42",
+          "on-tertiary": "#ffffff",
+          "error": "#ba1a1a",
+          "error-container": "#ffdad6",
+          "on-error-container": "#93000a"
+        },
+        fontFamily: {
+          sans: ["Inter", "sans-serif"]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body {
+    -webkit-tap-highlight-color: transparent;
+    font-family: 'Inter', sans-serif;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+</head>
+<body class="bg-[#f9f9ff] text-on-surface antialiased min-h-screen flex justify-center selection:bg-primary selection:text-white">
+<!-- Mobile Container (390px viewport native frame) -->
+<div class="w-full max-w-[390px] min-h-screen bg-[#f9f9ff] relative flex flex-col pb-28">
+<!-- Sticky Native Mobile Header -->
+<header class="sticky top-0 z-30 bg-[#f9f9ff]/90 backdrop-blur-md px-4 pt-3 pb-2.5 border-b border-surface-container/80 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<!-- Caudal Logo / Isotipo -->
+<div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-primary to-[#0e6fff] flex items-center justify-center text-white shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined text-[19px]">waves</span>
+</div>
+<!-- Fondo Switcher Pill -->
+<button class="flex items-center gap-1.5 px-2.5 py-1 bg-white rounded-full border border-surface-container shadow-xs text-xs font-semibold text-on-surface hover:bg-surface-container-low transition-colors">
+<span class="w-2 h-2 rounded-full bg-[#0fa47f]"></span>
+<span>Personal</span>
+<span class="text-on-surface-variant font-normal">• BOB</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">expand_more</span>
+</button>
+</div>
+<!-- Right Header Actions -->
+<div class="flex items-center gap-2">
+<button aria-label="Notificaciones" class="relative w-8 h-8 rounded-full bg-white border border-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[18px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#ba1a1a] rounded-full ring-2 ring-white"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold text-xs flex items-center justify-center">
+          CM
+        </div>
+</div>
+</header>
+<!-- Main Content Flow -->
+<main class="flex-1 px-4 pt-4 flex flex-col gap-4">
+<!-- Title & Subtitle -->
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center justify-between">
+<h1 class="text-[22px] font-extrabold tracking-tight text-on-surface leading-tight">
+            Recurrentes <span class="text-primary font-bold">&amp; Suscripciones</span>
+</h1>
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-bold tracking-wide uppercase">
+            SPC-011
+          </span>
+</div>
+<p class="text-xs text-on-surface-variant font-normal">
+          Plantillas programadas y flujo fijo mensual
+        </p>
+</div>
+<!-- Summary KPI Bento Grid -->
+<div class="grid grid-cols-2 gap-2.5">
+<!-- KPI 1: Gasto Fijo Comprometido -->
+<div class="bg-white p-3.5 rounded-2xl border border-surface-container/70 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Carga fija mes</span>
+<div class="w-6 h-6 rounded-full bg-red-50 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[15px]">event_repeat</span>
+</div>
+</div>
+<div>
+<div class="text-[17px] font-bold text-on-surface tracking-tight leading-tight tabular-nums">
+              Bs 1.430,00<span class="text-xs font-normal text-on-surface-variant">/mes</span>
+</div>
+<div class="flex items-center gap-1 mt-1 text-[11px] text-on-surface-variant font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>4 compromisos activos</span>
+</div>
+</div>
+</div>
+<!-- KPI 2: Próximo Vencimiento -->
+<div class="bg-white p-3.5 rounded-2xl border border-surface-container/70 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[11px] font-semibold text-amber-700 uppercase tracking-wider">Próx. vencimiento</span>
+<div class="w-6 h-6 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+</div>
+</div>
+<div>
+<div class="text-xs font-semibold text-on-surface truncate" title="Internet Fibra Óptica">
+              Internet Fibra Óptica
+            </div>
+<div class="flex items-center justify-between gap-1 mt-1">
+<span class="text-[13px] font-bold text-on-surface tabular-nums">Bs 220,00</span>
+<span class="px-1.5 py-0.5 bg-amber-100/70 text-amber-800 text-[10px] font-bold rounded-md">3 días</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Action: Nueva Plantilla Button (Full Width Pill) -->
+<button class="w-full h-11 bg-primary hover:bg-[#004bb3] active:scale-[0.99] transition-all text-white rounded-full font-semibold text-xs tracking-wide flex items-center justify-center gap-2 shadow-sm shadow-primary/25">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>+ Nueva Plantilla Recurrente</span>
+</button>
+<!-- Category Filter Chips -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar -mx-4 px-4">
+<button class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-primary text-white shadow-xs shrink-0">
+          Todos (4)
+        </button>
+<button class="px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-on-surface border border-surface-container hover:bg-surface-container-low transition-colors shrink-0">
+          Servicios (2)
+        </button>
+<button class="px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-on-surface border border-surface-container hover:bg-surface-container-low transition-colors shrink-0">
+          Suscripciones (1)
+        </button>
+<button class="px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-on-surface border border-surface-container hover:bg-surface-container-low transition-colors shrink-0">
+          Préstamos/Otros (1)
+        </button>
+</div>
+<!-- Template Cards Feed -->
+<div class="flex flex-col gap-3">
+<!-- Card 1: Internet Fibra Óptica Tigo (With Quick Register Action) -->
+<div class="bg-white rounded-2xl p-3.5 border border-primary/20 shadow-xs flex flex-col gap-2.5 relative overflow-hidden">
+<div class="absolute top-0 left-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-xl bg-blue-50 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">router</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="text-[13px] font-bold text-on-surface leading-tight truncate">Internet Fibra Óptica Tigo</h3>
+<span class="px-1.5 py-0.2 bg-surface-container text-on-surface-variant text-[10px] font-bold rounded">Fijo</span>
+</div>
+<p class="text-[11px] text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[13px] text-primary">account_balance</span>
+<span>BNB Banco • Servicios</span>
+</p>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="text-[14px] font-bold text-on-surface tabular-nums">Bs 220,00</div>
+<span class="text-[10px] text-on-surface-variant font-medium">/ mes</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container/60">
+<div class="flex items-center gap-1 text-[11px] text-amber-700 font-semibold bg-amber-50 px-2 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-[13px]">alarm</span>
+<span>Próximo: 10 Mar 2025 (3 días)</span>
+</div>
+<button class="h-7 px-2.5 bg-primary/10 hover:bg-primary/20 active:scale-95 text-primary text-[11px] font-bold rounded-full flex items-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[13px]">bolt</span>
+<span>Registrar ahora</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Alquiler Departamento -->
+<div class="bg-white rounded-2xl p-3.5 border border-surface-container/70 shadow-xs flex flex-col gap-2.5">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">home</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="text-[13px] font-bold text-on-surface leading-tight truncate">Alquiler Departamento</h3>
+<span class="px-1.5 py-0.2 bg-surface-container text-on-surface-variant text-[10px] font-bold rounded">Fijo</span>
+</div>
+<p class="text-[11px] text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[13px] text-primary">account_balance</span>
+<span>BNB Banco • Vivienda</span>
+</p>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="text-[14px] font-bold text-on-surface tabular-nums">Bs 850,00</div>
+<span class="text-[10px] text-on-surface-variant font-medium">/ mes</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container/60 text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">calendar_today</span>
+<span>Próximo: 15 Mar 2025</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-semibold text-secondary bg-secondary-container/40 px-1.5 py-0.5 rounded">Activo</span>
+<button aria-label="Más opciones" class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3: Spotify Familiar -->
+<div class="bg-white rounded-2xl p-3.5 border border-surface-container/70 shadow-xs flex flex-col gap-2.5">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-xl bg-emerald-50 text-[#0fa47f] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">music_note</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="text-[13px] font-bold text-on-surface leading-tight truncate">Spotify Familiar</h3>
+<span class="px-1.5 py-0.2 bg-emerald-50 text-[#0fa47f] text-[10px] font-bold rounded">Suscripción</span>
+</div>
+<p class="text-[11px] text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[13px] text-on-surface-variant">credit_card</span>
+<span>Tarjeta BNB • Ocio</span>
+</p>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="text-[14px] font-bold text-on-surface tabular-nums">Bs 65,00</div>
+<span class="text-[10px] text-on-surface-variant font-medium">/ mes</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container/60 text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">calendar_today</span>
+<span>Próximo: 20 Mar 2025</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-semibold text-secondary bg-secondary-container/40 px-1.5 py-0.5 rounded">Activo</span>
+<button aria-label="Más opciones" class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4: Seguro Médico / Salud -->
+<div class="bg-white rounded-2xl p-3.5 border border-surface-container/70 shadow-xs flex flex-col gap-2.5">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">health_and_safety</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="text-[13px] font-bold text-on-surface leading-tight truncate">Seguro Médico / Salud</h3>
+<span class="px-1.5 py-0.2 bg-surface-container text-on-surface-variant text-[10px] font-bold rounded">Otros</span>
+</div>
+<p class="text-[11px] text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[13px] text-primary">account_balance</span>
+<span>Banco Unión • Salud</span>
+</p>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="text-[14px] font-bold text-on-surface tabular-nums">Bs 295,00</div>
+<span class="text-[10px] text-on-surface-variant font-medium">/ mes</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container/60 text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">calendar_today</span>
+<span>Próximo: 28 Mar 2025</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-semibold text-secondary bg-secondary-container/40 px-1.5 py-0.5 rounded">Activo</span>
+<button aria-label="Más opciones" class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Informative Banner: Regla Contable SPC-011 -->
+<div class="p-3.5 rounded-2xl bg-surface-container-low border border-surface-container flex items-start gap-3 mt-1">
+<div class="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[17px]">verified_user</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="text-xs font-bold text-on-surface">Regla Contable SPC-011</span>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">
+            Las transacciones recurrentes no se debitan automáticamente sin confirmación de liquidez. Cada movimiento espera tu validación para proteger el arqueo real de caja.
+          </p>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar Fija (Mobile Native 5 slots with Floating +) -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] bg-white/95 backdrop-blur-lg border-t border-surface-container z-40 px-3 py-1.5 flex items-center justify-between shadow-lg">
+<!-- 1: Inicio -->
+<button class="flex flex-col items-center justify-center gap-0.5 py-1 px-2.5 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[22px]">dashboard</span>
+<span class="text-[10px] font-medium">Inicio</span>
+</button>
+<!-- 2: Movimientos -->
+<button class="flex flex-col items-center justify-center gap-0.5 py-1 px-2.5 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[22px]">receipt_long</span>
+<span class="text-[10px] font-medium">Movimientos</span>
+</button>
+<!-- 3: Central Floating + Button -->
+<div class="relative -top-4 flex items-center justify-center">
+<button aria-label="Registrar movimiento" class="w-12 h-12 rounded-full bg-primary hover:bg-[#004bb3] text-white flex items-center justify-center shadow-md shadow-primary/40 active:scale-95 transition-transform border-4 border-[#f9f9ff]">
+<span class="material-symbols-outlined text-[24px]">add</span>
+</button>
+</div>
+<!-- 4: Recurrentes (Activo) -->
+<button class="flex flex-col items-center justify-center gap-0.5 py-1 px-2.5 text-primary transition-colors relative">
+<span class="material-symbols-outlined text-[22px] font-bold" style="font-variation-settings: 'FILL' 1;">event_repeat</span>
+<span class="text-[10px] font-bold text-primary">Recurrentes</span>
+<span class="w-1 h-1 rounded-full bg-primary absolute bottom-0"></span>
+</button>
+<!-- 5: Ajustes -->
+<button class="flex flex-col items-center justify-center gap-0.5 py-1 px-2.5 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[22px]">settings</span>
+<span class="text-[10px] font-medium">Ajustes</span>
+</button>
+</nav>
+</div>
+</body></html>

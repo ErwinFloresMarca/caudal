@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Caudal</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "error-container": "#ffdad6", "on-secondary-fixed-variant": "#00513d", "secondary": "#006c52", "on-tertiary-fixed": "#410006", "primary-container": "#006bfb", "secondary-fixed-dim": "#60dcb3", "on-secondary-fixed": "#002117", "surface-container-low": "#f0f3ff", "on-surface-variant": "#424655", "on-primary-container": "#fefcff", "surface-bright": "#f9f9ff", "background": "#f9f9ff", "inverse-primary": "#b1c5ff", "surface": "#f9f9ff", "secondary-container": "#7bf6cb", "on-surface": "#0b1c34", "outline": "#727787", "surface-tint": "#0057ce", "primary-fixed": "dae2ff", "on-primary-fixed": "#001946", "on-tertiary-fixed-variant": "#92011a", "on-primary": "#ffffff", "on-secondary-container": "#007056", "on-tertiary-container": "#fffbff", "inverse-on-surface": "#ecf0ff", "outline-variant": "#c2c6d8", "surface-container-highest": "#d6e3ff", "error": "#ba1a1a", "primary-fixed-dim": "#b1c5ff", "on-error": "#ffffff", "on-secondary": "#ffffff", "tertiary-fixed-dim": "#ffb3b0", "surface-container": "#e7eeff", "tertiary-fixed": "#ffdad8", "tertiary-container": "#d43c42", "on-tertiary": "#ffffff", "inverse-surface": "#21314a", "on-primary-fixed-variant": "#00419e", "surface-container-lowest": "#ffffff", "tertiary": "#b1212d", "on-error-container": "#93000a", "on-background": "#0b1c34", "surface-variant": "#d6e3ff", "surface-container-high": "#dfe8ff", "surface-dim": "#cbdbfb", "primary": "#0055c9", "secondary-fixed": "#7ef8ce" }, borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, spacing: { "margin-desktop": "2.5rem", "space-md": "1rem", "space-2xl": "2rem", "space-3xl": "3rem", "space-xl": "1.5rem", "gutter": "1rem", "space-sm": "0.75rem", "space-2xs": "0.25rem", "space-lg": "1.25rem", "space-xs": "0.5rem", "margin-tablet": "1.5rem", "margin": "1rem", "gutter-desktop": "1.5rem" }, fontFamily: { "headline-md": ["Inter"], "headline-lg": ["Inter"], "body-md": ["Inter"], "display-lg": ["Inter"], "label-md": ["Inter"], "label-sm": ["Inter"], "body-lg": ["Inter"], "monetary-lg": ["Inter"], "monetary-md": ["Inter"], "display-lg-mobile": ["Inter"], "monetary-hero": ["Inter"], "body-sm": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "monetary-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "monetary-md": ["15px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600" }], "display-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "monetary-hero": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script><style>@layer base { html, body { margin: 0; padding: 0; min-height: 100%; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } } .material-symbols-rounded { font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24; }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(11,28,52,0.04)]"><div class="h-16 px-margin flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><img alt="Brand logo. - Primary color: #0e6fff
+- Font: inter
+- Mode: light
+- Roundness: rounded-full
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XuS0l__I8kNnPs9zIHYFFNeNzURjCyYUpazQjkhdZlF_ciY_l4txIYvAGlHD7BnMTRqL5ejDxNT4lmWmvpPnu0tvUO4ZTMn41YkOvQFeK__t_yDvFWZ0dH5EAeiqSIOoRISwEXegTwgGTZ8H38MyFOf7Snbw8xkpFZ7xT7JbvFrTvPODx-9F4ABmq1XdJfhlekjjjnOEaQ3169AXXuTrzl0UwF-sMlHnJxiEpf5713vu_LfTUEYBc86JgR"/><button class="min-h-[44px] flex items-center gap-space-2xs bg-surface-container-low hover:bg-surface-container px-space-sm py-space-2xs rounded-full transition-colors text-left" type="button"><span class="w-2 h-2 rounded-full bg-secondary shrink-0"></span><span class="font-label-md text-label-md text-on-surface truncate max-w-[110px]">Personal • BOB</span><span class="material-symbols-rounded text-[18px] text-on-surface-variant">expand_more</span></button></div><div class="flex items-center gap-space-xs"><span class="sr-only">Inicio</span><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 px-margin bg-surface"><div class="flex flex-col w-full pb-6 space-y-space-lg">
+<!-- Screen Header (Context & Two-Tone Title) -->
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center justify-between">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+        Cuentas de <span class="text-primary font-headline-lg">Personal</span>
+</h1>
+<span class="inline-flex items-center gap-1 px-space-xs py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+        3 activas
+      </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+      3 cuentas activas • Moneda base BOB
+    </p>
+</div>
+<!-- Hero Card: Saldo Total del Fondo -->
+<div class="bg-surface-container-lowest rounded-DEFAULT p-space-lg shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-32 h-32 bg-primary-container/5 rounded-full pointer-events-none blur-2xl"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+        Liquidez Total Consolidada
+      </span>
+<span class="material-symbols-outlined text-outline text-[18px]">verified</span>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<div class="font-monetary-hero text-monetary-hero text-on-surface tracking-tight flex items-baseline gap-1">
+<span class="text-headline-md text-on-surface-variant font-medium">Bs</span>
+<span class="tabular-nums">11.410,50</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[15px] text-secondary">sync_alt</span>
+<span class="tabular-nums">≈ US$ 1.653,69</span>
+<span class="text-outline text-[11px] font-label-sm">(tasa histórica)</span>
+</div>
+</div>
+<!-- Primary Action -->
+<button class="w-full h-13 py-3.5 px-space-xl rounded-full bg-primary hover:bg-primary-container active:scale-[0.98] transition-all text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-space-xs shadow-[0_4px_16px_rgba(0,85,201,0.22)]" type="button">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>+ Nueva cuenta</span>
+</button>
+<!-- Secondary Fast Actions -->
+<div class="grid grid-cols-2 gap-space-xs pt-space-2xs">
+<button class="min-h-[44px] py-2 px-space-sm rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 transition-colors text-center" type="button">
+<span class="material-symbols-outlined text-[17px] text-primary">swap_horiz</span>
+<span class="truncate">Transferir</span>
+</button>
+<button class="min-h-[44px] py-2 px-space-sm rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 transition-colors text-center" type="button">
+<span class="material-symbols-outlined text-[17px] text-secondary">fact_check</span>
+<span class="truncate">Conciliar</span>
+</button>
+</div>
+</div>
+<!-- Active Accounts Section -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-space-2xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Cuentas disponibles</h2>
+<span class="font-label-sm text-label-sm text-primary cursor-pointer hover:underline">Reordenar</span>
+</div>
+<div class="bg-surface-container-lowest rounded-DEFAULT shadow-sm overflow-hidden flex flex-col">
+<!-- Account 1: Efectivo -->
+<div class="p-space-md flex flex-col gap-space-xs transition-colors hover:bg-surface-container-low/50">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[22px]">payments</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Efectivo</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-[10px]">BOB</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Billetera física • Caja</span>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-monetary-md text-monetary-md text-on-surface tabular-nums">
+              Bs 2.350,00
+            </div>
+<span class="font-label-sm text-[11px] text-secondary font-semibold uppercase tracking-wider">Disponible</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-2xs text-outline font-body-sm text-body-sm">
+<span class="text-[11px] tabular-nums">Inicio: Bs 500,00 • 6 movs.</span>
+<a class="flex items-center gap-0.5 text-primary font-label-sm text-label-sm hover:text-primary-container" href="#">
+<span>Ver libros</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+</div>
+<div class="h-[1px] bg-surface-container-high mx-space-md"></div>
+<!-- Account 2: BNB Banco -->
+<div class="p-space-md flex flex-col gap-space-xs transition-colors hover:bg-surface-container-low/50">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[22px]">account_balance</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">BNB Banco</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-[10px]">BOB</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Caja de ahorro • Bancaria</span>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-monetary-md text-monetary-md text-on-surface tabular-nums">
+              Bs 8.120,00
+            </div>
+<span class="font-label-sm text-[11px] text-secondary font-semibold uppercase tracking-wider">Activa</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-2xs text-outline font-body-sm text-body-sm">
+<span class="text-[11px] tabular-nums">Inicio: Bs 6.200,00 • 8 movs.</span>
+<a class="flex items-center gap-0.5 text-primary font-label-sm text-label-sm hover:text-primary-container" href="#">
+<span>Ver libros</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+</div>
+<div class="h-[1px] bg-surface-container-high mx-space-md"></div>
+<!-- Account 3: Tarjeta de Débito BNB -->
+<div class="p-space-md flex flex-col gap-space-xs transition-colors hover:bg-surface-container-low/50">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[22px]">credit_card</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Tarjeta Débito</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-[10px]">BOB</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Débito directo BNB</span>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-monetary-md text-monetary-md text-on-surface tabular-nums">
+              Bs 940,50
+            </div>
+<span class="font-label-sm text-[11px] text-secondary font-semibold uppercase tracking-wider">Vinculada</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-2xs text-outline font-body-sm text-body-sm">
+<span class="text-[11px] tabular-nums">Inicio: Bs 0,00 • 4 movs.</span>
+<a class="flex items-center gap-0.5 text-primary font-label-sm text-label-sm hover:text-primary-container" href="#">
+<span>Ver libros</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Cross-Fund Portal -->
+<div class="flex flex-col gap-space-2xs">
+<span class="font-label-md text-label-md text-on-surface-variant px-space-2xs">
+      Otros fondos patrimoniales
+    </span>
+<div class="bg-surface-container-lowest rounded-DEFAULT p-space-md shadow-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-full bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[20px]">layers</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Impresión 3D</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[10px]">USD</span>
+</div>
+<span class="font-monetary-md text-monetary-md text-on-surface tabular-nums">
+            US$ 1.360,00
+          </span>
+</div>
+</div>
+<button class="shrink-0 px-space-sm py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container text-primary font-label-sm text-label-sm transition-colors flex items-center gap-1" type="button">
+<span>Cambiar</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</button>
+</div>
+</div>
+<!-- Policy Callout: Regla de Moneda Fija -->
+<div class="bg-surface-container-low rounded-DEFAULT p-space-md flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-primary text-[18px]">lock</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-sm text-headline-sm text-on-surface">Regla de inmutabilidad monetaria</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        La moneda de cada cuenta se fija irrevocablemente tras su primer movimiento para garantizar la reconciliación y trazabilidad contable estricta.
+      </p>
+</div>
+</div>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(11,28,52,0.05)]" data-active-classes="text-primary font-semibold"><div class="h-16 px-space-xs flex items-center justify-around"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] transition-colors text-primary font-semibold" data-path="inicio" href="#"><span class="material-symbols-rounded text-[22px]">grid_view</span><span class="font-label-sm text-label-sm mt-space-2xs">Inicio</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="movimientos" href="#"><span class="material-symbols-rounded text-[22px]">receipt_long</span><span class="font-label-sm text-label-sm mt-space-2xs">Movimientos</span></a><div class="flex items-center justify-center min-w-[56px] min-h-[44px]"><a class="w-11 h-11 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-[0_4px_12px_rgba(0,85,201,0.28)] hover:bg-primary-container active:scale-95 transition-all" data-path="nuevo-registro" href="#"><span class="material-symbols-rounded text-[24px]">add</span></a></div><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="fondos" href="#"><span class="material-symbols-rounded text-[22px]">account_balance_wallet</span><span class="font-label-sm text-label-sm mt-space-2xs">Fondos</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="ajustes" href="#"><span class="material-symbols-rounded text-[22px]">settings</span><span class="font-label-sm text-label-sm mt-space-2xs">Ajustes</span></a></div></nav></body></html>

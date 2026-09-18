@@ -1,0 +1,601 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><title>Caudal</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"secondary-fixed-dim":"#60dcb3","primary-container":"#006bfb","on-secondary-fixed":"#002117","inverse-primary":"#b1c5ff","outline":"#727787","tertiary-fixed":"#ffdad8","secondary-fixed":"#7ef8ce","outline-variant":"#c2c6d8","primary":"#0055c9","surface-bright":"#f9f9ff","surface-container-low":"#f0f3ff","tertiary-container":"#d43c42","secondary":"#006c52","on-background":"#0b1c34","surface-dim":"#cbdbfb","on-secondary":"#ffffff","surface-tint":"#0057ce","on-primary-fixed-variant":"#00419e","surface-container-lowest":"#ffffff","surface-container-high":"#dfe8ff","on-primary":"#ffffff","on-secondary-fixed-variant":"#00513d","tertiary":"#b1212d","surface-variant":"#d6e3ff","primary-fixed":"#dae2ff","on-primary-fixed":"#001946","surface":"#f9f9ff","on-error":"#ffffff","primary-fixed-dim":"#b1c5ff","on-tertiary-fixed":"#410006","inverse-on-surface":"#ecf0ff","on-tertiary-container":"#fffbff","on-primary-container":"#fefcff","background":"#f9f9ff","surface-container-highest":"#d6e3ff","error-container":"#ffdad6","on-tertiary":"#ffffff","on-surface":"#0b1c34","inverse-surface":"#21314a","tertiary-fixed-dim":"#ffb3b0","secondary-container":"#7bf6cb","on-error-container":"#93000a","on-surface-variant":"#424655","on-secondary-container":"#007056","on-tertiary-fixed-variant":"#92011a","error":"#ba1a1a","surface-container":"#e7eeff"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"space-sm":"0.75rem","gutter-desktop":"1.5rem","space-xs":"0.5rem","space-3xl":"3rem","space-lg":"1.25rem","gutter":"1rem","space-2xl":"2rem","margin":"1rem","space-xl":"1.5rem","space-2xs":"0.25rem","margin-desktop":"2.5rem","space-md":"1rem","margin-tablet":"1.5rem"},"fontFamily":{"display-lg":["Inter"],"body-lg":["Inter"],"body-sm":["Inter"],"headline-sm":["Inter"],"monetary-lg":["Inter"],"headline-lg":["Inter"],"monetary-hero":["Inter"],"body-md":["Inter"],"monetary-md":["Inter"],"headline-md":["Inter"],"label-sm":["Inter"],"label-md":["Inter"],"display-lg-mobile":["Inter"]},"fontSize":{"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.03em","fontWeight":"800"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.01em","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"monetary-lg":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"700"}],"monetary-hero":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"monetary-md":["15px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"display-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.025em","fontWeight":"800"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-[260px] bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(11,28,52,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-xl flex items-center gap-space-sm"><img alt="Caudal Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XuS0l__I8kNnPs9zIHYFFNeNzURjCyYUpazQjkhdZlF_ciY_l4txIYvAGlHD7BnMTRqL5ejDxNT4lmWmvpPnu0tvUO4ZTMn41YkOvQFeK__t_yDvFWZ0dH5EAeiqSIOoRISwEXegTwgGTZ8H38MyFOf7Snbw8xkpFZ7xT7JbvFrTvPODx-9F4ABmq1XdJfhlekjjjnOEaQ3169AXXuTrzl0UwF-sMlHnJxiEpf5713vu_LfTUEYBc86JgR"><span class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Caudal</span></div><nav class="flex flex-col gap-1 px-space-sm pt-space-xs" data-active-classes="bg-primary text-on-primary font-semibold shadow-sm"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-full transition-colors bg-primary text-on-primary font-semibold shadow-sm" data-path="inicio" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-md text-body-md">Inicio</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="movimientos" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-body-md text-body-md">Movimientos</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="cuentas" href="#"><span class="material-symbols-outlined text-[20px]">account_balance_wallet</span><span class="font-body-md text-body-md">Cuentas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="fondos" href="#"><span class="material-symbols-outlined text-[20px]">folder_special</span><span class="font-body-md text-body-md">Fondos</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="transferencias" href="#"><span class="material-symbols-outlined text-[20px]">sync_alt</span><span class="font-body-md text-body-md">Transferencias</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="recurrentes" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">event_repeat</span><span class="font-body-md text-body-md">Recurrentes</span></div><span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">2</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="deudas" href="#"><span class="material-symbols-outlined text-[20px]">handshake</span><span class="font-body-md text-body-md">Deudas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="metas" href="#"><span class="material-symbols-outlined text-[20px]">savings</span><span class="font-body-md text-body-md">Metas</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="reportes" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span class="font-body-md text-body-md">Reportes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="ajustes" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md">Ajustes</span></a></nav></div><div class="p-space-sm pb-space-md"><div class="p-space-sm rounded-DEFAULT bg-surface-container-low flex items-center justify-between"><div class="flex items-center gap-space-xs"><div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface"><span class="material-symbols-outlined text-[18px]">wallet</span></div><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface font-semibold">Personal</span><span class="font-body-sm text-body-sm text-on-surface-variant">Personal • BOB</span></div></div><button aria-label="Cambiar fondo" class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">unfold_more</span></button></div></div></aside><div class="pl-[260px]"><header class="fixed top-0 left-[260px] right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(11,28,52,0.04)]"><div class="h-16 w-full px-space-xl flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><button class="h-9 px-space-md rounded-full bg-surface-container flex items-center gap-space-xs text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[16px] text-primary">pie_chart</span><span>Personal</span><span class="text-on-surface-variant font-body-sm text-body-sm">• BOB</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></button><div class="hidden xl:flex items-center gap-space-xs"><div class="h-8 px-space-sm rounded-full bg-surface-container-low flex items-center gap-space-2xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">payments</span><span class="font-body-sm text-body-sm text-on-surface-variant">Efectivo:</span><span class="font-monetary-md text-monetary-md text-on-surface">Bs 2.350,00</span></div><div class="h-8 px-space-sm rounded-full bg-surface-container-low flex items-center gap-space-2xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">account_balance</span><span class="font-body-sm text-body-sm text-on-surface-variant">BNB:</span><span class="font-monetary-md text-monetary-md text-on-surface">Bs 8.120,00</span></div><div class="h-8 px-space-sm rounded-full bg-surface-container-low flex items-center gap-space-2xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">credit_card</span><span class="font-body-sm text-body-sm text-on-surface-variant">Tarjeta:</span><span class="font-monetary-md text-monetary-md text-on-surface">Bs 940,50</span></div></div></div><div class="flex items-center gap-space-md"><button class="h-11 px-5 rounded-full bg-primary-container text-on-primary-container font-headline-sm text-headline-sm flex items-center gap-space-xs hover:bg-primary transition-colors shadow-sm"><span class="material-symbols-outlined text-[20px]">add</span><span>Registrar</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 min-h-screen bg-background"><div class="flex flex-col w-full">
+<!-- Main Workspace Container -->
+<div class="w-full max-w-[1280px] mx-auto px-6 py-8 flex flex-col gap-8 text-[#0B1C34]">
+<!-- SECTION 1: Page Header & Hero Consolidated Balance -->
+<header class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EBF3FF] text-[#0E6FFF] font-label-sm text-label-sm uppercase tracking-wider font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#0E6FFF]"></span>
+              Fondo Activo
+            </span>
+<span class="text-[#5B6B85] text-body-sm font-body-sm">• Moneda principal: BOB (Bs)</span>
+</div>
+<h1 class="font-display-lg text-display-lg font-extrabold tracking-tight text-[#0B1C34]">
+            Resumen de <span class="text-[#0E6FFF]">Personal</span>
+</h1>
+</div>
+<div class="flex items-center gap-3 self-start md:self-auto">
+<!-- Period Selector Pill -->
+<div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-[#5B6B85]">calendar_today</span>
+<span class="font-headline-sm text-headline-sm text-[#0B1C34]">Marzo 2025</span>
+<button aria-label="Cambiar período" class="p-0.5 text-[#5B6B85] hover:text-[#0B1C34] transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<!-- Quick Actions Dropdown / Secondary Trigger -->
+<button class="h-10 px-4 rounded-full bg-white hover:bg-[#F0F3FF] transition-colors text-[#5B6B85] hover:text-[#0B1C34] shadow-sm flex items-center gap-2 font-headline-sm text-body-md" title="Exportar reporte de Marzo" type="button">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span class="hidden sm:inline">Exportar</span>
+</button>
+</div>
+</div>
+<!-- Hero Card del Fondo: Balance Consolidado -->
+<div class="relative overflow-hidden bg-white rounded-[20px] p-6 sm:p-8 shadow-sm">
+<div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold text-[#5B6B85]">Saldo total disponible</span>
+<span class="px-2 py-0.5 rounded-full bg-[#EDF1F8] text-[#0B1C34] font-label-sm text-label-sm font-semibold">Consolidado</span>
+</div>
+<!-- Tabular Hero Amount -->
+<div class="flex items-baseline gap-2 flex-wrap">
+<span class="font-monetary-hero text-[40px] leading-[48px] sm:text-[48px] sm:leading-[56px] font-extrabold tracking-tight text-[#0B1C34] font-mono tabular-nums">
+                Bs 11.410,50
+              </span>
+<span class="font-headline-sm text-body-md text-[#5B6B85] font-normal">
+                (≈ US$ 1.653,69)
+              </span>
+</div>
+<div class="flex items-center gap-3 text-body-sm font-body-sm text-[#5B6B85] pt-1">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-[#0FA47F]">check_circle</span>
+                3 cuentas activas
+              </span>
+<span>•</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-[#5B6B85]">schedule</span>
+                Sincronizado hoy a las 10:42
+              </span>
+</div>
+</div>
+<!-- Hero Quick Action Buttons -->
+<div class="flex flex-wrap items-center gap-3">
+<button class="h-12 px-6 rounded-full bg-[#0E6FFF] hover:bg-[#0057D9] text-white font-headline-sm text-headline-sm flex items-center gap-2 shadow-sm transition-colors cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Registrar movimiento</span>
+</button>
+<button class="h-12 px-5 rounded-full bg-[#EDF1F8] hover:bg-[#dfe8ff] text-[#0B1C34] font-headline-sm text-headline-sm flex items-center gap-2 transition-colors cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[20px]">swap_horiz</span>
+<span>Transferir</span>
+</button>
+<button class="h-12 px-4 rounded-full bg-[#EDF1F8] hover:bg-[#dfe8ff] text-[#0B1C34] font-headline-sm text-headline-sm flex items-center gap-2 transition-colors cursor-pointer" title="Aportes entre fondos" type="button">
+<span class="material-symbols-outlined text-[20px]">sync_alt</span>
+<span class="hidden xl:inline">Entre fondos</span>
+</button>
+</div>
+</div>
+<!-- Subtle backdrop decorative accent -->
+<div class="absolute -right-16 -top-16 w-64 h-64 bg-gradient-to-br from-[#0E6FFF]/5 to-transparent rounded-full pointer-events-none"></div>
+</div>
+</header>
+<!-- SECTION 2: Métricas del Mes en Curso (3 KPI Cards) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Card 1: Ingresos -->
+<div class="bg-white rounded-[20px] p-6 shadow-sm flex flex-col justify-between gap-4">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold text-[#5B6B85]">Ingresos del mes</span>
+<div class="w-9 h-9 rounded-full bg-[#0FA47F]/10 flex items-center justify-center text-[#0FA47F]">
+<span class="material-symbols-outlined text-[20px]">trending_up</span>
+</div>
+</div>
+<div>
+<div class="font-monetary-hero text-monetary-hero font-extrabold text-[#0FA47F] font-mono tabular-nums">
+            +Bs 4.500,00
+          </div>
+<div class="flex items-center gap-1.5 mt-2 text-body-sm font-body-sm text-[#0FA47F]">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+<span class="font-semibold">+12%</span>
+<span class="text-[#5B6B85] font-normal">vs. mes anterior</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Egresos -->
+<div class="bg-white rounded-[20px] p-6 shadow-sm flex flex-col justify-between gap-4">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold text-[#5B6B85]">Egresos del mes</span>
+<div class="w-9 h-9 rounded-full bg-[#E5484D]/10 flex items-center justify-center text-[#E5484D]">
+<span class="material-symbols-outlined text-[20px]">trending_down</span>
+</div>
+</div>
+<div>
+<div class="font-monetary-hero text-monetary-hero font-extrabold text-[#E5484D] font-mono tabular-nums">
+            −Bs 1.955,50
+          </div>
+<div class="flex items-center gap-1.5 mt-2 text-body-sm font-body-sm text-[#5B6B85] truncate">
+<span>Alquiler, Mercado, Streaming</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Resultado Neto -->
+<div class="bg-white rounded-[20px] p-6 shadow-sm flex flex-col justify-between gap-4">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold text-[#5B6B85]">Resultado neto</span>
+<span class="px-2.5 py-0.5 rounded-full bg-[#0FA47F]/10 text-[#0FA47F] font-label-sm text-label-sm font-bold uppercase tracking-wider">
+            Superávit
+          </span>
+</div>
+<div>
+<div class="font-monetary-hero text-monetary-hero font-extrabold text-[#0FA47F] font-mono tabular-nums">
+            +Bs 2.544,50
+          </div>
+<div class="flex items-center gap-2 mt-2 text-body-sm font-body-sm text-[#5B6B85]">
+<span class="inline-block w-2 h-2 rounded-full bg-[#0FA47F]"></span>
+<span>Ahorro del 56,5% de ingresos</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Balances por Cuenta (Cards compactas) -->
+<section class="flex flex-col gap-3">
+<div class="flex items-center justify-between px-1">
+<h2 class="font-headline-sm text-headline-sm font-bold text-[#0B1C34]">Cuentas en este fondo</h2>
+<a class="font-body-sm text-body-sm text-[#0E6FFF] hover:underline font-semibold flex items-center gap-1" href="#">
+<span>Gestionar cuentas</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Cuenta 1: Efectivo -->
+<div class="bg-white rounded-[20px] p-4 shadow-sm flex items-center justify-between hover:bg-[#F0F3FF]/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-[#EDF1F8] flex items-center justify-center shrink-0 text-[#0B1C34]">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-bold truncate">Efectivo</span>
+<span class="font-body-sm text-body-sm text-[#5B6B85]">Billetera física</span>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-monetary-lg text-monetary-lg font-bold font-mono tabular-nums text-[#0B1C34]">
+              Bs 2.350,00
+            </div>
+<span class="font-label-sm text-label-sm text-[#5B6B85]">BOB</span>
+</div>
+</div>
+<!-- Cuenta 2: BNB Banco -->
+<div class="bg-white rounded-[20px] p-4 shadow-sm flex items-center justify-between hover:bg-[#F0F3FF]/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-[#EDF1F8] flex items-center justify-center shrink-0 text-[#0B1C34]">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-bold truncate">BNB Banco</span>
+<span class="font-body-sm text-body-sm text-[#5B6B85]">Caja de ahorro</span>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-monetary-lg text-monetary-lg font-bold font-mono tabular-nums text-[#0B1C34]">
+              Bs 8.120,00
+            </div>
+<span class="font-label-sm text-label-sm text-[#5B6B85]">BOB</span>
+</div>
+</div>
+<!-- Cuenta 3: Tarjeta de débito -->
+<div class="bg-white rounded-[20px] p-4 shadow-sm flex items-center justify-between hover:bg-[#F0F3FF]/40 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-[#EDF1F8] flex items-center justify-center shrink-0 text-[#0B1C34]">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-bold truncate">Tarjeta débito</span>
+<span class="font-body-sm text-body-sm text-[#5B6B85]">BNB Visa</span>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-monetary-lg text-monetary-lg font-bold font-mono tabular-nums text-[#0B1C34]">
+              Bs 940,50
+            </div>
+<span class="font-label-sm text-label-sm text-[#5B6B85]">BOB</span>
+</div>
+</div>
+<!-- Cuenta 4: Multi-fondo / Caja Impresión 3D Switcher -->
+<div class="bg-[#F0F3FF] rounded-[20px] p-4 shadow-sm flex items-center justify-between hover:bg-[#dfe8ff] transition-colors cursor-pointer group">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 text-[#0E6FFF] group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">folder_special</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-bold text-[#0B1C34] truncate">Otro fondo</span>
+<span class="font-body-sm text-body-sm text-[#5B6B85] truncate">Caja Impresión 3D</span>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-monetary-md text-monetary-md font-bold font-mono tabular-nums text-[#0E6FFF]">
+              US$ 1.360,00
+            </div>
+<span class="font-label-sm text-label-sm text-[#5B6B85] flex items-center justify-end gap-0.5">
+<span>Cambiar</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 4: Grid Principal Asimétrico (2/3 + 1/3) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- COLUMNA IZQUIERDA (8 Cols / 2/3) -->
+<div class="lg:col-span-8 flex flex-col gap-8">
+<!-- CARD: Últimos Movimientos (SPC-021) -->
+<div class="bg-white rounded-[20px] p-6 shadow-sm flex flex-col">
+<div class="flex items-center justify-between pb-4">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-lg text-headline-lg font-bold text-[#0B1C34]">Movimientos recientes</h2>
+<span class="px-2 py-0.5 rounded-full bg-[#EDF1F8] text-[#5B6B85] font-label-sm text-label-sm font-bold">18 en total</span>
+</div>
+<a class="px-4 py-1.5 rounded-full bg-[#EDF1F8] hover:bg-[#dfe8ff] text-[#0B1C34] font-headline-sm text-body-sm transition-colors flex items-center gap-1" href="#">
+<span>Ver todos</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Transaction List -->
+<div class="flex flex-col">
+<!-- Row 1: Sueldo -->
+<div class="py-3.5 flex items-center justify-between gap-4 hover:bg-[#F6F8FC] px-2 rounded-xl transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-[#0FA47F]/10 flex items-center justify-center shrink-0 text-[#0FA47F]">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-bold text-[#0B1C34] truncate">Sueldo mensual</span>
+<div class="flex items-center gap-2 text-body-sm font-body-sm text-[#5B6B85] flex-wrap">
+<span class="px-2 py-0.2 rounded-full bg-[#EDF1F8] text-[#0B1C34] text-[11px] font-semibold">Sueldo</span>
+<span>•</span>
+<span>Efectivo</span>
+<span>•</span>
+<span>Hoy, 09:30</span>
+</div>
+</div>
+</div>
+<div class="text-right shrink-0 flex flex-col items-end">
+<span class="font-monetary-lg text-monetary-lg font-bold text-[#0FA47F] font-mono tabular-nums">
+                  +Bs 4.500,00
+                </span>
+<span class="text-body-sm font-body-sm text-[#5B6B85] font-mono tabular-nums">
+                  Saldo: Bs 11.410,50
+                </span>
+</div>
+</div>
+<!-- Row 2: Mercado -->
+<div class="py-3.5 flex items-center justify-between gap-4 hover:bg-[#F6F8FC] px-2 rounded-xl transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-[#E8A13A]/15 flex items-center justify-center shrink-0 text-[#E8A13A]">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-bold text-[#0B1C34] truncate">Supermercado semanal</span>
+<div class="flex items-center gap-2 text-body-sm font-body-sm text-[#5B6B85] flex-wrap">
+<span class="px-2 py-0.2 rounded-full bg-[#EDF1F8] text-[#0B1C34] text-[11px] font-semibold">Comida</span>
+<span>•</span>
+<span>Tarjeta de débito</span>
+<span>•</span>
+<span>Ayer</span>
+</div>
+</div>
+</div>
+<div class="text-right shrink-0 flex flex-col items-end">
+<span class="font-monetary-lg text-monetary-lg font-bold text-[#E5484D] font-mono tabular-nums">
+                  −Bs 120,50
+                </span>
+<span class="text-body-sm font-body-sm text-[#5B6B85] font-mono tabular-nums">
+                  Saldo: Bs 6.910,50
+                </span>
+</div>
+</div>
+<!-- Row 3: Alquiler -->
+<div class="py-3.5 flex items-center justify-between gap-4 hover:bg-[#F6F8FC] px-2 rounded-xl transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-[#0E6FFF]/10 flex items-center justify-center shrink-0 text-[#0E6FFF]">
+<span class="material-symbols-outlined text-[20px]">home</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-bold text-[#0B1C34] truncate">Alquiler departamento</span>
+<div class="flex items-center gap-2 text-body-sm font-body-sm text-[#5B6B85] flex-wrap">
+<span class="px-2 py-0.2 rounded-full bg-[#EDF1F8] text-[#0B1C34] text-[11px] font-semibold">Vivienda</span>
+<span>•</span>
+<span>BNB Banco</span>
+<span>•</span>
+<span>01 Mar</span>
+</div>
+</div>
+</div>
+<div class="text-right shrink-0 flex flex-col items-end">
+<span class="font-monetary-lg text-monetary-lg font-bold text-[#E5484D] font-mono tabular-nums">
+                  −Bs 1.800,00
+                </span>
+<span class="text-body-sm font-body-sm text-[#5B6B85] font-mono tabular-nums">
+                  Saldo: Bs 7.031,00
+                </span>
+</div>
+</div>
+<!-- Row 4: Streaming -->
+<div class="py-3.5 flex items-center justify-between gap-4 hover:bg-[#F6F8FC] px-2 rounded-xl transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-[#E5484D]/10 flex items-center justify-center shrink-0 text-[#E5484D]">
+<span class="material-symbols-outlined text-[20px]">movie</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm font-bold text-[#0B1C34] truncate">Streaming / Suscripción</span>
+<div class="flex items-center gap-2 text-body-sm font-body-sm text-[#5B6B85] flex-wrap">
+<span class="px-2 py-0.2 rounded-full bg-[#EDF1F8] text-[#0B1C34] text-[11px] font-semibold">Ocio</span>
+<span>•</span>
+<span>Tarjeta de débito</span>
+<span>•</span>
+<span>28 Feb</span>
+</div>
+</div>
+</div>
+<div class="text-right shrink-0 flex flex-col items-end">
+<span class="font-monetary-lg text-monetary-lg font-bold text-[#E5484D] font-mono tabular-nums">
+                  −Bs 35,00
+                </span>
+<span class="text-body-sm font-body-sm text-[#5B6B85] font-mono tabular-nums">
+                  Saldo: Bs 8.831,00
+                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- CARD: Gastos por Categoría del Mes -->
+<div class="bg-white rounded-[20px] p-6 shadow-sm flex flex-col gap-6">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-[#0B1C34]">Distribución de gastos</h2>
+<p class="font-body-sm text-body-sm text-[#5B6B85]">Desglose porcentual acumulado de egresos en Marzo</p>
+</div>
+<div class="text-left sm:text-right">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-[#5B6B85] block">Total gastado</span>
+<span class="font-monetary-lg text-monetary-lg font-bold text-[#E5484D] font-mono tabular-nums">
+                Bs 1.955,50
+              </span>
+</div>
+</div>
+<!-- Stacked visualization bar -->
+<div class="w-full h-3 bg-[#EDF1F8] rounded-full overflow-hidden flex">
+<div class="h-full bg-[#E5484D]" style="width: 92.0%" title="Vivienda: 92.0%"></div>
+<div class="h-full bg-[#E8A13A]" style="width: 6.2%" title="Comida: 6.2%"></div>
+<div class="h-full bg-[#0E6FFF]" style="width: 1.8%" title="Ocio: 1.8%"></div>
+</div>
+<!-- Breakdown rows with progress comparison -->
+<div class="flex flex-col gap-4">
+<!-- Vivienda -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-body-md font-body-md">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#E5484D]"></span>
+<span class="font-semibold text-[#0B1C34]">Vivienda (Alquiler)</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono tabular-nums font-bold text-[#0B1C34]">Bs 1.800,00</span>
+<span class="font-label-sm text-label-sm text-[#5B6B85] w-12 text-right">92.0%</span>
+</div>
+</div>
+<div class="w-full h-1.5 bg-[#EDF1F8] rounded-full overflow-hidden">
+<div class="h-full bg-[#E5484D] rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<!-- Comida -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-body-md font-body-md">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#E8A13A]"></span>
+<span class="font-semibold text-[#0B1C34]">Comida y Supermercado</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono tabular-nums font-bold text-[#0B1C34]">Bs 120,50</span>
+<span class="font-label-sm text-label-sm text-[#5B6B85] w-12 text-right">6.2%</span>
+</div>
+</div>
+<div class="w-full h-1.5 bg-[#EDF1F8] rounded-full overflow-hidden">
+<div class="h-full bg-[#E8A13A] rounded-full" style="width: 6.2%"></div>
+</div>
+</div>
+<!-- Ocio -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-body-md font-body-md">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#0E6FFF]"></span>
+<span class="font-semibold text-[#0B1C34]">Ocio y Suscripciones</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-mono tabular-nums font-bold text-[#0B1C34]">Bs 35,00</span>
+<span class="font-label-sm text-label-sm text-[#5B6B85] w-12 text-right">1.8%</span>
+</div>
+</div>
+<div class="w-full h-1.5 bg-[#EDF1F8] rounded-full overflow-hidden">
+<div class="h-full bg-[#0E6FFF] rounded-full" style="width: 1.8%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- COLUMNA DERECHA (4 Cols / 1/3) -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<!-- CARD 1: Pendientes por Confirmar (SPC-011) -->
+<div class="bg-white rounded-[20px] p-6 shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-[#E8A13A]">event_repeat</span>
+<h3 class="font-headline-md text-headline-md font-bold text-[#0B1C34]">Por confirmar</h3>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-[#E8A13A]/15 text-[#C27A18] font-label-sm text-label-sm font-bold uppercase tracking-wider">
+              2 pendientes
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-[#5B6B85]">
+            Movimientos programados que requieren tu verificación para asentar saldo real:
+          </p>
+<div class="flex flex-col gap-3">
+<!-- Pendiente 1 -->
+<div class="p-3.5 bg-[#F6F8FC] rounded-2xl flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-[#0B1C34] block">Sueldo mensual</span>
+<span class="font-body-sm text-body-sm text-[#5B6B85]">Efectivo • Vencido hace 1 día</span>
+</div>
+<span class="font-monetary-md text-monetary-md font-bold text-[#0FA47F] font-mono tabular-nums">
+                  +Bs 4.500,00
+                </span>
+</div>
+<div class="flex items-center gap-2 pt-1">
+<button class="flex-1 h-9 rounded-full bg-[#0E6FFF] hover:bg-[#0057D9] text-white font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1 cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                  Confirmar
+                </button>
+<button class="px-3 h-9 rounded-full bg-[#EDF1F8] hover:bg-[#dfe8ff] text-[#5B6B85] hover:text-[#0B1C34] font-label-md text-label-md font-semibold transition-colors cursor-pointer" type="button">
+                  Saltar
+                </button>
+</div>
+</div>
+<!-- Pendiente 2 -->
+<div class="p-3.5 bg-[#F6F8FC] rounded-2xl flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-[#0B1C34] block">Mercado quincenal</span>
+<span class="font-body-sm text-body-sm text-[#5B6B85]">Tarjeta de débito • Vence hoy</span>
+</div>
+<span class="font-monetary-md text-monetary-md font-bold text-[#E5484D] font-mono tabular-nums">
+                  −Bs 250,00
+                </span>
+</div>
+<div class="flex items-center gap-2 pt-1">
+<button class="flex-1 h-9 rounded-full bg-[#0E6FFF] hover:bg-[#0057D9] text-white font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1 cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[16px]">check</span>
+                  Confirmar
+                </button>
+<button class="px-3 h-9 rounded-full bg-[#EDF1F8] hover:bg-[#dfe8ff] text-[#5B6B85] hover:text-[#0B1C34] font-label-md text-label-md font-semibold transition-colors cursor-pointer" type="button">
+                  Saltar
+                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- CARD 2: Deudas Activas / Próximas Cuotas (SPC-012) -->
+<div class="bg-white rounded-[20px] p-6 shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-[#0B1C34]">handshake</span>
+<h3 class="font-headline-md text-headline-md font-bold text-[#0B1C34]">Deudas y compromisos</h3>
+</div>
+<a class="font-body-sm text-body-sm text-[#0E6FFF] hover:underline font-semibold" href="#">Ver todo</a>
+</div>
+<!-- Total Metrics Snapshot -->
+<div class="grid grid-cols-2 gap-2 p-3 bg-[#F6F8FC] rounded-2xl">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-[#5B6B85] block">Por pagar</span>
+<span class="font-monetary-md text-monetary-md font-bold text-[#E5484D] font-mono tabular-nums">
+                Bs 3.000,00
+              </span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-[#5B6B85] block">Por cobrar</span>
+<span class="font-monetary-md text-monetary-md font-bold text-[#0FA47F] font-mono tabular-nums">
+                Bs 500,00
+              </span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Debt Item 1 -->
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-[#F6F8FC] transition-colors">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-bold text-[#0B1C34] truncate">Tarjeta BNB (Cuota 2/3)</span>
+<span class="font-body-sm text-body-sm text-[#5B6B85]">Vence 15 Mar • Resta Bs 2.000</span>
+</div>
+<div class="text-right shrink-0">
+<button class="h-8 px-3 rounded-full bg-[#EDF1F8] hover:bg-[#0E6FFF] hover:text-white text-[#0B1C34] font-label-md text-label-md font-semibold transition-colors cursor-pointer" type="button">
+                  Pagar cuota
+                </button>
+</div>
+</div>
+<!-- Debt Item 2 -->
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-[#F6F8FC] transition-colors">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-bold text-[#0B1C34] truncate">Pedro me debe (1/1)</span>
+<span class="font-body-sm text-body-sm text-[#0FA47F] font-medium">A favor • Préstamo almuerzos</span>
+</div>
+<div class="text-right shrink-0 font-mono tabular-nums font-bold text-[#0FA47F] text-body-md">
+                +Bs 500,00
+              </div>
+</div>
+</div>
+</div>
+<!-- CARD 3: Metas de Ahorro Activas (SPC-013) -->
+<div class="bg-white rounded-[20px] p-6 shadow-sm flex flex-col gap-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-[#E8A13A]">flag</span>
+<h3 class="font-headline-md text-headline-md font-bold text-[#0B1C34]">Metas de ahorro</h3>
+</div>
+<a class="w-8 h-8 rounded-full bg-[#EDF1F8] hover:bg-[#dfe8ff] flex items-center justify-center text-[#0B1C34] transition-colors" href="#" title="Crear nueva meta">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</a>
+</div>
+<!-- Goal 1: Fondo de Emergencia -->
+<div class="flex flex-col gap-2 p-3.5 bg-[#F6F8FC] rounded-2xl">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-[#E8A13A]/15 text-[#E8A13A] flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">savings</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-[#0B1C34] block">Fondo de emergencia</span>
+<span class="font-body-sm text-body-sm text-[#5B6B85]">Meta BOB</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-white text-[#5B6B85] font-label-sm text-label-sm font-semibold shadow-xs">
+                24%
+              </span>
+</div>
+<div class="w-full h-2 bg-[#EDF1F8] rounded-full overflow-hidden mt-1">
+<div class="h-full bg-[#E8A13A] rounded-full" style="width: 24%"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm pt-1">
+<span class="font-mono tabular-nums font-semibold text-[#0B1C34]">Bs 1.200,00</span>
+<span class="text-[#5B6B85]">de <span class="font-mono tabular-nums">Bs 5.000,00</span></span>
+</div>
+<span class="font-label-sm text-label-sm text-[#5B6B85] text-right">Bs 3.800,00 restantes</span>
+</div>
+<!-- Goal 2: Impresora Nueva (USD Multi-moneda) -->
+<div class="flex flex-col gap-2 p-3.5 bg-[#F6F8FC] rounded-2xl">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-[#0E6FFF]/15 text-[#0E6FFF] flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">print</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-[#0B1C34] block">Impresora 3D nueva</span>
+<span class="font-body-sm text-body-sm text-[#5B6B85]">Meta USD</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-white text-[#5B6B85] font-label-sm text-label-sm font-semibold shadow-xs">
+                42%
+              </span>
+</div>
+<div class="w-full h-2 bg-[#EDF1F8] rounded-full overflow-hidden mt-1">
+<div class="h-full bg-[#0E6FFF] rounded-full" style="width: 42%"></div>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm pt-1">
+<span class="font-mono tabular-nums font-semibold text-[#0B1C34]">US$ 147,00</span>
+<span class="text-[#5B6B85]">de <span class="font-mono tabular-nums">US$ 350,00</span></span>
+</div>
+<span class="font-label-sm text-label-sm text-[#5B6B85] text-right">US$ 203,00 restantes</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

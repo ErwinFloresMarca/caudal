@@ -1,0 +1,459 @@
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    @layer base {
+      html, body {
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        background-color: #F9F9FF;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .pb-safe { padding-bottom: max(env(safe-area-inset-bottom, 0px), 16px); }
+      .pt-safe { padding-top: max(env(safe-area-inset-top, 0px), 12px); }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-[#F9F9FF] text-[#0B1C34] flex flex-col min-h-screen antialiased selection:bg-[#0E6FFF]/15">
+<!-- Top App Bar -->
+<header class="fixed top-0 inset-x-0 z-40 bg-[#F9F9FF]/85 backdrop-blur-xl border-b border-slate-200/60 pt-safe">
+<div class="h-14 px-4 flex items-center justify-between">
+<!-- Left: Brand / Account Switcher -->
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-xl bg-[#0E6FFF] flex items-center justify-center text-white shadow-sm shadow-[#0E6FFF]/30">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 3v18m0-18c-3.5 0-6 2.5-6 6v6c0 3.5 2.5 6 6 6m0-18c3.5 0 6 2.5 6 6v6c0 3.5-2.5 6-6 6"></path>
+</svg>
+</div>
+<button class="flex items-center gap-1.5 bg-white border border-slate-200/80 px-2.5 py-1 rounded-full text-xs font-semibold text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.04)] active:scale-95 transition-transform" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+<span>Personal • BOB</span>
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Right: Notifications & User Avatar -->
+<div class="flex items-center gap-2">
+<button aria-label="Notificaciones" class="w-9 h-9 flex items-center justify-center rounded-full bg-white border border-slate-200/70 text-slate-600 hover:text-slate-900 active:bg-slate-100 transition-colors shadow-sm" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<div class="w-9 h-9 rounded-full bg-[#0E6FFF] text-white text-xs font-bold tracking-tight flex items-center justify-center ring-2 ring-white shadow-sm">
+          CM
+        </div>
+</div>
+</div>
+</header>
+<!-- Main Scrollable Content Area -->
+<main class="flex-1 w-full max-w-[430px] mx-auto pt-20 pb-28 px-4 flex flex-col gap-4">
+<!-- Header Section -->
+<div class="flex flex-col gap-0.5 pt-1">
+<div class="flex items-center gap-1.5">
+<h1 class="text-2xl font-bold tracking-tight text-slate-900">Metas &amp;</h1>
+<span class="text-2xl font-bold tracking-tight text-[#0E6FFF]">Objetivos</span>
+</div>
+<p class="text-xs text-slate-500 font-medium">Monitoreo de ahorro y capitalización</p>
+</div>
+<!-- KPI / Consolidated Savings Hero Card -->
+<div class="relative overflow-hidden rounded-2xl bg-white border border-slate-200/80 p-4 shadow-[0_4px_20px_rgba(15,23,42,0.04)]">
+<div class="absolute -right-10 -bottom-10 w-36 h-36 bg-[#0E6FFF]/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col gap-3">
+<!-- Top Label & Badge -->
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total acumulado en metas</span>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-[#0FA47F] text-xs font-semibold">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>+12% este mes</span>
+</div>
+</div>
+<!-- Big Metric -->
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-extrabold tracking-tight text-slate-900 tabular-nums">Bs 3.673,12</span>
+<span class="text-xs font-medium text-slate-400">BOB</span>
+</div>
+<!-- Consolidated Progress -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-600 font-medium">Meta consolidada: <span class="font-semibold text-slate-800">Bs 9.236,00</span></span>
+<span class="font-bold text-[#0E6FFF]">40% completado</span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+<div class="h-full bg-gradient-to-r from-[#0E6FFF] to-[#2585FF] rounded-full" style="width: 40%"></div>
+</div>
+</div>
+<!-- Quick Metrics Badges Ribbon -->
+<div class="flex items-center justify-between pt-2.5 mt-0.5 border-t border-slate-100 text-xs">
+<div class="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-md text-slate-700 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-[#0E6FFF]"></span>
+<span>3 en curso</span>
+</div>
+<div class="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-md text-slate-700 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+<span>1 alcanzada</span>
+</div>
+<div class="flex items-center gap-1 bg-emerald-50 text-[#0FA47F] px-2 py-1 rounded-md font-semibold">
+<span>+Bs 850</span>
+<span class="text-[10px] text-slate-400 font-normal">/mes</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Action Button -->
+<button class="w-full h-12 rounded-full bg-[#0E6FFF] hover:bg-[#0C61E0] active:scale-[0.98] transition-all duration-150 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(14,111,255,0.28)]" id="btn-nueva-meta" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Nueva Meta de Ahorro</span>
+</button>
+<!-- Horizontal Category Filter Chips -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" role="tablist">
+<button class="filter-chip active flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold shadow-sm transition-all" data-filter="all" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Todas (4)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold shadow-sm transition-all" data-filter="in-progress" type="button">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>En curso (3)</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold shadow-sm transition-all" data-filter="completed" type="button">
+<svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Completadas (1)</span>
+</button>
+</div>
+<!-- Goals Stream -->
+<div class="flex flex-col gap-3" id="goals-list">
+<!-- Goal 1: Fondo de Emergencia -->
+<div class="goal-item rounded-2xl bg-white border border-slate-200/80 p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md transition-shadow" data-status="in-progress">
+<div class="flex items-start justify-between gap-2 mb-2.5">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-blue-50 text-[#0E6FFF] flex items-center justify-center flex-shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<h2 class="text-sm font-bold text-slate-900 leading-tight">Fondo de Emergencia</h2>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-blue-50 text-[#0E6FFF] text-[10px] font-semibold">Objetivo de Seguridad</span>
+<span class="text-[11px] text-slate-400">• Fondo Personal BOB</span>
+</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-blue-50 text-[#0E6FFF] text-xs font-bold tabular-nums">24%</span>
+</div>
+<!-- Metric figures -->
+<div class="space-y-1 mb-2">
+<div class="flex items-baseline justify-between text-xs">
+<span class="text-slate-500">Acumulado: <span class="font-bold text-slate-900 tabular-nums">Bs 1.200,00</span></span>
+<span class="text-slate-500 font-medium">Meta: <span class="font-semibold text-slate-700">Bs 5.000,00</span></span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+<div class="h-full bg-[#0E6FFF] rounded-full transition-all duration-500" style="width: 24%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+<div class="flex items-center gap-1 text-slate-500">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M6.75 3v2.25M17.25 3v2.253M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Faltan <strong class="text-slate-800 font-semibold">Bs 3.800,00</strong> • Nov 2025</span>
+</div>
+<button class="btn-contribute inline-flex items-center gap-1 text-[#0E6FFF] bg-blue-50/60 hover:bg-blue-100 active:scale-95 font-semibold text-xs py-1 px-2.5 rounded-full transition-all" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Aportar saldo</span>
+</button>
+</div>
+</div>
+<!-- Goal 2: Impresora 3D Industrial -->
+<div class="goal-item rounded-2xl bg-white border border-slate-200/80 p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md transition-shadow" data-status="in-progress">
+<div class="flex items-start justify-between gap-2 mb-2.5">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<h2 class="text-sm font-bold text-slate-900 leading-tight">Impresora 3D Industrial</h2>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-teal-50 text-teal-700 text-[10px] font-semibold">Inversión de Capital</span>
+<span class="text-[11px] text-slate-400">• USD</span>
+</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 text-xs font-bold tabular-nums">42%</span>
+</div>
+<!-- Metric figures multimoneda -->
+<div class="space-y-1 mb-2">
+<div class="flex items-baseline justify-between text-xs">
+<div class="text-slate-600">
+<span class="font-bold text-slate-900 tabular-nums">US$ 147,00</span>
+<span class="text-[11px] text-slate-400">(≈ Bs 1.023,12)</span>
+</div>
+<span class="text-slate-500 font-medium">Meta: <span class="font-semibold text-slate-700">US$ 350,00</span></span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+<div class="h-full bg-teal-500 rounded-full transition-all duration-500" style="width: 42%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+<div class="flex flex-col">
+<span class="text-slate-600 text-[11px]">Faltan <strong class="text-slate-900 font-semibold">US$ 203,00</strong> (≈ Bs 1.412,88)</span>
+<span class="text-[10px] text-teal-600 font-semibold">Tasa oficial: 6,96 BOB</span>
+</div>
+<button class="btn-contribute inline-flex items-center gap-1 text-teal-700 bg-teal-50/70 hover:bg-teal-100 active:scale-95 font-semibold text-xs py-1 px-2.5 rounded-full transition-all" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Aportar saldo</span>
+</button>
+</div>
+</div>
+<!-- Goal 3: Curso Avanzado Next.js & IA (Completada) -->
+<div class="goal-item rounded-2xl bg-white border border-emerald-200/80 p-4 shadow-[0_2px_8px_rgba(16,185,129,0.06)] hover:shadow-md transition-shadow" data-status="completed">
+<div class="flex items-start justify-between gap-2 mb-2.5">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<h2 class="text-sm font-bold text-slate-900 leading-tight">Curso Avanzado Next.js &amp; IA</h2>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 text-[10px] font-semibold">Educación Continua</span>
+<span class="text-[11px] text-slate-400">• BOB</span>
+</div>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#0FA47F] text-xs font-bold">
+<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="m4.5 12.75 6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>100% Alcanzada</span>
+</span>
+</div>
+<div class="space-y-1 mb-2">
+<div class="flex items-baseline justify-between text-xs">
+<span class="font-bold text-emerald-700 tabular-nums">Bs 800,00 / Bs 800,00</span>
+<span class="text-xs font-semibold text-emerald-600">¡Completada con éxito!</span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<!-- Action buttons: Liquidar a Gasto y Archivar -->
+<div class="flex items-center justify-between pt-2.5 border-t border-slate-100">
+<span class="text-[11px] text-slate-500 font-medium">Fondos listos para uso</span>
+<div class="flex items-center gap-2">
+<button class="inline-flex items-center gap-1 text-slate-600 hover:text-slate-900 text-xs font-medium px-2.5 py-1 rounded-full border border-slate-200 hover:bg-slate-50 active:scale-95 transition-all" type="button">
+<span>Archivar</span>
+</button>
+<button class="inline-flex items-center gap-1 text-white bg-emerald-600 hover:bg-emerald-700 text-xs font-semibold px-3 py-1 rounded-full shadow-sm active:scale-95 transition-all" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Liquidar a Gasto</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Goal 4: Mantenimiento Vehículo -->
+<div class="goal-item rounded-2xl bg-white border border-slate-200/80 p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md transition-shadow" data-status="in-progress">
+<div class="flex items-start justify-between gap-2 mb-2.5">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-blue-50 text-[#0E6FFF] flex items-center justify-center flex-shrink-0">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.25V3.75m0 3.75a3 3 0 0 1-3 3H5.25" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<h2 class="text-sm font-bold text-slate-900 leading-tight">Mantenimiento Vehículo</h2>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 text-[10px] font-semibold">Operativa &amp; Logística</span>
+<span class="text-[11px] text-slate-400">• BOB</span>
+</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-blue-50 text-[#0E6FFF] text-xs font-bold tabular-nums">65%</span>
+</div>
+<div class="space-y-1 mb-2">
+<div class="flex items-baseline justify-between text-xs">
+<span class="text-slate-500">Acumulado: <span class="font-bold text-slate-900 tabular-nums">Bs 650,00</span> de Bs 1.000,00</span>
+<span class="text-slate-500 font-medium">Próx. servicio: <span class="font-semibold text-slate-700">30 días</span></span>
+</div>
+<div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+<div class="h-full bg-[#0E6FFF] rounded-full transition-all duration-500" style="width: 65%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+<div class="flex items-center gap-1 text-slate-500">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Faltan <strong class="text-slate-800 font-semibold">Bs 350,00</strong></span>
+</div>
+<button class="btn-contribute inline-flex items-center gap-1 text-[#0E6FFF] bg-blue-50/60 hover:bg-blue-100 active:scale-95 font-semibold text-xs py-1 px-2.5 rounded-full transition-all" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Aportar saldo</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Empty State Placeholder (hidden by default) -->
+<div class="hidden flex-col items-center justify-center p-8 bg-white rounded-2xl border border-slate-200 text-center gap-2" id="goals-empty">
+<div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<p class="text-sm font-bold text-slate-800">Sin metas coincidentes</p>
+<p class="text-xs text-slate-500">No se encontraron metas registradas en este filtro.</p>
+</div>
+<!-- Regla de Integridad Contable (SPC-013) -->
+<div class="flex items-start gap-3 p-3.5 rounded-xl bg-blue-50/60 border border-blue-100 text-slate-600">
+<div class="w-6 h-6 rounded-md bg-[#0E6FFF]/10 text-[#0E6FFF] flex items-center justify-center flex-shrink-0 mt-0.5">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="text-[11px] font-bold text-[#0E6FFF] uppercase tracking-wider">Regla de Integridad Contable SPC-013</span>
+<p class="text-xs text-slate-600 leading-relaxed">
+          Los aportes a metas monitorean tu progreso sin duplicar débitos ni generar gastos ficticios en tus cuentas activas.
+        </p>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Dock (5 items with raised center FAB) -->
+<nav class="fixed bottom-0 inset-x-0 z-50 bg-white/90 backdrop-blur-xl border-t border-slate-200/80 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
+<div class="max-w-[430px] mx-auto h-16 px-3 flex items-center justify-between relative">
+<!-- Item 1: Inicio -->
+<a class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-700 transition-colors" data-path="inicio" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[10px] font-medium mt-1">Inicio</span>
+</a>
+<!-- Item 2: Movimientos -->
+<a class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-700 transition-colors" data-path="movimientos" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[10px] font-medium mt-1">Movimientos</span>
+</a>
+<!-- Item 3: Center Action FAB -->
+<div class="relative -top-5 flex justify-center items-center px-1">
+<a aria-label="Nuevo registro" class="w-12 h-12 rounded-full bg-[#0E6FFF] hover:bg-[#0C61E0] text-white flex items-center justify-center shadow-[0_6px_20px_rgba(14,111,255,0.4)] transition-transform active:scale-95 ring-4 ring-white" data-path="nuevo-registro" href="#">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+</div>
+<!-- Item 4: Metas (ACTIVO) -->
+<a aria-current="page" class="flex flex-col items-center justify-center flex-1 py-1 text-[#0E6FFF] font-semibold transition-colors" data-path="metas-fondos" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 3v18m0-18c-3.5 0-6 2.5-6 6v6c0 3.5 2.5 6 6 6m0-18c3.5 0 6 2.5 6 6v6c0 3.5-2.5 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[10px] font-bold mt-1">Metas</span>
+</a>
+<!-- Item 5: Ajustes -->
+<a class="flex flex-col items-center justify-center flex-1 py-1 text-slate-400 hover:text-slate-700 transition-colors" data-path="ajustes" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.6 6.6 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[10px] font-medium mt-1">Ajustes</span>
+</a>
+</div>
+</nav>
+<!-- Interactive Filter & Contribute Logic -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterChips = document.querySelectorAll('.filter-chip');
+      const goalCards = document.querySelectorAll('.goal-item');
+      const emptyState = document.getElementById('goals-empty');
+
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          filterChips.forEach(c => {
+            c.classList.remove('bg-slate-900', 'text-white');
+            c.classList.add('bg-white', 'border', 'border-slate-200', 'text-slate-700');
+          });
+
+          chip.classList.remove('bg-white', 'border', 'border-slate-200', 'text-slate-700');
+          chip.classList.add('bg-slate-900', 'text-white');
+
+          const filter = chip.getAttribute('data-filter');
+          let visible = 0;
+
+          goalCards.forEach(card => {
+            const status = card.getAttribute('data-status');
+            if (filter === 'all' || filter === status) {
+              card.classList.remove('hidden');
+              visible++;
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+
+          if (visible === 0) {
+            emptyState.classList.remove('hidden');
+            emptyState.classList.add('flex');
+          } else {
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+          }
+        });
+      });
+
+      // Quick feedback on "Aportar saldo" buttons
+      const contributeButtons = document.querySelectorAll('.btn-contribute');
+      contributeButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const prev = btn.innerHTML;
+          btn.innerHTML = `
+            <svg class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
+            </svg>
+            <span>Guardando...</span>
+          `;
+          setTimeout(() => {
+            btn.innerHTML = `
+              <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+              </svg>
+              <span>¡Aportado!</span>
+            `;
+            setTimeout(() => {
+              btn.innerHTML = prev;
+            }, 1200);
+          }, 450);
+        });
+      });
+    });
+  </script>
+</body></html>
