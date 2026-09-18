@@ -6,7 +6,7 @@ Extiende: SPC-002 (modelo de datos), SPC-003 (auth)
 
 ## Problema
 
-Hoy el acceso a Caudal es solo email + contraseña (SPC-003). Crear y recordar otra contraseña es fricción, sobre todo en móvil. Se quiere ofrecer **"Continuar con Google"** como alternativa, reutilizando el patrón ya probado en `coin-holder-generator` y `vault-app` (`nuxt-auth-utils` + `defineOAuthGoogleEventHandler`), pero adaptado al stack de Caudal: SQLite vía `node:sqlite`, **sin ORM**, esquema idempotente y repositorios con SQL directo. Solo Google en v1; Facebook y otros proveedores quedan fuera de alcance.
+Hoy el acceso a Caudal es solo email + contraseña (SPC-003). Crear y recordar otra contraseña es fricción, sobre todo en móvil. Se quiere ofrecer **"Continuar con Google"** como alternativa, reutilizando el patrón ya probado en `coin-holder-generator` y `vault-app` (`nuxt-auth-utils` + `defineOAuthGoogleEventHandler`), pero adaptado al stack de Caudal: **PostgreSQL + Drizzle ORM**. Solo Google en v1; Facebook y otros proveedores quedan fuera de alcance.
 
 ## Requerimientos
 
@@ -17,7 +17,7 @@ Hoy el acceso a Caudal es solo email + contraseña (SPC-003). Crear y recordar o
 - Nueva tabla `oauth_accounts(id, user_id, provider, provider_id, email, name, avatar_url, created_at)`:
   - `UNIQUE(provider, provider_id)` e índice por `user_id`; FK `user_id → users(id)`.
   - `provider` es `TEXT` (v1: `'google'`). La columna es genérica solo para no migrar si luego se agrega otro proveedor.
-- `server/utils/schema.ts`: subir `PRAGMA user_version` con la migración que crea `oauth_accounts` y ajusta `users` (idempotente, como SPC-002).
+- `server/db/schema.ts` + migración de drizzle-kit que crea `oauth_accounts` y ajusta `users` (ver SPC-002 y decisión 0003).
 
 ### Lógica de vinculación (testeable, fuera del handler)
 
@@ -62,7 +62,7 @@ Hoy el acceso a Caudal es solo email + contraseña (SPC-003). Crear y recordar o
 
 ## Patrón de referencia (a adaptar, no copiar literal)
 
-El flujo es idéntico en ambos proyectos; Caudal cambia el ORM (Prisma → SQL) y los ids (cuid → enteros de SQLite).
+El flujo es idéntico en ambos proyectos; Caudal cambia el ORM (Prisma → Drizzle) y los ids (cuid → enteros `identity` de Postgres).
 
 - `coin-holder-generator/server/routes/auth/google.ts` — handler con los 3 casos + `setUserSession`.
 - `vault-app/server/routes/auth/google.ts` — variante más limpia y comentada.

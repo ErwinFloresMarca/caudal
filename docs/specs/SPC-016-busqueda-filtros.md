@@ -9,7 +9,7 @@ Cuando pasan los meses, encontrar "aquel pago de Bs 800 a la imprenta" a mano es
 
 ## Requerimientos
 
-- Buscador de movimientos por **nota** y **nombre de categoría/contraparte** (texto, con `LIKE` insensible a mayúsculas — SQLite `LIKE` ya lo es para ASCII).
+- Buscador de movimientos por **nota** y **nombre de categoría/contraparte** (texto, con `ILIKE` de Postgres para insensibilidad a mayúsculas).
 - Filtros combinables en `/movimientos`:
   - rango de fechas (desde/hasta),
   - fondo (todos o activo),
@@ -22,7 +22,7 @@ Cuando pasan los meses, encontrar "aquel pago de Bs 800 a la imprenta" a mano es
 - Orden: fecha desc por defecto; alternar por monto.
 - Filtros en la URL (query params) para recargar/compartir; resumen de filtros activos con "limpiar".
 - Paginación o scroll incremental (mínimo: paginación por cursor/fecha).
-- Índices SQLite para fecha, cuenta y categoría (añadir en SPC-002/schema si hace falta).
+- Índices Postgres para fecha, cuenta y categoría (declarar en `server/db/schema.ts` y migrar con drizzle-kit).
 - Búsqueda global (comandos, `Ctrl/Cmd+K`) opcional; no bloquea v1.
 
 ## Criterios de aceptación

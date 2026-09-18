@@ -8,7 +8,7 @@ Control de dinero personal y de emprendimientos: **fondos** (personal, impresió
 |---|---|---|
 | Framework | Nuxt 4 (Nitro) | Backend y frontend en el mismo repo |
 | UI | Nuxt UI v3 (Tailwind v4) | Componentes reutilizables de la librería, no reinventar |
-| BD | SQLite vía `node:sqlite` (built-in Node 22) | 0 dependencias. Todo el acceso detrás de `server/utils/db.ts`; migrar a `better-sqlite3` es cambiar 1 archivo |
+| BD | **PostgreSQL 16** + **Drizzle ORM** | Acceso solo vía `server/utils/db.ts`; esquema en `server/db/schema.ts` y migraciones con `drizzle-kit`. Dev: base `caudal_dev` del Postgres del workdir (`127.0.0.1:5434`) |
 | Auth | `nuxt-auth-utils` | Sesión HTTP-only **por usuario** (email + contraseña, scrypt). API keys por usuario para el MCP |
 | Tests | vitest | Mínimo: dinero (money), presupuestos, recurrentes |
 | E2E / capturas | Playwright (`pnpm screenshots`) + MCP `playwright` | Capturas 1280px/390px para verificación visual; no es suite de tests |
@@ -25,6 +25,10 @@ pnpm build      # build de producción
 pnpm start      # node .output/server/index.mjs (PORT o 3071)
 pnpm lint       # @nuxt/eslint
 pnpm typecheck  # nuxt typecheck
+pnpm db:generate # drizzle-kit generate: crea migración desde server/db/schema.ts
+pnpm db:migrate  # drizzle-kit migrate: aplica las migraciones pendientes
+pnpm db:push     # drizzle-kit push: sincroniza el esquema en dev (sin migración)
+pnpm db:studio   # drizzle-kit studio: explorar la BD (opcional)
 pnpm release    # release: bump + tag vX.Y.Z + push (dispara la CI). Gates: main, limpio, lint/tests/build
 pnpm screenshots  # capturas Playwright (1280px + 390px) en .screenshots/ — requiere `pnpm build` antes
 ```
@@ -36,7 +40,8 @@ pnpm screenshots  # capturas Playwright (1280px + 390px) en .screenshots/ — re
 - **Pipeline** `.github/workflows/build-release.yml` (por crear en SPC-022): en tag `v*` → `test`+`lint`+`typecheck`+`build` → publica `caudal-output.tar.gz`.
 - **Deploy real** (en el VPS): `bash /var/www/caudal/current/deploy.sh` — descarga el release con `gh`, extrae `.output` y reinicia pm2 (nombre `caudal`, `127.0.0.1:3071`).
 - **nginx**: `<dominio>.erfm.dev` → `127.0.0.1:3071`. DNS/HTTPS los pone Cloudflare.
-- **Secrets del repo**: `VPS_HOST`, `VPS_USER`, `VPS_PORT`, `VPS_SSH_KEY`, `VPS_SSH_KEY_PASSPHRASE`.
+- **BD**: PostgreSQL dedicada de producción vía `DATABASE_URL` (env del server, nunca en el repo). Las migraciones se aplican con `pnpm db:migrate` en el deploy/pipeline.
+- **Secrets del repo**: `VPS_HOST`, `VPS_USER`, `VPS_PORT`, `VPS_SSH_KEY`, `VPS_SSH_KEY_PASSPHRASE`, `DATABASE_URL`.
 
 ## Git y Linear (obligatorio)
 
@@ -73,11 +78,12 @@ caudal/
   server/
     api/              rutas Nitro (auth, fondos, cuentas, categorias, transacciones,
                       transferencias, recurrentes, deudas, metas, reportes, api-keys, mcp)
-    utils/db.ts       ★ único punto de acceso a SQLite
-    utils/schema.ts   esquema: CREATE TABLE IF NOT EXISTS + user_version
+    utils/db.ts       ★ cliente Drizzle (único punto de acceso a la BD)
+    db/schema.ts      ★ esquema Drizzle (tablas, enums, relaciones)
+    db/migrations/    migraciones SQL generadas por drizzle-kit
     utils/*.ts        un repositorio por dominio (fondos, cuentas, transacciones…)
   shared/             tipos + lógica pura (money, transacciones, recurrentes…) — sin imports de server
-  data/caudal.db      BD local (.gitignore)
+  drizzle.config.ts   configuración de drizzle-kit (schema, out, dialect)
   tests/              vitest: money, recurrentes, transacciones, aislamiento
   docs/
     ROADMAP.md
@@ -91,7 +97,7 @@ caudal/
 
 - **Dinero en enteros (centavos).** La aritmética monetaria vive en `shared/money.ts` y SIEMPRE usa enteros. Prohibido `float` para montos. `shared/money.ts` expone: tipo `Money { centavos, moneda }`, `parseAmount()` (acepta `12,50` → 1250), `formatMoney()` (formato BOB/USD), `convertToBase()` (tasa paralelo).
 - **Lógica pura va a `shared/`**, importable por tests sin tocar servidor. Las rutas API solo orquestan: leer BD → `shared/` decide → persistir.
-- **DB**: un solo módulo (`server/utils/db.ts`) exporta la instancia `DatabaseSync`. Esquema idempotente (`CREATE TABLE IF NOT EXISTS`) con `PRAGMA user_version`. Sin ORM; SQL directo, consultas cortas.
+- **DB**: **PostgreSQL** vía **Drizzle ORM**. Cliente único en `server/utils/db.ts` (`drizzle(pool)` sobre `pg`, leyendo `DATABASE_URL`); esquema en `server/db/schema.ts`; migraciones generadas con `drizzle-kit` en `server/db/migrations/`. Los repositorios por dominio usan el query builder de Drizzle (sin SQL crudo en rutas). Ids enteros (`identity`). Ver `docs/decisions/0003-postgres-drizzle.md`.
 - **Multimusuario**: **toda** tabla de datos lleva `user_id` y **toda** consulta filtra por el usuario de la sesión (nunca un `user_id` que venga del cliente). **No agregar tablas nuevas sin esa columna.**
 - **Multimoneda**: cada `cuenta` tiene moneda fija (BOB|USD) y hereda su moneda a las transacciones. Las transacciones en USD guardan `tasa_ref` (BOB por USD, dólar paralelo). Ver `docs/decisions/0002-multimoneda.md`.
 - **Aportes/retiros entre fondos** = dos transacciones ligadas por `grupo_id` (gasto en origen + ingreso en destino). Transferencia es solo entre cuentas **del mismo fondo** y no afecta resultado.

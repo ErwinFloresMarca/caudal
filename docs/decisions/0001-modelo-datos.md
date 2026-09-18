@@ -1,6 +1,6 @@
 # Decisión 0001 — Modelo de datos y acceso a BD
 
-Estado: aprobada (borrador). Fecha: 2026-09-17.
+Estado: reemplazada por 0003 (motor y acceso a BD → PostgreSQL + Drizzle ORM); el modelo de dominio sigue vigente. Fecha: 2026-09-17.
 
 ## Contexto
 
