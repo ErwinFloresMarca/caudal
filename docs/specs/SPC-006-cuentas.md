@@ -1,6 +1,6 @@
 # SPC-006 — Cuentas
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-002, SPC-005
 
 ## Problema
@@ -19,9 +19,9 @@ El dinero de un fondo vive en cuentas reales: efectivo, banco(s), tarjeta(s), ah
 
 ## Criterios de aceptación
 
-- [ ] Crear cuenta en el fondo activo con moneda BOB; otra cuenta USD en el mismo fondo (test: dos cuentas distintas).
-- [ ] Saldo actual correcto: saldo inicial + movimientos (test con 3 transacciones).
-- [ ] Intentar cambiar la moneda de una cuenta con movimientos da error; se puede editar nombre/tipo/activa.
-- [ ] Ocultar una cuenta (`activa=0`) la quita del listado pero conserva su histórico en reportes.
-- [ ] El total del fondo = suma de saldos de sus cuentas activas.
-- [ ] Captura 390px y 1280px de la sección cuentas de un fondo con 2 cuentas.
+- [x] Crear cuenta en el fondo activo con moneda BOB; otra cuenta USD en el mismo fondo (test: dos cuentas distintas, `tests/cuentas.test.ts` + E2E).
+- [x] Saldo actual correcto: saldo inicial + movimientos (test con 3 transacciones, ingresos suman/gastos restan; saldo nunca se almacena).
+- [x] Intentar cambiar la moneda de una cuenta con movimientos da error; se puede editar nombre/tipo/activa (400 protegido en `editarCuenta`).
+- [x] Ocultar una cuenta (`activa=0`) la quita del listado pero conserva su histórico en reportes (update `activa:false`, no borrado).
+- [x] El total del fondo = suma de saldos de sus cuentas activas (expuesto como `saldos_por_moneda` en `GET /api/fondos/:id/cuentas`; la conversión BOB/USD de monedas mixtas queda marcada para SPC-008/reportes con `ponytail:`).
+- [ ] Captura 390px y 1280px de la sección cuentas de un fondo con 2 cuentas (UI llega con SPC-004, que va después de SPC-017 en el orden).
