@@ -1,6 +1,6 @@
-import { and, eq, sql } from 'drizzle-orm'
+import { and, eq, or, sql } from 'drizzle-orm'
 import { db } from './db'
-import { cuentas, transacciones } from '../db/schema'
+import { cuentas, transacciones, transferencias } from '../db/schema'
 
 // Error HTTP sin depender de h3 (para que vitest pueda importar el repositorio).
 function httpError(statusCode: number, statusMessage: string): Error & { statusCode: number } {
@@ -93,33 +93,58 @@ const movimientoSql = sql<number>`COALESCE(SUM(
        WHEN ${transacciones.tipo} = 'gasto' THEN -${transacciones.monto_centavos}
        ELSE 0 END), 0)`
 
-type SaldoRow = { id: number; nombre: string; tipo: string; moneda: string; activa: boolean; saldo_inicial_centavos: number; movimientos: number }
+// Transferencias: origen resta (en moneda de origen), destino suma (en moneda de destino).
+// Subconsulta correlacionada por usuario para no multiplicar filas del leftJoin de transacciones.
+const transferenciaNetoSql = sql<number>`COALESCE((
+  SELECT SUM(CASE WHEN ${transferencias.cuenta_destino_id} = ${cuentas.id} THEN ${transferencias.monto_destino_centavos}
+                  WHEN ${transferencias.cuenta_origen_id} = ${cuentas.id} THEN -${transferencias.monto_origen_centavos}
+                  ELSE 0 END)
+  FROM ${transferencias}
+  WHERE ${transferencias.user_id} = ${cuentas.user_id}
+), 0)`
 
-const saldoQuery = db
-  .select({
-    id: cuentas.id,
-    nombre: cuentas.nombre,
-    tipo: cuentas.tipo,
-    moneda: cuentas.moneda,
-    activa: cuentas.activa,
-    saldo_inicial_centavos: cuentas.saldo_inicial_centavos,
-    movimientos: movimientoSql,
-  })
-  .from(cuentas)
-  .leftJoin(transacciones, eq(transacciones.cuenta_id, cuentas.id))
-  .groupBy(cuentas.id)
+type SaldoRow = {
+  id: number
+  nombre: string
+  tipo: string
+  moneda: string
+  activa: boolean
+  saldo_inicial_centavos: number
+  movimientos: number
+  transferencias: number
+}
+
+// Query construida por llamada: el builder de Drizzle es mutable y no soporta
+// ejecución concurrente compartiendo la misma instancia.
+function saldoQuery() {
+  return db
+    .select({
+      id: cuentas.id,
+      nombre: cuentas.nombre,
+      tipo: cuentas.tipo,
+      moneda: cuentas.moneda,
+      activa: cuentas.activa,
+      saldo_inicial_centavos: cuentas.saldo_inicial_centavos,
+      movimientos: movimientoSql,
+      transferencias: transferenciaNetoSql,
+    })
+    .from(cuentas)
+    .leftJoin(transacciones, eq(transacciones.cuenta_id, cuentas.id))
+    .groupBy(cuentas.id, cuentas.user_id)
+}
 
 function toPublica(row: SaldoRow) {
   const mov = Number(row.movimientos)
+  const trx = Number(row.transferencias)
   return {
     ...cuentaPublica(row),
     saldo_inicial_centavos: row.saldo_inicial_centavos,
-    saldo_actual_centavos: row.saldo_inicial_centavos + mov,
+    saldo_actual_centavos: row.saldo_inicial_centavos + mov + trx,
   }
 }
 
 export async function listarCuentas(userId: number, fondoId: number, { incluirInactivas = false } = {}) {
-  const rows = await saldoQuery
+  const rows = await saldoQuery()
     .where(
       and(
         eq(cuentas.user_id, userId),
@@ -132,7 +157,7 @@ export async function listarCuentas(userId: number, fondoId: number, { incluirIn
 }
 
 export async function getCuenta(userId: number, cuentaId: number) {
-  const [row] = await saldoQuery
+  const [row] = await saldoQuery()
     .where(and(eq(cuentas.id, cuentaId), eq(cuentas.user_id, userId)))
     .limit(1)
   return row ? toPublica(row) : null
@@ -160,13 +185,17 @@ export async function crearCuenta(userId: number, fondoId: number, data: DatosCu
   return cuenta
 }
 
-// Número de transacciones ligadas a la cuenta (regla de integridad de moneda/saldo inicial).
+// Número de transacciones/transferencias ligadas a la cuenta (regla de integridad de moneda/saldo inicial).
 export async function contarMovimientos(cuentaId: number) {
-  const [row] = await db
+  const [trx] = await db
     .select({ n: sql<number>`COUNT(*)` })
     .from(transacciones)
     .where(eq(transacciones.cuenta_id, cuentaId))
-  return Number(row?.n ?? 0)
+  const [mov] = await db
+    .select({ n: sql<number>`COUNT(*)` })
+    .from(transferencias)
+    .where(or(eq(transferencias.cuenta_origen_id, cuentaId), eq(transferencias.cuenta_destino_id, cuentaId)))
+  return Number(trx?.n ?? 0) + Number(mov?.n ?? 0)
 }
 
 export async function editarCuenta(userId: number, cuentaId: number, data: DatosCuenta) {

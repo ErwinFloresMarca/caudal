@@ -1,6 +1,6 @@
 # SPC-009 — Transferencias entre cuentas
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-008
 
 ## Problema
@@ -19,9 +19,14 @@ Mover dinero entre cuentas del **mismo fondo** (efectivo → banco, banco → ah
 
 ## Criterios de aceptación
 
-- [ ] Transferir Bs 100 de Efectivo a Banco deja el total del fondo igual y mueve exactamente 10000 centavos entre cuentas. (test)
-- [ ] Transferir Bs 300 a una cuenta USD con `tasa_ref=6,96` pide y guarda la tasa; el destino sube el equivalente correcto y el total del fondo no varía más allá del redondeo. (test)
-- [ ] Origen y destino deben pertenecer al mismo fondo; si no, error de validación.
-- [ ] No se permite transferir a la misma cuenta.
-- [ ] Borrar una transferencia restaura ambos saldos. (test)
-- [ ] Una transferencia NO aparece como ingreso ni egreso en los reportes de resultado (SPC-015).
+- [x] Transferir Bs 100 de Efectivo a Banco deja el total del fondo igual y mueve exactamente 10000 centavos entre cuentas. (test)
+- [x] Transferir Bs 300 a una cuenta USD con `tasa_ref=6,96` pide y guarda la tasa; el destino sube el equivalente correcto y el total del fondo no varía más allá del redondeo. (test + E2E)
+- [x] Origen y destino deben pertenecer al mismo fondo; si no, error de validación. (test)
+- [x] No se permite transferir a la misma cuenta. (test + E2E)
+- [x] Borrar una transferencia restaura ambos saldos. (test + E2E)
+- [ ] Una transferencia NO aparece como ingreso ni egreso en los reportes de resultado (SPC-015, pendiente de implementar).
+
+## Notas de implementación
+
+- La transferencia afecta el saldo de cuenta vía subconsulta correlacionada en `cuentas.ts` (resta origen en moneda de origen, suma destino en moneda de destino); no crea transacciones (en reportes de resultado se excluye).
+- `resolverMontos`: monedas iguales → `monto_destino = monto_origen`; distintas → se exige `monto_destino_centavos` o `tasa_ref` (400 si falta); la tasa se valida positiva en el repo (no solo en el parse).

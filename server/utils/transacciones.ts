@@ -148,21 +148,25 @@ export async function crearTransaccion(userId: number, fondoId: number, data: Da
   return transaccionPublica(trx, { moneda, categoria })
 }
 
-const listadoQuery = db
-  .select({
-    trx: transacciones,
-    cuenta_moneda: cuentas.moneda,
-    categoria_id: categorias.id,
-    categoria_nombre: categorias.nombre,
-    categoria_icono: categorias.icono,
-    categoria_color: categorias.color,
-  })
-  .from(transacciones)
-  .leftJoin(cuentas, eq(cuentas.id, transacciones.cuenta_id))
-  .leftJoin(categorias, eq(categorias.id, transacciones.categoria_id))
+// Listado construido por llamada: el builder de Drizzle es mutable y no soporta
+// ejecución concurrente compartiendo la misma instancia.
+function listadoQuery() {
+  return db
+    .select({
+      trx: transacciones,
+      cuenta_moneda: cuentas.moneda,
+      categoria_id: categorias.id,
+      categoria_nombre: categorias.nombre,
+      categoria_icono: categorias.icono,
+      categoria_color: categorias.color,
+    })
+    .from(transacciones)
+    .leftJoin(cuentas, eq(cuentas.id, transacciones.cuenta_id))
+    .leftJoin(categorias, eq(categorias.id, transacciones.categoria_id))
+}
 
 export async function listarTransacciones(userId: number, fondoId: number, { desde, hasta }: { desde?: string; hasta?: string } = {}) {
-  const filas = await listadoQuery
+  const filas = await listadoQuery()
     .where(
       and(
         eq(transacciones.user_id, userId),
@@ -181,7 +185,7 @@ export async function listarTransacciones(userId: number, fondoId: number, { des
 }
 
 export async function getTransaccion(userId: number, id: number) {
-  const [fila] = await listadoQuery
+  const [fila] = await listadoQuery()
     .where(and(eq(transacciones.id, id), eq(transacciones.user_id, userId)))
     .limit(1)
   if (!fila) return null
