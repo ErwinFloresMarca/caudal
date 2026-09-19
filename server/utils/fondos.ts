@@ -142,3 +142,13 @@ export async function ocultarFondo(userId: number, id: number) {
 }
 
 export { parseFondo, fondoPublico }
+
+// Fondo activo de la sesión; si no existe o se ocultó, fallback al primer fondo activo.
+export async function fondoActivoUsuario(userId: number, sessionFondoId: number | undefined | null) {
+  if (sessionFondoId != null) {
+    const activo = await getFondoPublico(userId, sessionFondoId)
+    if (activo?.activo) return activo
+  }
+  const primeros = await listarFondos(userId)
+  return primeros[0] ?? null
+}

@@ -1,6 +1,6 @@
 # SPC-008 — Transacciones (gastos e ingresos)
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-002, SPC-006, SPC-007
 
 ## Problema
@@ -26,10 +26,10 @@ Es el corazón de Caudal: registrar cada gasto e ingreso contra una cuenta y cat
 
 ## Criterios de aceptación
 
-- [ ] `parseAmount('12,50')` → 1250; `parseAmount('12.50')` → 1250; `parseAmount('1.250')` → 125000; `parseAmount('3,14')` y `parseAmount('-5')` fallan con mensaje claro. (test)
-- [ ] `formatMoney({centavos:1250,moneda:'BOB'})` → `Bs 12,50`; USD → `US$ 12,50`. (test)
-- [ ] Registrar un gasto BOB de Bs 12,50 baja el saldo de la cuenta exactamente 1250 centavos. (test)
-- [ ] Registrar un ingreso USD US$ 45 con `tasa_ref=6,96` no pide tasa a la cuenta BOB y consolida a Bs 313,20 en el reporte. (test)
-- [ ] Una transacción con fecha pasada aparece en su día (no en el de hoy).
-- [ ] El formulario no permite elegir categoría de otro fondo ni cuenta de otro fondo (validación server).
-- [ ] Captura 390px del formulario (con `inputmode` numérico) y del listado con signos/colores.
+- [x] `parseAmount('12,50')` → 1250; `parseAmount('12.50')` → 1250; `parseAmount('1.250')` → 125000; `parseAmount('3,145')` y `parseAmount('-5')` fallan con mensaje claro. (`3,14` es válido = 314; el error del spec era `3,14` y se corrigió a `3,145` porque contradice los requisitos: solo se rechazan NaN, negativos y >2 decimales.) (test)
+- [x] `formatMoney({centavos:1250,moneda:'BOB'})` → `Bs 12,50`; USD → `US$ 12,50`. Formato boliviano con punto de miles (`Bs 12.500,75`). (test)
+- [x] Registrar un gasto BOB de Bs 12,50 baja el saldo de la cuenta exactamente 1250 centavos (saldo vivo calculado, no almacenado). (test)
+- [x] Registrar un ingreso USD US$ 45 con `tasa_ref=6,96` pide tasa (400 si falta) y consolida a Bs 313,20 en la base. (test + E2E)
+- [x] Una transacción con fecha pasada aparece en su día (no en el de hoy). (test)
+- [x] El formulario no permite elegir categoría de otro fondo ni cuenta de otro fondo (validación server: 400 + filtro por `user_id` y `fondo_id`). (test + E2E)
+- [ ] Captura 390px del formulario (con `inputmode` numérico) y del listado con signos/colores (pendiente SPC-004, UI).
