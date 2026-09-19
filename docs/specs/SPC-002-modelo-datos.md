@@ -1,6 +1,6 @@
 # SPC-002 — Modelo de datos y acceso a BD
 
-Estado: propuesta
+Estado: verificada
 
 ## Problema
 
@@ -36,9 +36,9 @@ Caudal necesita persistir usuarios, fondos, cuentas, categorías, transacciones,
 
 ## Criterios de aceptación
 
-- [ ] `pnpm db:migrate` crea todas las tablas; re-ejecutarlo no reaplica migraciones.
-- [ ] Un test crea un usuario y verifica que otra sesión (otro `user_id`) NO ve sus fondos/transacciones (aislamiento).
-- [ ] Montos: insertar 1250 = Bs 12,50; nunca aparece un `3.14` como monto almacenado.
-- [ ] `tasa_ref` nullable: una transacción de BOB no requiere aplicar tasa para consolidar (ver 0002).
-- [ ] `db.ts` es el único módulo que crea el pool/conexión (grep): ninguna ruta llama `new Pool()` ni `drizzle()` directamente.
-- [ ] Sin drift: el esquema de `server/db/schema.ts` coincide con las migraciones aplicadas.
+- [x] `pnpm db:migrate` crea todas las tablas; re-ejecutarlo no reaplica migraciones.
+- [x] Un test crea un usuario y verifica que otra sesión (otro `user_id`) NO ve sus fondos/transacciones (aislamiento).
+- [x] Montos: insertar 1250 = Bs 12,50; nunca aparece un `3.14` como monto almacenado.
+- [x] `tasa_ref` nullable: una transacción de BOB no requiere aplicar tasa para consolidar (ver 0002).
+- [x] `db.ts` es el único módulo que crea el pool/conexión (grep): ninguna ruta llama `new Pool()` ni `drizzle()` directamente.
+- [x] Sin drift: el esquema de `server/db/schema.ts` coincide con las migraciones aplicadas.
