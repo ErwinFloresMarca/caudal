@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { randomUUID } from 'node:crypto'
 import { db } from '../server/utils/db'
-import { users, fondos, cuentas, transacciones } from '../server/db/schema'
+import { users, fondos, cuentas, transacciones, categorias } from '../server/db/schema'
 import { eq } from 'drizzle-orm'
 import {
   parseCuenta,
@@ -37,6 +37,8 @@ afterAll(async () => {
   await db.delete(transacciones).where(eq(transacciones.user_id, userIdB))
   await db.delete(cuentas).where(eq(cuentas.user_id, userIdA))
   await db.delete(cuentas).where(eq(cuentas.user_id, userIdB))
+  await db.delete(categorias).where(eq(categorias.user_id, userIdA))
+  await db.delete(categorias).where(eq(categorias.user_id, userIdB))
   await db.delete(fondos).where(eq(fondos.user_id, userIdA))
   await db.delete(fondos).where(eq(fondos.user_id, userIdB))
   await db.delete(users).where(eq(users.id, userIdA))

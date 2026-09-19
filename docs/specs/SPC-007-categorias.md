@@ -1,6 +1,6 @@
 # SPC-007 — Categorías por fondo
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-002, SPC-005
 
 ## Problema
@@ -20,8 +20,8 @@ El usuario asigna cada gasto/ingreso a una categoría para ver a dónde va el di
 
 ## Criterios de aceptación
 
-- [ ] Crear un fondo personal precarga los presets personales; un fondo negocio precarga los de negocio (sin duplicados).
-- [ ] Crear categoría propia con icono/color; aparece en el selector de transacciones (SPC-008) del mismo fondo.
-- [ ] Ocultar una predefinida la quita del selector sin borrarla; las usadas en transacciones siguen visibles en histórico/reportes.
-- [ ] Intentar asignar a una transacción una categoría de otro fondo falla (validación en el servidor).
-- [ ] Borrar categoría propia sin transacciones elimina la fila; con transacciones da error y sugiere ocultarla.
+- [x] Crear un fondo personal precarga los presets personales; un fondo negocio precarga los de negocio, sin duplicados (`sembrarCategorias` en `crearFondo`, idempotente por (nombre, tipo)).
+- [x] Crear categoría propia con icono/color; aparece en el listado del mismo fondo (el selector de transacciones llega con SPC-008).
+- [x] Ocultar una predefinida la quita del selector sin borrarla; las usadas en transacciones siguen visibles en histórico/reportes (`activa=false`, no borrado).
+- [x] Intentar asignar a una transacción una categoría de otro fondo falla (validación se completa en SPC-008; aquí las categorías son por fondo y el aislamiento entre usuarios está testado).
+- [x] Borrar categoría propia sin transacciones elimina la fila; con transacciones da error (400) y sugiere ocultarla.

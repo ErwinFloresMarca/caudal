@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { randomUUID } from 'node:crypto'
 import { db } from '../server/utils/db'
-import { users, fondos } from '../server/db/schema'
+import { users, fondos, categorias } from '../server/db/schema'
 import { eq } from 'drizzle-orm'
 import { crearFondo, listarFondos, getFondo, editarFondo, ocultarFondo, parseFondo } from '../server/utils/fondos'
 
@@ -20,6 +20,8 @@ beforeAll(async () => {
 
 afterAll(async () => {
   if (!hasDb) return
+  await db.delete(categorias).where(eq(categorias.user_id, userIdA))
+  await db.delete(categorias).where(eq(categorias.user_id, userIdB))
   await db.delete(fondos).where(eq(fondos.user_id, userIdA))
   await db.delete(fondos).where(eq(fondos.user_id, userIdB))
   await db.delete(users).where(eq(users.id, userIdA))

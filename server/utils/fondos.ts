@@ -1,6 +1,7 @@
 import { and, eq } from 'drizzle-orm'
 import { db } from './db'
 import { fondos } from '../db/schema'
+import { sembrarCategorias } from './categorias'
 
 // Error HTTP sin depender de h3 (para que vitest pueda importar el repositorio).
 function httpError(statusCode: number, statusMessage: string): Error & { statusCode: number } {
@@ -102,6 +103,8 @@ export async function crearFondo(userId: number, data: DatosFondo): Promise<type
   if (!fondo) {
     throw httpError(500, 'No se pudo crear el fondo')
   }
+  // Presets de categorías (SPC-007) al nacer el fondo.
+  await sembrarCategorias(userId, fondo.id, data.tipo)
   return fondo
 }
 
