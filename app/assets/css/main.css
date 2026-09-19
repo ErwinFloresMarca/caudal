@@ -1,0 +1,111 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  /* Caudal tokens (DESIGN.md) — solo luz */
+  --color-frost: #f6f8fc;
+  --color-surface: #ffffff;
+  --color-surface-muted: #edf1f8;
+  --color-surface-hover: #f0f3ff;
+  --color-surface-tint: #ebf3ff;
+  --color-ink: #0b1c34;
+  --color-ink-muted: #5b6b85;
+  --color-ink-faint: #8e9bae;
+  --color-brand: #0e6fff;
+  --color-brand-600: #0057d9;
+  --color-positive: #0fa47f;
+  --color-negative: #e5484d;
+  --color-warning: #e8a13a;
+
+  --color-border: rgb(11 28 52 / 0.08);
+  --color-border-strong: rgb(11 28 52 / 0.12);
+
+  /* Inter como tipografía por defecto */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-frost text-ink font-sans antialiased;
+  }
+}
+
+/* ===== Utilidades base (DESIGN.md) ===== */
+
+/* Cards */
+@utility card {
+  @apply bg-surface border border-border rounded-[20px];
+}
+
+@utility card-muted {
+  @apply bg-surface-muted border border-border rounded-[20px];
+}
+
+/* Titulares */
+@utility hs-1 {
+  @apply font-extrabold tracking-tight text-ink text-2xl md:text-3xl;
+}
+
+@utility hs-2 {
+  @apply font-bold tracking-tight text-ink text-xl;
+}
+
+/* Píldoras */
+@utility pill {
+  @apply inline-flex items-center justify-center rounded-full;
+}
+
+/* Botones píldora */
+@utility btn-primary {
+  @apply inline-flex items-center justify-center gap-2 h-13 px-6 rounded-full font-bold text-white bg-brand hover:bg-brand-600 focus-visible:outline-2 outline-offset-2 outline-surface-tint transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+@utility btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 h-13 px-6 rounded-full font-bold text-ink bg-surface-muted hover:bg-surface-hover focus-visible:outline-2 outline-offset-2 outline-surface-tint transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+@utility btn-pill-filter {
+  @apply pill h-9 px-4 text-sm font-medium text-ink-muted border border-border hover:bg-surface-hover cursor-pointer transition-colors;
+}
+
+/* Monetarios: tabular siempre */
+@utility tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+@utility money-plus {
+  @apply tabular-nums font-semibold text-positive;
+}
+
+@utility money-minus {
+  @apply tabular-nums font-semibold text-negative;
+}
+
+/* Cell de inputs con prefijo/sufijo */
+@utility ip-flex {
+  @apply flex items-center gap-2;
+}
+
+/* Link con subrayado */
+@utility ol-link {
+  @apply text-brand hover:text-brand-600 underline underline-offset-4 transition-colors;
+}
+
+/* Inputs */
+@utility input-field {
+  @apply h-12 w-full rounded-xl border border-border-strong bg-surface px-4 text-ink placeholder:text-ink-faint focus:outline-none focus:border-brand focus:ring-2 focus:ring-surface-tint transition-colors;
+}
+
+/* Badges */
+@utility badge-plus {
+  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#0FA47F] bg-[rgb(15_164_127/0.10)];
+}
+
+@utility badge-minus {
+  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#E5484D] bg-[rgb(229_72_77/0.10)];
+}
+
+@utility badge-warning {
+  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#C27A18] bg-[rgb(232_161_58/0.12)];
+}

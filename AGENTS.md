@@ -7,7 +7,7 @@ Control de dinero personal y de emprendimientos: **fondos** (personal, impresió
 | Capa | Elección | Notas |
 |---|---|---|
 | Framework | Nuxt 4 (Nitro) | Backend y frontend en el mismo repo |
-| UI | Nuxt UI v3 (Tailwind v4) | Componentes reutilizables de la librería, no reinventar |
+| UI | Nuxt UI v4 (Tailwind v4) | Componentes reutilizables de la librería, no reinventar |
 | BD | **PostgreSQL 16** + **Drizzle ORM** | Acceso solo vía `server/utils/db.ts`; esquema en `server/db/schema.ts` y migraciones con `drizzle-kit`. Dev: base `caudal_dev` del Postgres del workdir (`127.0.0.1:5434`) |
 | Auth | `nuxt-auth-utils` | Sesión HTTP-only **por usuario** (email + contraseña, scrypt). API keys por usuario para el MCP |
 | Tests | vitest | Mínimo: dinero (money), presupuestos, recurrentes |

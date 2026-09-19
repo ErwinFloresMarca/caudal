@@ -1,10 +1,10 @@
 # SPC-001 — Bootstrap de la app Nuxt 4
 
-Estado: propuesta
+Estado: verificada
 
 ## Problema
 
-No existe el proyecto Caudal. Hace falta el andamiaje Nuxt 4 con el stack acordado (Nuxt UI v3, Tailwind v4, PostgreSQL + Drizzle ORM, vitest, Playwright, eslint) y la configuración base, limpio y sin build warnings.
+No existe el proyecto Caudal. Hace falta el andamiaje Nuxt 4 con el stack acordado (Nuxt UI v4, Tailwind v4, PostgreSQL + Drizzle ORM, vitest, Playwright, eslint) y la configuración base, limpio y sin build warnings.
 
 ## Requerimientos
 
