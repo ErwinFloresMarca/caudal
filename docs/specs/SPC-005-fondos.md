@@ -1,6 +1,6 @@
 # SPC-005 — Fondos
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-002
 
 ## Problema
@@ -19,8 +19,8 @@ El usuario maneja dinero por separado: lo personal y cada emprendimiento (impres
 
 ## Criterios de aceptación
 
-- [ ] Crear, editar y ocultar fondos con CRUD completo (test: repositorio + API).
-- [ ] Solo el dueño ve/edita sus fondos (test de aislamiento con dos usuarios).
-- [ ] Al registrar sin fondos, la app sugiere crear "Personal".
-- [ ] El fondo activo persiste entre recargas de la sesión del usuario.
-- [ ] Una cuenta pertenece a un solo fondo y su saldo se agrega al total del fondo.
+- [x] Crear, editar y ocultar fondos con CRUD completo (repositorio `server/utils/fondos.ts` + API incl. tests vitest `tests/fondos.test.ts` y E2E).
+- [x] Solo el dueño ve/edita sus fondos (test de aislamiento con dos usuarios en repo y en E2E).
+- [x] Al registrar sin fondos, la app sugiere crear "Personal" (`GET /api/fondos` devuelve `sugerir_personal: true`; la pantalla que lo muestra llega con SPC-004).
+- [x] El fondo activo persiste entre recargas de la sesión del usuario (`fondo_activo_id` en la sesión vía `GET/POST /api/fondos/activo`; no se crea sesión para peticiones por API key).
+- [x] Una cuenta pertenece a un solo fondo (FK `cuentas.fondo_id` en SPC-002); su saldo se agrega al total del fondo desde SPC-006/008.

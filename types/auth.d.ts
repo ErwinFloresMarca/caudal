@@ -6,4 +6,8 @@ declare module 'nuxt-auth-utils' {
     email: string
     name: string
   }
+
+  interface UserSession {
+    fondo_activo_id?: number
+  }
 }
