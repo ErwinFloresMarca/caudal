@@ -1,6 +1,6 @@
 # SPC-003 — Auth multiusuario + API keys para MCP
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-001, SPC-002
 
 ## Problema
@@ -22,11 +22,11 @@ Caudal es multiusuario (también para el asistente IA vía MCP). Hace falta regi
 
 ## Criterios de aceptación
 
-- [ ] `POST /api/auth/register` crea usuario y abre sesión; el usuario ve `/dashboard`.
-- [ ] Registrarse con email ya usado devuelve error amigable.
-- [ ] `GET /api/me` devuelve `{ id, email, name }` con sesión válida y 401 sin sesión.
-- [ ] Una API key generada (`POST /api/api-keys`) autentica con `Authorization: Bearer caudal_...` y actualiza `last_used_at`.
-- [ ] Revocar la key invalida el Bearer al instante.
-- [ ] Con la key NO se puede pasar `user_id` propio (se ignora y se toma el de la key).
-- [ ] Test: dos usuarios crean datos; usuario B con API key no ve los datos del A.
-- [ ] `pnpm lint` y `pnpm build` pasan.
+- [x] `POST /api/auth/register` crea usuario y abre sesión; el usuario ve `/dashboard`. (La sesión abre; la página `/dashboard` es de SPC-004/014.)
+- [x] Registrarse con email ya usado devuelve error amigable (409).
+- [x] `GET /api/me` devuelve `{ id, email, name }` con sesión válida y 401 sin sesión.
+- [x] Una API key generada (`POST /api/api-keys`) autentica con `Authorization: Bearer caudal_...` y actualiza `last_used_at`.
+- [x] Revocar la key invalida el Bearer al instante.
+- [x] Con la key NO se puede pasar `user_id` propio (se ignora y se toma el de la key).
+- [x] Test: dos usuarios crean datos; usuario B con API key no ve los datos del A.
+- [x] `pnpm lint` y `pnpm build` pasan.

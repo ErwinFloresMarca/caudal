@@ -6,8 +6,10 @@ import {
   fondos,
   cuentas,
   transacciones,
+  apiKeys,
 } from '../server/db/schema'
 import { eq } from 'drizzle-orm'
+import { generateApiKey, hashApiKey } from '../shared/api-keys'
 
 const hasDb = Boolean(process.env.DATABASE_URL)
 
@@ -24,6 +26,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   if (!hasDb) return
+  await db.delete(apiKeys).where(eq(apiKeys.user_id, userIdB))
   const cuentasDeA = await db.select({ id: cuentas.id }).from(cuentas).where(eq(cuentas.user_id, userIdA))
   for (const c of cuentasDeA) {
     await db.delete(transacciones).where(eq(transacciones.cuenta_id, c.id))
@@ -101,5 +104,31 @@ describe.skipIf(!hasDb)('aislamiento multiusuario', () => {
 
     const leido = await db.select({ tasa_ref: transacciones.tasa_ref }).from(transacciones).where(eq(transacciones.id, mov.id))
     expect(leido[0].tasa_ref).toBeNull()
+  })
+
+  it('API key de B resuelve a user_id de B y NO ve datos de A', async () => {
+    const [fondoA] = await db.select().from(fondos).where(eq(fondos.user_id, userIdA)).limit(1)
+    const key = generateApiKey()
+
+    const [keyB] = await db.insert(apiKeys).values({
+      user_id: userIdB,
+      nombre: 'key test',
+      key_hash: hashApiKey(key),
+    }).returning({ id: apiKeys.id })
+
+    const [resuelta] = await db
+      .select({ user_id: apiKeys.user_id })
+      .from(apiKeys)
+      .where(eq(apiKeys.key_hash, hashApiKey(key)))
+    expect(resuelta.user_id).toBe(userIdB)
+
+    const deBLasApiKeys = await db.select().from(fondos).where(eq(fondos.user_id, resuelta.user_id))
+    expect(deBLasApiKeys.some((f) => f.id === fondoA.id)).toBe(false)
+
+    const [row] = await db
+      .select({ last_used_at: apiKeys.last_used_at })
+      .from(apiKeys)
+      .where(eq(apiKeys.id, keyB.id))
+    expect(row.last_used_at).toBeNull()
   })
 })
