@@ -1,6 +1,6 @@
 # SPC-010 — Aportes y retiros entre fondos
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-008, SPC-009
 
 ## Problema
@@ -20,9 +20,21 @@ El usuario saca dinero de lo personal y lo mete a un emprendimiento (y a veces a
 
 ## Criterios de aceptación
 
-- [ ] Aporte personal → negocio de Bs 500: el fondo negocio sube Bs 500 como ingreso; el personal baja Bs 500 como gasto; ambas patas comparten `grupo_id`. (test)
-- [ ] Retiro en sentido inverso hace el efecto simétrico. (test)
-- [ ] Borrar la operación elimina/neutraliza ambas patas y restaura ambos fondos. (test)
-- [ ] Un aporte externo (sin fondo origen) solo crea la pata de ingreso.
-- [ ] En el reporte del fondo destino cuenta como ingreso; en el origen como gasto (no como transferencia neutral).
-- [ ] No se puede aportar a un fondo de otro usuario (validación server).
+- [x] Aporte personal → negocio de Bs 500: el fondo negocio sube Bs 500 como ingreso; el personal baja Bs 500 como gasto; ambas patas comparten `grupo_id`. (test)
+- [x] Retiro en sentido inverso hace el efecto simétrico. (test)
+- [x] Borrar la operación elimina/neutraliza ambas patas y restaura ambos fondos. (test)
+- [x] Un aporte externo (sin fondo origen) solo crea la pata de ingreso.
+- [x] En el reporte del fondo destino cuenta como ingreso; en el origen como gasto (no como transferencia neutral).
+- [x] No se puede aportar a un fondo de otro usuario (validación server).
+
+## Implementación (decisiones)
+
+- **Rutas API**: `/api/aportes` (GET listado del fondo activo, POST crear) y `/api/aportes/:id` (GET, PATCH, DELETE). Se separan de `/api/transferencias` porque el aporte **sí** afecta el resultado (crea transacciones) y la transferencia no. La UI las consume luego desde `/transferencias` con la pestaña «Entre fondos» (wireframe 6.6).
+- **Fondo derivado de las cuentas**: el body no manda `fondo_id`; cada pata hereda el fondo de su cuenta, validado contra el usuario. Evita IDs de fondo que vienen del cliente.
+- **`grupo_id` = id de la pata destino** (ingreso). Es único y sirve de clave de agrupación; el aporte externo también lo fija (a su propio id) para que borrar/editar por grupo funcione igual. `grupo_id` se usa **solo** para aportes en el modelo actual.
+- **Categorías de sistema**: `Aporte recibido` (ingreso) y `Retiro/Aporte entregado` (gasto), creadas on-demand por fondo reusando `es_predefinida` (no se añade un campo `es_sistema` al modelo). `categoriaSistema()` en `server/utils/categorias.ts` es idempotente por `(nombre, tipo)`.
+- **Multimoneda**: la pata destino deriva su moneda de la cuenta; si cruza moneda, se resuelve el monto origen con `monto_origen_centavos` o `tasa_ref` (misma convención que SPC-009) y toda pata USD exige `tasa_ref`. La moneda es de cada cuenta, no se elige en el body.
+- **Editar/borrar**: las cuentas/fondos quedan fijos; editar cambia montos, tasa, fecha y nota de ambas patas. Borrar elimina todas las filas con el `grupo_id`.
+- **Atomicidad**: las dos patas se insertan en una `db.transaction`.
+
+Archivos: `server/utils/aportes.ts`, `server/utils/categorias.ts` (`categoriaSistema`), `server/api/aportes*.ts`, `tests/aportes.test.ts`.

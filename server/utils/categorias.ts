@@ -108,6 +108,39 @@ export async function sembrarCategorias(userId: number, fondoId: number, tipoFon
   )
 }
 
+// Categoría "de sistema": se busca por (nombre, tipo) en el fondo y se crea si falta.
+// Reusa `es_predefinida` (no se borra) para no añadir un campo nuevo al modelo.
+export async function categoriaSistema(
+  userId: number,
+  fondoId: number,
+  data: { nombre: string; tipo: TipoCategoria; icono: string; color: string },
+): Promise<number> {
+  const [existente] = await db
+    .select({ id: categorias.id })
+    .from(categorias)
+    .where(and(eq(categorias.user_id, userId), eq(categorias.fondo_id, fondoId), eq(categorias.nombre, data.nombre), eq(categorias.tipo, data.tipo)))
+    .limit(1)
+  if (existente) return existente.id
+
+  const [nueva] = await db
+    .insert(categorias)
+    .values({
+      user_id: userId,
+      fondo_id: fondoId,
+      nombre: data.nombre,
+      tipo: data.tipo,
+      icono: data.icono,
+      color: data.color,
+      es_predefinida: true,
+      activa: true,
+    })
+    .returning({ id: categorias.id })
+  if (!nueva) {
+    throw httpError(500, 'No se pudo crear la categoría de sistema')
+  }
+  return nueva.id
+}
+
 export async function listarCategorias(userId: number, fondoId: number, { incluirInactivas = false } = {}) {
   const filas = await db
     .select()
