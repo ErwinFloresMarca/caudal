@@ -11,15 +11,10 @@ import {
   index,
   primaryKey,
 } from 'drizzle-orm/pg-core'
+import type { Cadencia } from '../../shared/recurrentes'
 
 export const moneda = ['BOB', 'USD'] as const
 export type Moneda = (typeof moneda)[number]
-
-export type Cadencia = {
-  frecuencia: 'diaria' | 'semanal' | 'quincenal' | 'mensual' | 'bimestral' | 'trimestral' | 'semestral' | 'anual'
-  dia?: number
-  dia_semana?: number
-}
 
 function id(name: string) {
   return integer(name).generatedAlwaysAsIdentity().primaryKey()

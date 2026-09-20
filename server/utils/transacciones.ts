@@ -18,6 +18,7 @@ export interface DatosTransaccion {
   fecha?: string
   nota?: string | null
   tasa_ref?: number | null
+  fuente?: string | null
 }
 
 type FilaTransaccion = typeof transacciones.$inferSelect
@@ -118,6 +119,7 @@ function transaccionPublica(t: FilaTransaccion, extra?: { moneda: Moneda; catego
     moneda: extra?.moneda ?? t.moneda,
     tasa_ref: t.tasa_ref ?? null,
     nota: t.nota ?? null,
+    fuente: t.fuente ?? null,
     cuenta_id: t.cuenta_id,
     fondo_id: t.fondo_id,
     monto_formateado: formatMoney({ centavos: t.monto_centavos, moneda: (extra?.moneda ?? t.moneda) as Moneda }),
@@ -140,6 +142,7 @@ export async function crearTransaccion(userId: number, fondoId: number, data: Da
       tasa_ref: moneda === 'USD' ? (data.tasa_ref ?? null) : null,
       fecha: data.fecha ?? hoyLocal(),
       nota: data.nota,
+      fuente: data.fuente ?? null,
     })
     .returning()
   if (!trx) {
