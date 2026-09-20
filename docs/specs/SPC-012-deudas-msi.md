@@ -1,6 +1,6 @@
 # SPC-012 — Deudas y MSI
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-008
 
 ## Problema
@@ -21,9 +21,21 @@ El usuario tiene deudas (lo que debe) y por cobrar (lo que le deben), y compras 
 
 ## Criterios de aceptación
 
-- [ ] Crear deuda de Bs 300 en 3 cuotas genera 3 cuotas de exactamente 10000 centavos (o ajuste de centavos documentado). (test)
-- [ ] Crear deuda de Bs 100 en 3 cuotas reparte 3334+3333+3333 = 10000 centavos exactos. (test)
-- [ ] Pagar una cuota crea una transacción en la cuenta elegida y sube el progreso a 1/3. (test)
-- [ ] Pagadas todas, la deuda pasa a `saldada`.
-- [ ] Una deuda `por_cobrar` genera un ingreso al pagar su cuota; `por_pagar`, un gasto.
-- [ ] Editar el número de cuotas recalcula las no pagadas sin tocar las pagadas.
+- [x] Crear deuda de Bs 300 en 3 cuotas genera 3 cuotas de exactamente 10000 centavos (o ajuste de centavos documentado). (test)
+- [x] Crear deuda de Bs 100 en 3 cuotas reparte 3334+3333+3333 = 10000 centavos exactos. (test)
+- [x] Pagar una cuota crea una transacción en la cuenta elegida y sube el progreso a 1/3. (test)
+- [x] Pagadas todas, la deuda pasa a `saldada`.
+- [x] Una deuda `por_cobrar` genera un ingreso al pagar su cuota; `por_pagar`, un gasto.
+- [x] Editar el número de cuotas recalcula las no pagadas sin tocar las pagadas.
+
+## Implementación (decisiones)
+
+- **Lógica pura** (`shared/cuotas.ts`): `repartirMonto` (sobrante de centavos a las primeras cuotas: 10000/3 → 3334+3333+3333), `fechasCuotas` y `generarCuotas`. Las fechas reusan `nextDate` de `shared/recurrentes` con ancla mensual desde `fecha_inicio`; **la cuota 1 vence en `fecha_inicio`** y recorta fin de mes.
+- **Pago** (`pagarCuota`): crea la transacción vía `crearTransaccion` (cuenta/categoría del fondo de la deuda, moneda de la cuenta), `gasto` si `por_pagar` e `ingreso` si `por_cobrar`; marca la cuota (`pagada`, `fecha_pago`, monto si se sobrescribe) y pone `estado='saldada'` cuando no quedan pendientes. El monto de la transacción puede sobrescribirse (interés/cuota distinta).
+- **Editar cuota** (`editarCuota`): cambia monto/fecha de una cuota no pagada; las pagadas se rechazan.
+- **Editar deuda** (`editarDeuda`): recalcula solo las cuotas **no pagadas**, repartiendo el monto restante (`monto_total − ya pagado`) entre las cuotas restantes; conserva las pagadas tal cual. `num_cuotas` no puede ser menor que las pagadas; si el total no cuadra con las pagadas, 400.
+- **Moneda de la deuda es propia**; el pago usa la moneda de la cuenta elegida (SPC-008), con `tasa_ref` obligatoria si es USD.
+- **Resumen para dashboard (SPC-014)**: no se implementa aquí para no sumar BOB+USD sin tasa; SPC-014 lo decide.
+- **Aislamiento**: `cuotas` no tiene `user_id` (es hija de `deudas`, SPC-002); todo se filtra por `deuda_id` de una deuda del usuario.
+
+Archivos: `shared/cuotas.ts`, `server/utils/deudas.ts`, `server/api/deudas*.ts`, `tests/deudas.test.ts`.
