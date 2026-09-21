@@ -1,6 +1,6 @@
 # SPC-015 — Reportes y gráficas
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-008, SPC-009, SPC-010, SPC-012
 
 ## Problema
@@ -24,9 +24,22 @@ El usuario necesita entender tendencias: en qué se va el dinero, cómo evolucio
 
 ## Criterios de aceptación
 
-- [ ] Un gasto USD de US$ 10 con `tasa_ref=6,96` suma Bs 69,60 al consolidado aunque hoy el paralelo sea otro. (test — la clave de la decisión 0002)
-- [ ] Un gasto BOB de Bs 69,60 suma Bs 69,60 sin requerir tasa. (test)
-- [ ] Las transferencias no alteran ingresos/egresos/ni neto. (test)
-- [ ] Un aporte entre fondos aparece como gasto en el origen y ingreso en el destino (y no como transferencia). (test)
-- [ ] El reporte por categoría suma exactamente el total de gastos del período (cuadre).
-- [ ] Capturas 390px/1280px de `/reportes` con datos de prueba, mostrando la nota de equivalente histórico.
+- [x] Un gasto USD de US$ 10 con `tasa_ref=6,96` suma Bs 69,60 al consolidado aunque hoy el paralelo sea otro. (test — la clave de la decisión 0002)
+- [x] Un gasto BOB de Bs 69,60 suma Bs 69,60 sin requerir tasa. (test)
+- [x] Las transferencias no alteran ingresos/egresos/ni neto. (test)
+- [x] Un aporte entre fondos aparece como gasto en el origen y ingreso en el destino (y no como transferencia). (test)
+- [x] El reporte por categoría suma exactamente el total de gastos del período (cuadre).
+- [ ] Capturas 390px/1280px de `/reportes` con datos de prueba, mostrando la nota de equivalente histórico. — pendiente del pase visual (SPC-021).
+
+## Implementación (decisiones)
+
+- **Agregación en servidor**: `server/api/reportes.get.ts` → `server/utils/reportes.ts#generarReporte(userId, { fondoIds, desde, hasta, base })`. Lógica pura en `shared/reportes.ts` (`mesesAtras`, `serieMensual`, `evolucionSaldo`, `rangoDias`), reusando `resumenPeriodo`/`gastosPorCategoria` de `shared/resumen.ts`.
+- **Consolidación histórica (0002)**: cada movimiento se convierte a la base con **su** `tasa_ref`; la nota lo declara. Se extendió `convertToBase` para soportar base **USD** (BOB→USD divide por la tasa), no solo BOB.
+- **Filtros por URL**: `?desde=&hasta=&fondos=1,2&base=BOB|USD`. Por defecto, mes en curso y todos los fondos.
+- **Multi-fondo**: se suman las transacciones de los fondos elegidos; los aportes/retiros entre fondos se **netean** al incluir ambos (gasto en el origen + ingreso en el destino). Las transferencias no están en `transacciones`, así que quedan fuera por construcción.
+- **Cuadre de categorías**: el endpoint devuelve **todas** las categorías (la UI recorta a top N) y expone `total_gastos_centavos`, para que Σ categorías = egresos del período.
+- **Evolución del saldo**: parte del saldo inicial de las cuentas + movimientos previos al período y acumula día a día; las transferencias se cancelan en el total del fondo.
+- **Gráficas**: SVG/CSS nativo, sin librería — decisión `docs/decisions/0006-graficas-reportes.md`.
+- **CSV**: diferido (opcional v1) junto con la pantalla.
+
+Archivos: `shared/reportes.ts`, `server/utils/reportes.ts`, `server/api/reportes.get.ts`, `shared/money.ts` (base USD), `docs/decisions/0006-graficas-reportes.md`, `tests/reportes.test.ts`.

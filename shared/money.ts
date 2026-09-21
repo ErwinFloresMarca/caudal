@@ -69,9 +69,13 @@ export function formatMoney(money: Money): string {
   return money.moneda === 'BOB' ? `Bs ${signo}${cuerpo}` : `US$ ${signo}${cuerpo}`
 }
 
-// Convierte a la moneda base (BOB por defecto) usando la tasa del dólar paralelo.
+// Convierte a la moneda base usando la tasa del dólar paralelo (BOB por USD).
+// USD→BOB multiplica; BOB→USD divide.
 export function convertToBase(money: Money, tasaRef: number | undefined, base: Moneda = 'BOB'): Money {
   if (money.moneda === base) return money
-  if (tasaRef == null) throw new Error('Falta tasa de cambio para convertir USD')
+  if (tasaRef == null) throw new Error('Falta tasa de cambio para convertir')
+  if (base === 'USD') {
+    return { centavos: Math.round(money.centavos / tasaRef), moneda: 'USD' }
+  }
   return { centavos: Math.round(money.centavos * tasaRef), moneda: base }
 }

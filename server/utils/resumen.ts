@@ -10,7 +10,7 @@ import { convertToBase, formatMoney, type Moneda } from '../../shared/money'
 import { gastosPorCategoria, rangoMes, resumenPeriodo, type MovResumen } from '../../shared/resumen'
 
 // Última tasa USD registrada en el fondo, para consolidar saldos (stock) a BOB.
-async function ultimaTasa(userId: number, fondoId: number): Promise<number | null> {
+export async function ultimaTasa(userId: number, fondoId: number): Promise<number | null> {
   const [row] = await db
     .select({ tasa_ref: transacciones.tasa_ref })
     .from(transacciones)

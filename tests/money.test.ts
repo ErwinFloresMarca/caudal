@@ -41,7 +41,13 @@ describe('convertToBase', () => {
     expect(convertToBase({ centavos: 4500, moneda: 'USD' }, 6.96)).toEqual({ centavos: 31320, moneda: 'BOB' })
   })
 
-  it('falla si falta tasa para USD', () => {
+  it('convierte a base USD dividiendo por la tasa', () => {
+    expect(convertToBase({ centavos: 69600, moneda: 'BOB' }, 6.96, 'USD')).toEqual({ centavos: 10000, moneda: 'USD' })
+    expect(convertToBase({ centavos: 4500, moneda: 'USD' }, 6.96, 'USD')).toEqual({ centavos: 4500, moneda: 'USD' })
+  })
+
+  it('falla si falta tasa para convertir', () => {
     expect(() => convertToBase({ centavos: 4500, moneda: 'USD' }, undefined)).toThrow(/tasa/)
+    expect(() => convertToBase({ centavos: 4500, moneda: 'BOB' }, undefined, 'USD')).toThrow(/tasa/)
   })
 })
