@@ -13,9 +13,9 @@ import {
   getMeta,
   editarMeta,
   borrarMeta,
-  crearAporte,
-  editarAporte,
-  borrarAporte,
+  crearAporteMeta,
+  editarAporteMeta,
+  borrarAporteMeta,
 } from '../server/utils/metas'
 import { calcularProgreso } from '#shared/metas'
 
@@ -95,7 +95,7 @@ describe.skipIf(!hasDb)('metas (repositorio)', () => {
     })
     expect(meta!.progreso.porcentaje).toBe(0)
 
-    const res = await crearAporte(userId, meta!.id, { monto_centavos: 120000, fecha: '2026-09-10', nota: 'primer ahorro' })
+    const res = await crearAporteMeta(userId, meta!.id, { monto_centavos: 120000, fecha: '2026-09-10', nota: 'primer ahorro' })
     expect(res.meta!.progreso.porcentaje).toBe(24)
     expect(res.meta!.progreso.restante_centavos).toBe(380000)
     expect(res.meta!.progreso.restante_formateado).toBe('Bs 3.800,00')
@@ -104,8 +104,8 @@ describe.skipIf(!hasDb)('metas (repositorio)', () => {
 
   it('sumar aportes que superan el objetivo marca alcanzada', async () => {
     const meta = await crearMeta(userId, fondoId, { nombre: 'Emergencia', monto_objetivo_centavos: 300000, moneda: 'BOB' })
-    await crearAporte(userId, meta!.id, { monto_centavos: 200000 })
-    const res = await crearAporte(userId, meta!.id, { monto_centavos: 150000 })
+    await crearAporteMeta(userId, meta!.id, { monto_centavos: 200000 })
+    const res = await crearAporteMeta(userId, meta!.id, { monto_centavos: 150000 })
     expect(res.meta!.progreso.alcanzada).toBe(true)
     expect(res.meta!.progreso.porcentaje).toBe(100)
     await borrarMeta(userId, meta!.id)
@@ -113,13 +113,13 @@ describe.skipIf(!hasDb)('metas (repositorio)', () => {
 
   it('editar y borrar un aporte recalcula el progreso', async () => {
     const meta = await crearMeta(userId, fondoId, { nombre: 'Viaje', monto_objetivo_centavos: 100000, moneda: 'BOB' })
-    const creado = await crearAporte(userId, meta!.id, { monto_centavos: 25000 })
+    const creado = await crearAporteMeta(userId, meta!.id, { monto_centavos: 25000 })
     expect(creado.meta!.progreso.porcentaje).toBe(25)
 
-    const editado = await editarAporte(userId, meta!.id, creado.aporte!.id, { monto_centavos: 50000 })
+    const editado = await editarAporteMeta(userId, meta!.id, creado.aporte!.id, { monto_centavos: 50000 })
     expect(editado.meta!.progreso.porcentaje).toBe(50)
 
-    const borrado = await borrarAporte(userId, meta!.id, creado.aporte!.id)
+    const borrado = await borrarAporteMeta(userId, meta!.id, creado.aporte!.id)
     expect(borrado.meta!.progreso.porcentaje).toBe(0)
     await borrarMeta(userId, meta!.id)
   })
@@ -127,19 +127,19 @@ describe.skipIf(!hasDb)('metas (repositorio)', () => {
   it('permite aporte con cuenta opcional y valida que sea del mismo fondo', async () => {
     const meta = await crearMeta(userId, fondoId, { nombre: 'Cuenta', monto_objetivo_centavos: 100000, moneda: 'BOB' })
 
-    const sinCuenta = await crearAporte(userId, meta!.id, { monto_centavos: 10000 })
+    const sinCuenta = await crearAporteMeta(userId, meta!.id, { monto_centavos: 10000 })
     expect(sinCuenta.aporte!.cuenta_id).toBeNull()
 
-    const conCuenta = await crearAporte(userId, meta!.id, { monto_centavos: 10000, cuenta_id: cuentaId })
+    const conCuenta = await crearAporteMeta(userId, meta!.id, { monto_centavos: 10000, cuenta_id: cuentaId })
     expect(conCuenta.aporte!.cuenta_id).toBe(cuentaId)
 
-    await expect(crearAporte(userId, meta!.id, { monto_centavos: 10000, cuenta_id: cuentaOtroFondoId })).rejects.toMatchObject({
+    await expect(crearAporteMeta(userId, meta!.id, { monto_centavos: 10000, cuenta_id: cuentaOtroFondoId })).rejects.toMatchObject({
       statusCode: 400,
       message: /Cuenta no encontrada/,
     })
 
     // un retiro negativo resta
-    const retiro = await crearAporte(userId, meta!.id, { monto_centavos: -5000 })
+    const retiro = await crearAporteMeta(userId, meta!.id, { monto_centavos: -5000 })
     expect(retiro.meta!.progreso.acumulado_centavos).toBe(15000)
     await borrarMeta(userId, meta!.id)
   })
@@ -155,7 +155,7 @@ describe.skipIf(!hasDb)('metas (repositorio)', () => {
 
   it('borrar la meta elimina sus aportes', async () => {
     const meta = await crearMeta(userId, fondoId, { nombre: 'Temporal', monto_objetivo_centavos: 100000, moneda: 'BOB' })
-    await crearAporte(userId, meta!.id, { monto_centavos: 10000 })
+    await crearAporteMeta(userId, meta!.id, { monto_centavos: 10000 })
     await borrarMeta(userId, meta!.id)
     const quedan = await db.select().from(aportesMeta).where(eq(aportesMeta.meta_id, meta!.id))
     expect(quedan.length).toBe(0)
@@ -165,14 +165,14 @@ describe.skipIf(!hasDb)('metas (repositorio)', () => {
     const meta = await crearMeta(userId, fondoId, { nombre: 'Privada', monto_objetivo_centavos: 100000, moneda: 'BOB' })
     expect(await getMeta(userIdOtro, meta!.id)).toBeNull()
     await expect(borrarMeta(userIdOtro, meta!.id)).rejects.toMatchObject({ statusCode: 404 })
-    await expect(crearAporte(userIdOtro, meta!.id, { monto_centavos: 100 })).rejects.toMatchObject({ statusCode: 404 })
+    await expect(crearAporteMeta(userIdOtro, meta!.id, { monto_centavos: 100 })).rejects.toMatchObject({ statusCode: 404 })
     expect((await listarMetas(userIdOtro, fondoId)).length).toBe(0)
     await borrarMeta(userId, meta!.id)
   })
 
   it('editar meta cambia objetivo y recalcula', async () => {
     const meta = await crearMeta(userId, fondoId, { nombre: 'Ajustable', monto_objetivo_centavos: 100000, moneda: 'BOB' })
-    await crearAporte(userId, meta!.id, { monto_centavos: 25000 })
+    await crearAporteMeta(userId, meta!.id, { monto_centavos: 25000 })
     const editada = await editarMeta(userId, meta!.id, { nombre: 'Ajustable', monto_objetivo_centavos: 50000, moneda: 'BOB' })
     expect(editada!.progreso.porcentaje).toBe(50)
     await borrarMeta(userId, meta!.id)

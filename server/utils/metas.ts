@@ -225,7 +225,7 @@ async function validarCuenta(userId: number, fondoId: number, cuentaId: number) 
   }
 }
 
-export async function crearAporte(userId: number, metaId: number, data: DatosAporteMeta) {
+export async function crearAporteMeta(userId: number, metaId: number, data: DatosAporteMeta) {
   const meta = await metaPropia(userId, metaId)
   if (data.cuenta_id != null) {
     await validarCuenta(userId, meta.fondo_id, data.cuenta_id)
@@ -246,7 +246,7 @@ export async function crearAporte(userId: number, metaId: number, data: DatosApo
   return { meta: await getMeta(userId, metaId), aporte: aportePublico(aporte, meta.moneda as Moneda) }
 }
 
-export async function editarAporte(userId: number, metaId: number, aporteId: number, data: DatosAporteMeta) {
+export async function editarAporteMeta(userId: number, metaId: number, aporteId: number, data: DatosAporteMeta) {
   const meta = await metaPropia(userId, metaId)
   const [aporte] = await db
     .select()
@@ -272,7 +272,7 @@ export async function editarAporte(userId: number, metaId: number, aporteId: num
   return { meta: await getMeta(userId, metaId), aporte: update ? aportePublico(update, meta.moneda as Moneda) : null }
 }
 
-export async function borrarAporte(userId: number, metaId: number, aporteId: number) {
+export async function borrarAporteMeta(userId: number, metaId: number, aporteId: number) {
   await metaPropia(userId, metaId)
   const [aporte] = await db
     .select()

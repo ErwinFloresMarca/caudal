@@ -389,6 +389,33 @@ export async function editarCuota(userId: number, deudaId: number, cuotaId: numb
   return actualizada ? cuotaPublica(actualizada, d.moneda as Moneda) : null
 }
 
+// Próximas cuotas por vencer del fondo (dashboard, SPC-014).
+export async function proximasCuotas(userId: number, fondoId: number, limite = 5) {
+  const hoy = hoyLocal()
+  const filas = await db
+    .select({
+      cuota_id: cuotas.id,
+      numero: cuotas.numero,
+      fecha_vencimiento: cuotas.fecha_vencimiento,
+      monto_centavos: cuotas.monto_centavos,
+      deuda_id: deudas.id,
+      contraparte: deudas.contraparte,
+      direccion: deudas.direccion,
+      moneda: deudas.moneda,
+    })
+    .from(cuotas)
+    .innerJoin(deudas, eq(deudas.id, cuotas.deuda_id))
+    .where(and(eq(deudas.user_id, userId), eq(deudas.fondo_id, fondoId), eq(cuotas.pagada, false)))
+    .orderBy(asc(cuotas.fecha_vencimiento))
+    .limit(limite)
+  return filas.map((f) => ({
+    ...f,
+    moneda: f.moneda as Moneda,
+    monto_formateado: formatMoney({ centavos: f.monto_centavos, moneda: f.moneda as Moneda }),
+    vencida: f.fecha_vencimiento < hoy,
+  }))
+}
+
 export async function borrarDeuda(userId: number, id: number) {
   const [d] = await db
     .select()
