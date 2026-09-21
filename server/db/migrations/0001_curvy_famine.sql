@@ -1,0 +1,1 @@
+ALTER TABLE "aportes_meta" ALTER COLUMN "cuenta_id" DROP NOT NULL;

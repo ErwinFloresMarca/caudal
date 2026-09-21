@@ -1,6 +1,6 @@
 # SPC-013 — Metas de ahorro
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-006
 
 ## Problema
@@ -20,8 +20,19 @@ El usuario quiere ahorrar para algo concreto (una impresora nueva, fondo de emer
 
 ## Criterios de aceptación
 
-- [ ] Crear meta de Bs 5000; aportar Bs 1200 muestra 24% y Bs 3800 restantes. (test)
-- [ ] Sumar aportes que superen el objetivo marca la meta como alcanzada (100% tope).
-- [ ] Editar o borrar un aporte recalcula el progreso. (test)
-- [ ] Las metas se listan por fondo activo.
-- [ ] Captura 390px/1280px de la lista de metas con progreso.
+- [x] Crear meta de Bs 5000; aportar Bs 1200 muestra 24% y Bs 3800 restantes. (test)
+- [x] Sumar aportes que superen el objetivo marca la meta como alcanzada (100% tope).
+- [x] Editar o borrar un aporte recalcula el progreso. (test)
+- [x] Las metas se listan por fondo activo.
+- [ ] Captura 390px/1280px de la lista de metas con progreso. — pendiente del pase visual (SPC-021).
+
+## Implementación (decisiones)
+
+- **Lógica pura** (`shared/metas.ts`): `calcularProgreso(aportes, objetivo)`. El porcentaje se topa a 100 para la barra; `alcanzada` en cuanto Σ ≥ objetivo; `restante = max(0, objetivo − Σ)`. Los aportes negativos (retiros) restan.
+- **Cambio de modelo**: `aportes_meta.cuenta_id` pasa a **nullable** (migración `0001_curvy_famine.sql`) porque el spec y el wireframe piden cuenta **opcional**. Contradecía el `NOT NULL` de SPC-002.
+- **v1 = registro simple**: el aporte **no** crea transacción ni toca saldos (wireframe 6.9). `cuenta_id` solo referencia la cuenta de origen como dato.
+- **Aporte negativo = retiro**: `parseAporteMeta` acepta enteros ≠ 0 (positivo o negativo).
+- **Validación**: la cuenta (si viene) debe ser del usuario y del **mismo fondo** de la meta. `aportes_meta` no tiene `user_id` (hija de `metas_ahorro`); todo se filtra por meta del usuario.
+- **Rutas**: `/api/metas` (GET/POST), `/api/metas/:id` (GET/PATCH/DELETE), `/api/metas/:id/aportes` (POST), `/api/metas/:id/aportes/:aporteId` (PATCH/DELETE).
+
+Archivos: `shared/metas.ts`, `server/utils/metas.ts`, `server/api/metas*.ts`, `server/db/schema.ts` + `server/db/migrations/0001_*`, `tests/metas.test.ts`.

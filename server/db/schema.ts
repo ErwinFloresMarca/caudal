@@ -230,7 +230,7 @@ export type MetaAhorro = typeof metasAhorro.$inferSelect
 export const aportesMeta = pgTable('aportes_meta', {
   id: id('id'),
   meta_id: integer('meta_id').notNull().references(() => metasAhorro.id),
-  cuenta_id: integer('cuenta_id').notNull().references(() => cuentas.id),
+  cuenta_id: integer('cuenta_id').references(() => cuentas.id),
   monto_centavos: integer('monto_centavos').notNull(),
   fecha: date('fecha').notNull(),
   nota: text('nota'),
