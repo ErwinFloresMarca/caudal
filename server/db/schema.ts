@@ -243,6 +243,22 @@ export const aportesMeta = pgTable('aportes_meta', {
 
 export type AporteMeta = typeof aportesMeta.$inferSelect
 
+export const presupuestos = pgTable('presupuestos', {
+  id: id('id'),
+  user_id: integer('user_id').notNull().references(() => users.id),
+  fondo_id: integer('fondo_id').notNull().references(() => fondos.id),
+  categoria_id: integer('categoria_id').notNull().references(() => categorias.id),
+  mes: text('mes').notNull(),
+  moneda: text('moneda').notNull().$type<Moneda>(),
+  monto_limite_centavos: integer('monto_limite_centavos').notNull(),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, (t) => [
+  uniqueIndex('presupuestos_fondo_categoria_mes_idx').on(t.fondo_id, t.categoria_id, t.mes),
+  index('presupuestos_user_id_idx').on(t.user_id),
+])
+
+export type Presupuesto = typeof presupuestos.$inferSelect
+
 export const settings = pgTable('settings', {
   user_id: integer('user_id').notNull().references(() => users.id),
   key: text('key').notNull(),

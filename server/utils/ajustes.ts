@@ -9,6 +9,7 @@ import {
   cuotas,
   metasAhorro,
   aportesMeta,
+  presupuestos,
   categorias,
   cuentas,
   fondos,
@@ -148,6 +149,7 @@ export async function borrarCuenta(userId: number, confirmacion: string) {
     await tx.delete(recurrentes).where(eq(recurrentes.user_id, userId))
     await tx.delete(deudas).where(eq(deudas.user_id, userId))
     await tx.delete(metasAhorro).where(eq(metasAhorro.user_id, userId))
+    await tx.delete(presupuestos).where(eq(presupuestos.user_id, userId))
     await tx.delete(categorias).where(eq(categorias.user_id, userId))
     await tx.delete(cuentas).where(eq(cuentas.user_id, userId))
     await tx.delete(fondos).where(eq(fondos.user_id, userId))
