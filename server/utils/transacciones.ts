@@ -1,6 +1,7 @@
 import { and, desc, eq, gte, ilike, inArray, lte, or, sql } from 'drizzle-orm'
 import { db } from './db'
 import { transacciones, cuentas, categorias } from '../db/schema'
+import { registrarTasaUsada } from './ajustes'
 import { formatMoney, type Moneda } from '../../shared/money'
 
 // Error HTTP sin depender de h3 (para que vitest pueda importar el repositorio).
@@ -147,6 +148,10 @@ export async function crearTransaccion(userId: number, fondoId: number, data: Da
     .returning()
   if (!trx) {
     throw httpError(500, 'No se pudo registrar la transacción')
+  }
+  // Recuerda la última tasa USD usada para auto-sugerirla (0002).
+  if (moneda === 'USD' && data.tasa_ref != null) {
+    await registrarTasaUsada(userId, data.tasa_ref, trx.fecha)
   }
   return transaccionPublica(trx, { moneda, categoria })
 }

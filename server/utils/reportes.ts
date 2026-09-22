@@ -2,6 +2,7 @@ import { listarFondos } from './fondos'
 import { listarCuentas } from './cuentas'
 import { listarTransacciones } from './transacciones'
 import { ultimaTasa } from './resumen'
+import { getMonedaBase, getTasa } from './ajustes'
 import { convertToBase, formatMoney, type Moneda } from '../../shared/money'
 import { gastosPorCategoria, resumenPeriodo, type MovResumen } from '../../shared/resumen'
 import { evolucionSaldo, serieMensual } from '../../shared/reportes'
@@ -37,7 +38,9 @@ function aMov(t: Awaited<ReturnType<typeof listarTransacciones>>[number]): MovRe
 // de cada transacción (0002); las transferencias quedan fuera (no son transacciones) y
 // los aportes/retiros entre fondos se netean al sumar ambos fondos.
 export async function generarReporte(userId: number, filtros: FiltrosReporte) {
-  const base = filtros.base ?? 'BOB'
+  const base = filtros.base ?? (await getMonedaBase(userId))
+  // Base USD: los movimientos BOB no guardan tasa, se usa la tasa actual como referencia.
+  const tasaFallback = base === 'USD' ? (await getTasa(userId)).actual?.valor : undefined
   const todos = await listarFondos(userId)
   let seleccion = todos
   if (filtros.fondoIds && filtros.fondoIds.length > 0) {
@@ -64,18 +67,19 @@ export async function generarReporte(userId: number, filtros: FiltrosReporte) {
       if (moneda === base) {
         saldoInicialConsolidado += c.saldo_inicial_centavos
       } else {
-        if (tasa == null) {
+        const tasaConversion = tasa ?? tasaFallback
+        if (tasaConversion == null) {
           throw httpError(400, `Falta tasa para consolidar la cuenta ${c.nombre}`)
         }
-        saldoInicialConsolidado += convertToBase({ centavos: c.saldo_inicial_centavos, moneda }, tasa, base).centavos
+        saldoInicialConsolidado += convertToBase({ centavos: c.saldo_inicial_centavos, moneda }, tasaConversion, base).centavos
       }
     }
   }
 
-  const flujo = resumenPeriodo(movs, { desde: filtros.desde, hasta: filtros.hasta, base })
-  const categorias = gastosPorCategoria(movs, { desde: filtros.desde, hasta: filtros.hasta, base, limite: LIMITE_CATEGORIAS })
-  const serie = serieMensual(movs, { hasta: filtros.hasta, base })
-  const evolucion = evolucionSaldo(movs, { desde: filtros.desde, hasta: filtros.hasta, saldoInicialCentavos: saldoInicialConsolidado, base })
+  const flujo = resumenPeriodo(movs, { desde: filtros.desde, hasta: filtros.hasta, base, tasaFallback })
+  const categorias = gastosPorCategoria(movs, { desde: filtros.desde, hasta: filtros.hasta, base, tasaFallback, limite: LIMITE_CATEGORIAS })
+  const serie = serieMensual(movs, { hasta: filtros.hasta, base, tasaFallback })
+  const evolucion = evolucionSaldo(movs, { desde: filtros.desde, hasta: filtros.hasta, saldoInicialCentavos: saldoInicialConsolidado, base, tasaFallback })
   const totalGastos = categorias.reduce((s, c) => s + c.centavos, 0)
 
   return {

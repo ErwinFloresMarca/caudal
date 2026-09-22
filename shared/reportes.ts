@@ -35,14 +35,15 @@ export interface OpcionesSerie {
   hasta: string
   meses?: number
   base?: Moneda
+  tasaFallback?: number
 }
 
 // Ingresos vs egresos por mes (barras agrupadas), consolidados con la tasa de cada movimiento.
-export function serieMensual(movs: MovResumen[], { hasta, meses = 12, base = 'BOB' as Moneda }: OpcionesSerie): PuntoMensual[] {
+export function serieMensual(movs: MovResumen[], { hasta, meses = 12, base = 'BOB' as Moneda, tasaFallback }: OpcionesSerie): PuntoMensual[] {
   return mesesAtras(hasta, meses).map((mes) => {
     const delMes = movs.filter((m) => m.fecha.slice(0, 7) === mes)
-    const ingresos = consolidarBase(delMes.filter((m) => m.tipo === 'ingreso'), base)
-    const egresos = consolidarBase(delMes.filter((m) => m.tipo === 'gasto'), base)
+    const ingresos = consolidarBase(delMes.filter((m) => m.tipo === 'ingreso'), base, tasaFallback)
+    const egresos = consolidarBase(delMes.filter((m) => m.tipo === 'gasto'), base, tasaFallback)
     return { mes, ingresos_centavos: ingresos, egresos_centavos: egresos, neto_centavos: ingresos - egresos }
   })
 }
@@ -73,18 +74,19 @@ export interface OpcionesEvolucion {
   hasta: string
   saldoInicialCentavos: number
   base?: Moneda
+  tasaFallback?: number
 }
 
 // Evolución del saldo total: parte del saldo inicial de las cuentas + movimientos
 // anteriores al período, y avanza día a día con el neto consolidado de cada día.
 // Las transferencias no están en `movs` y no alteran el total (se cancelan en el fondo).
-export function evolucionSaldo(movs: MovResumen[], { desde, hasta, saldoInicialCentavos, base = 'BOB' as Moneda }: OpcionesEvolucion): PuntoSaldo[] {
-  let saldo = saldoInicialCentavos + consolidarBase(movs.filter((m) => m.fecha < desde), base)
+export function evolucionSaldo(movs: MovResumen[], { desde, hasta, saldoInicialCentavos, base = 'BOB' as Moneda, tasaFallback }: OpcionesEvolucion): PuntoSaldo[] {
+  let saldo = saldoInicialCentavos + consolidarBase(movs.filter((m) => m.fecha < desde), base, tasaFallback)
 
   const porDia = new Map<string, number>()
   for (const m of movs) {
     if (m.fecha < desde || m.fecha > hasta) continue
-    const delta = consolidarBase([m], base) * (m.tipo === 'ingreso' ? 1 : -1)
+    const delta = consolidarBase([m], base, tasaFallback) * (m.tipo === 'ingreso' ? 1 : -1)
     porDia.set(m.fecha, (porDia.get(m.fecha) ?? 0) + delta)
   }
 

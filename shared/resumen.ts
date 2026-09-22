@@ -24,9 +24,10 @@ export function rangoMes(fecha: string): { desde: string; hasta: string } {
   return { desde: `${y}-${pad(m)}-01`, hasta: `${y}-${pad(m)}-${pad(diasDelMes(y, m))}` }
 }
 
-// Consolida montos a la moneda base usando la tasa histórica de cada movimiento (0002).
-export function consolidarBase(movs: MovResumen[], base: Moneda = 'BOB'): number {
-  return movs.reduce((s, m) => s + convertToBase({ centavos: m.monto_centavos, moneda: m.moneda }, m.tasa_ref ?? undefined, base).centavos, 0)
+// Consolida montos a la moneda base. Cada movimiento usa su tasa histórica (0002);
+// si no la tiene (BOB hacia base USD) se usa `tasaFallback` (tasa actual del usuario).
+export function consolidarBase(movs: MovResumen[], base: Moneda = 'BOB', tasaFallback?: number): number {
+  return movs.reduce((s, m) => s + convertToBase({ centavos: m.monto_centavos, moneda: m.moneda }, m.tasa_ref ?? tasaFallback, base).centavos, 0)
 }
 
 export interface OpcionesResumen {
@@ -34,6 +35,7 @@ export interface OpcionesResumen {
   hasta: string
   base?: Moneda
   limite?: number
+  tasaFallback?: number
 }
 
 export interface ResumenPeriodo {
@@ -45,7 +47,7 @@ export interface ResumenPeriodo {
 
 // Ingresos/egresos/neto del período, por moneda y consolidado. Las transferencias no
 // viven en `transacciones`, así que quedan fuera por construcción.
-export function resumenPeriodo(movs: MovResumen[], { desde, hasta, base = 'BOB' as Moneda }: OpcionesResumen): ResumenPeriodo {
+export function resumenPeriodo(movs: MovResumen[], { desde, hasta, base = 'BOB' as Moneda, tasaFallback }: OpcionesResumen): ResumenPeriodo {
   const dentro = movs.filter((m) => m.fecha >= desde && m.fecha <= hasta)
   const monedas = [...new Set(dentro.map((m) => m.moneda))].sort() as Moneda[]
 
@@ -56,8 +58,8 @@ export function resumenPeriodo(movs: MovResumen[], { desde, hasta, base = 'BOB' 
     return { moneda, ingresos_centavos: ingresos, egresos_centavos: egresos, neto_centavos: ingresos - egresos }
   })
 
-  const ingresos = consolidarBase(dentro.filter((m) => m.tipo === 'ingreso'), base)
-  const egresos = consolidarBase(dentro.filter((m) => m.tipo === 'gasto'), base)
+  const ingresos = consolidarBase(dentro.filter((m) => m.tipo === 'ingreso'), base, tasaFallback)
+  const egresos = consolidarBase(dentro.filter((m) => m.tipo === 'gasto'), base, tasaFallback)
   return {
     desde,
     hasta,
@@ -76,9 +78,9 @@ export interface CategoriaGasto {
 }
 
 // Top de gastos por categoría del período (consolidado), ordenado desc.
-export function gastosPorCategoria(movs: MovResumen[], { desde, hasta, base = 'BOB' as Moneda, limite = 6 }: OpcionesResumen): CategoriaGasto[] {
+export function gastosPorCategoria(movs: MovResumen[], { desde, hasta, base = 'BOB' as Moneda, limite = 6, tasaFallback }: OpcionesResumen): CategoriaGasto[] {
   const gastos = movs.filter((m) => m.tipo === 'gasto' && m.fecha >= desde && m.fecha <= hasta)
-  const total = consolidarBase(gastos, base)
+  const total = consolidarBase(gastos, base, tasaFallback)
 
   const grupos = new Map<string, { categoria_id: number | null; nombre: string; icono: string | null; color: string | null; movs: MovResumen[] }>()
   for (const m of gastos) {
@@ -102,8 +104,8 @@ export function gastosPorCategoria(movs: MovResumen[], { desde, hasta, base = 'B
       nombre: g.nombre,
       icono: g.icono,
       color: g.color,
-      centavos: consolidarBase(g.movs, base),
-      porcentaje: total > 0 ? Math.round((consolidarBase(g.movs, base) / total) * 100) : 0,
+      centavos: consolidarBase(g.movs, base, tasaFallback),
+      porcentaje: total > 0 ? Math.round((consolidarBase(g.movs, base, tasaFallback) / total) * 100) : 0,
     }))
     .sort((a, b) => b.centavos - a.centavos)
     .slice(0, limite)

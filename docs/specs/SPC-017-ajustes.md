@@ -1,6 +1,6 @@
 # SPC-017 — Ajustes
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-003, SPC-007
 
 ## Problema
@@ -23,9 +23,24 @@ El usuario necesita un lugar para su perfil, la tasa del dólar, sus categorías
 
 ## Criterios de aceptación
 
-- [ ] Cambiar contraseña exige la actual y, al cambiar, la sesión sigue válida. (o invalida las otras si se decide)
-- [ ] La tasa paralelo guardada aparece auto-sugerida al registrar una transacción USD (SPC-008). (test/integración)
-- [ ] Crear API key la muestra una única vez; al recargar ya no es visible.
-- [ ] Revocar una API key la invalida de inmediato (prueba con Bearer rechazado). (test)
-- [ ] Cambiar la moneda base por defecto cambia la base de los reportes nuevos.
-- [ ] Capturas 390px/1280px de las secciones Perfil y API keys.
+- [x] Cambiar contraseña exige la actual y, al cambiar, la sesión sigue válida (la cookie no se rota). (test)
+- [x] La tasa paralelo guardada aparece auto-sugerida al registrar una transacción USD (SPC-008). (test/integración)
+- [~] Crear API key la muestra una única vez; al recargar ya no es visible. — el backend ya devuelve la key solo al crear (SPC-003); la recarga es UI (SPC-021).
+- [x] Revocar una API key la invalida de inmediato (prueba con Bearer rechazado). (test)
+- [x] Cambiar la moneda base por defecto cambia la base de los reportes nuevos.
+- [ ] Capturas 390px/1280px de las secciones Perfil y API keys. — pase visual (SPC-021).
+
+## Implementación (decisiones)
+
+- **Settings por usuario** (`server/utils/settings.ts`): get/set key-value en `settings` (jsonb). Claves: `moneda_base` y `tasa`.
+- **`server/utils/ajustes.ts`**: `getPerfil`/`actualizarPerfil` (nombre, email con validación y unicidad, timezone), `cambiarPassword` (verifica la actual con scrypt; **no rota la sesión**, por eso sigue válida), `getMonedaBase`/`setMonedaBase`, `getTasa`/`setTasa`, `borrarCuenta(confirmacion='BORRAR')`.
+- **Auto-sugerencia de tasa**: `crearTransaccion` guarda en `settings` la última tasa USD usada (historial de 20). La escritura no bloquea el registro si falla. Se expone en `GET /api/ajustes/tasa`.
+- **Moneda base en reportes**: `generarReporte` usa `moneda_base` del usuario si no se pasa `base`. Para base **USD** los movimientos BOB (que no guardan tasa) se convierten con la **tasa actual** del usuario como `tasaFallback`; se añadió ese parámetro a la consolidación (`shared/resumen.ts`, `shared/reportes.ts`).
+- **Borrar cuenta**: transacción que borra todas las tablas del usuario (cuotas/aportes_meta primero, por las FK) y el usuario. Confirmación explícita (`BORRAR`).
+- **Cerrar todas las sesiones**: no implementado — la sesión es una cookie firmada sin store servidor, invalidar las otras no es barato (nuxt-auth-utils). Logout ya existe (SPC-003).
+- **Exportar datos**: diferido (fuera de los criterios de aceptación).
+- **Categorías y Fondos** reutilizan SPC-007/SPC-005 (enlaces, sin duplicar).
+
+Rutas: `GET /api/ajustes`, `PATCH /api/ajustes/perfil`, `POST /api/ajustes/password`, `PATCH /api/ajustes/preferencias`, `GET /api/ajustes/tasa`, `POST /api/ajustes/borrar-cuenta` (más `/api/api-keys` de SPC-003).
+
+Archivos: `server/utils/settings.ts`, `server/utils/ajustes.ts`, `server/api/ajustes*.ts`, `server/utils/transacciones.ts` (registra tasa), `server/utils/reportes.ts` + `shared/resumen.ts` + `shared/reportes.ts` (tasaFallback), `shared/money.ts`, `tests/ajustes.test.ts`.
