@@ -1,6 +1,6 @@
 # SPC-023 — Login con Google (OAuth)
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-002, SPC-003, SPC-004
 Extiende: SPC-002 (modelo de datos), SPC-003 (auth)
 
@@ -50,15 +50,28 @@ Hoy el acceso a Caudal es solo email + contraseña (SPC-003). Crear y recordar o
 
 ## Criterios de aceptación
 
-- [ ] Con `NUXT_OAUTH_GOOGLE_ID` / `NUXT_OAUTH_GOOGLE_SECRET` válidos, `/auth/google` completa el flujo y deja sesión iniciada (cookie HTTP-only).
-- [ ] Email nuevo: crea `users` (sin password) + `oauth_accounts` y entra a `/`.
-- [ ] Email que ya existía con contraseña: NO duplica usuario; crea el vínculo en `oauth_accounts` y entra.
-- [ ] Reintentar con la misma cuenta Google reutiliza el mismo `user_id` (sin duplicados).
-- [ ] `onError` redirige a `/auth/error?provider=google` sin exponer tokens ni secretos.
-- [ ] Test vitest de `findOrCreateOAuthUser` cubre los 3 casos y no toca datos de otro usuario.
-- [ ] Test: `/auth/google` no exige sesión previa; una ruta de datos sigue devolviendo 401 sin ella.
-- [ ] `grep` del repo no encuentra persistencia de access/refresh tokens.
-- [ ] `pnpm lint`, `pnpm test` y `pnpm build` pasan.
+- [~] Con `NUXT_OAUTH_GOOGLE_ID` / `NUXT_OAUTH_GOOGLE_SECRET` válidos, `/auth/google` completa el flujo y deja sesión iniciada (cookie HTTP-only). — wiring listo; el round-trip real requiere credenciales de Google que el usuario configura en `.env`.
+- [x] Email nuevo: crea `users` (sin password) + `oauth_accounts` y entra a `/`.
+- [x] Email que ya existía con contraseña: NO duplica usuario; crea el vínculo en `oauth_accounts` y entra.
+- [x] Reintentar con la misma cuenta Google reutiliza el mismo `user_id` (sin duplicados).
+- [x] `onError` redirige a `/auth/error?provider=google` sin exponer tokens ni secretos.
+- [x] Test vitest de `findOrCreateOAuthUser` cubre los 3 casos y no toca datos de otro usuario.
+- [x] Test: `/auth/google` no exige sesión previa; una ruta de datos sigue devolviendo 401 sin ella.
+- [x] `grep` del repo no encuentra persistencia de access/refresh tokens.
+- [x] `pnpm lint`, `pnpm test` y `pnpm build` pasan.
+
+## Implementación (decisiones)
+
+- **Modelo ya existía** (SPC-002): `oauth_accounts`, `users.avatar_url` y `users.password_hash` nullable. **Sin migración**.
+- **`findOrCreateOAuthUser`** (`server/utils/users.ts`): transacción con los 3 casos (cuenta OAuth → actualiza avatar; email existente → vincula sin duplicar; nuevo → crea usuario sin contraseña + cuenta OAuth). Nunca guarda tokens.
+- **Config**: `runtimeConfig.oauth.google = { id, secret }` (env `NUXT_OAUTH_GOOGLE_ID` / `NUXT_OAUTH_GOOGLE_SECRET`); el handler los pasa como `clientId`/`clientSecret` (así los espera `nuxt-auth-utils`). Añadidos a `.env.example`.
+- **Ruta**: `server/routes/auth/google.ts` con `defineOAuthGoogleEventHandler`; `onSuccess` abre sesión y redirige a `/`; `onError` loguea solo el mensaje y redirige a `/auth/error?provider=google`.
+- **Público**: `/auth/*` queda fuera del middleware (allowlist junto a `/login`); `/auth/google` responde 302 sin sesión y `/api/fondos` sigue dando 401.
+- **UI**: botón "Continuar con Google" en `/login` (con el logo SVG oficial, como el wireframe) y página `/auth/error` con layout `auth`.
+
+Verificación con curl (servidor de producción): `/auth/google` sin sesión → 302 (público); `/api/fondos` sin sesión → 401. Playwright: el botón aparece en `/login` 390px (`.screenshots/spc-023-login-390.png`, gitignored).
+
+Archivos: `server/utils/users.ts`, `server/routes/auth/google.ts`, `nuxt.config.ts`, `.env.example`, `app/pages/login.vue`, `app/pages/auth/error.vue`, `app/middleware/auth.global.ts`, `tests/oauth.test.ts`.
 
 ## Patrón de referencia (a adaptar, no copiar literal)
 

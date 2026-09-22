@@ -20,6 +20,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     sessionPassword: '',
     databaseUrl: '',
+    oauth: {
+      google: {
+        id: '',
+        secret: '',
+      },
+    },
   },
 
   devServer: {
