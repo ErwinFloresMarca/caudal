@@ -1,6 +1,6 @@
 # SPC-004 — Shell, layout, navegación y UI base
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-001 (tokens), y se empareja con SPC-003/005 para verse "viva"
 
 ## Problema
@@ -22,8 +22,19 @@ Sin un shell común, cada pantalla reinventará la navegación y el layout. Hace
 
 ## Criterios de aceptación
 
-- [ ] En 1280px la navegación es sidebar; en 390px es barra inferior con los accesos principales (no drawer oculto que nadie encuentra).
-- [ ] Sin sesión: redirige a `/login`; con sesión la app se muestra con el fondo activo.
-- [ ] Cambiar el fondo activo en cabecera actualiza los saldos visibles sin recargar.
-- [ ] Capturas 390px y 1280px de la vista con 2 cuentas (una BOB, una USD) muestran `Bs 12,50` y `US$ 45,00` con `tabular-nums`.
-- [ ] `pnpm lint`, `pnpm typecheck`, `pnpm build` limpios.
+- [x] En 1280px la navegación es sidebar; en 390px es barra inferior con los accesos principales (no drawer oculto que nadie encuentra).
+- [x] Sin sesión: redirige a `/login`; con sesión la app se muestra con el fondo activo.
+- [x] Cambiar el fondo activo en cabecera actualiza los saldos visibles sin recargar.
+- [x] Capturas 390px y 1280px de la vista con 2 cuentas (una BOB, una USD) muestran `Bs 12,50` y `US$ 45,00` con `tabular-nums`.
+- [x] `pnpm lint`, `pnpm typecheck`, `pnpm build` limpios.
+
+## Implementación (decisiones)
+
+- **Layouts**: `app/layouts/default.vue` (shell: sidebar `lg:`, header, main, bottom nav) y `app/layouts/auth.vue` (centrado para login). `app/middleware/auth.global.ts` redirige a `/login` sin sesión y a `/` con sesión.
+- **Fondo activo**: composable `useFondoActivo` (estado compartido `useState` + `useRequestFetch` para SSR) con `cargarFondos`/`cargarFondoActivo`/`seleccionarFondo`. El selector (`FondoActivoMenu`, `UDropdownMenu`) y `BalancesPanel` reaccionan al cambio (`useAsyncData` con `watch`), así que los saldos se actualizan **sin recarga completa**.
+- **Navegación**: `app/utils/navegacion.ts` con las 11 rutas (incluye `Presupuestos`). Sidebar `AppSidebar` y barra inferior `AppBottomNav` (Inicio, Movimientos, **+**, Fondos, Ajustes). Iconos **Material Symbols** vía `UIcon` (`i-material-symbols-*`).
+- **Pantallas**: dashboard `/` (saldos reales), `/login` (login real contra `/api/auth/login`) y `/fondos` (listado real). El resto de rutas son un `PaginaEnConstruccion` de relleno que el pase visual (SPC-021) reemplaza; así la navegación no da 404.
+- **BalancesPanel**: total por moneda + filas por cuenta con icono por tipo y formato `formatMoney` (tabular-nums).
+- **Verificación visual**: Playwright (bundled Chromium) — login, redirección sin sesión, cambio de fondo sin recarga y responsive. Capturas en `.screenshots/` (gitignored).
+
+Archivos: `app/layouts/{default,auth}.vue`, `app/middleware/auth.global.ts`, `app/composables/useFondoActivo.ts`, `app/utils/navegacion.ts`, `app/components/{AppSidebar,AppBottomNav,FondoActivoMenu,BalancesPanel,PaginaEnConstruccion}.vue`, `app/pages/*.vue`.
