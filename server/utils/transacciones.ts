@@ -1,4 +1,4 @@
-import { and, desc, eq, sql } from 'drizzle-orm'
+import { and, desc, eq, gte, ilike, inArray, lte, or, sql } from 'drizzle-orm'
 import { db } from './db'
 import { transacciones, cuentas, categorias } from '../db/schema'
 import { formatMoney, type Moneda } from '../../shared/money'
@@ -185,6 +185,75 @@ export async function listarTransacciones(userId: number, fondoId: number, { des
       categoria: f.categoria_id ? { id: f.categoria_id, nombre: f.categoria_nombre!, icono: f.categoria_icono, color: f.categoria_color } : null,
     }),
   )
+}
+
+export interface FiltrosBusqueda {
+  fondoIds?: number[]
+  cuenta_id?: number
+  categoria_id?: number
+  tipo?: TipoTransaccion
+  moneda?: Moneda
+  fuente?: string
+  q?: string
+  desde?: string
+  hasta?: string
+  monto_min?: number
+  monto_max?: number
+  orden?: 'fecha' | 'monto'
+  limite?: number
+  cursor?: { valor: string | number; id: number }
+}
+
+// Búsqueda con filtros combinables + paginación por cursor. El cursor es
+// `fecha|id` (orden fecha) o `monto|id` (orden monto): no pierde ni repite filas.
+export async function buscarTransacciones(userId: number, filtros: FiltrosBusqueda) {
+  const limite = Math.min(Math.max(filtros.limite ?? 50, 1), 200)
+  const orden = filtros.orden ?? 'fecha'
+
+  const conds = [eq(transacciones.user_id, userId)]
+  if (filtros.fondoIds?.length) conds.push(inArray(transacciones.fondo_id, filtros.fondoIds))
+  if (filtros.cuenta_id) conds.push(eq(transacciones.cuenta_id, filtros.cuenta_id))
+  if (filtros.categoria_id) conds.push(eq(transacciones.categoria_id, filtros.categoria_id))
+  if (filtros.tipo) conds.push(eq(transacciones.tipo, filtros.tipo))
+  if (filtros.moneda) conds.push(eq(transacciones.moneda, filtros.moneda))
+  if (filtros.fuente) conds.push(eq(transacciones.fuente, filtros.fuente))
+  if (filtros.desde) conds.push(sql`${transacciones.fecha} >= ${filtros.desde}`)
+  if (filtros.hasta) conds.push(sql`${transacciones.fecha} <= ${filtros.hasta}`)
+  if (filtros.monto_min != null) conds.push(gte(transacciones.monto_centavos, filtros.monto_min))
+  if (filtros.monto_max != null) conds.push(lte(transacciones.monto_centavos, filtros.monto_max))
+  if (filtros.q) {
+    const like = `%${filtros.q}%`
+    conds.push(or(ilike(transacciones.nota, like), ilike(categorias.nombre, like))!)
+  }
+  if (filtros.cursor) {
+    const { valor, id } = filtros.cursor
+    if (orden === 'monto') {
+      const v = Number(valor)
+      conds.push(or(sql`${transacciones.monto_centavos} < ${v}`, and(eq(transacciones.monto_centavos, v), sql`${transacciones.id} < ${id}`))!)
+    } else {
+      const v = String(valor)
+      conds.push(or(sql`${transacciones.fecha} < ${v}`, and(eq(transacciones.fecha, v), sql`${transacciones.id} < ${id}`))!)
+    }
+  }
+
+  const filas = await listadoQuery()
+    .where(and(...conds))
+    .orderBy(...(orden === 'monto' ? [desc(transacciones.monto_centavos), desc(transacciones.id)] : [desc(transacciones.fecha), desc(transacciones.id)]))
+    .limit(limite + 1)
+
+  const hayMas = filas.length > limite
+  const pagina = filas.slice(0, limite)
+  const transaccionesPagina = pagina.map((f) =>
+    transaccionPublica(f.trx, {
+      moneda: f.cuenta_moneda as Moneda,
+      categoria: f.categoria_id ? { id: f.categoria_id, nombre: f.categoria_nombre!, icono: f.categoria_icono, color: f.categoria_color } : null,
+    }),
+  )
+  const ultimo = pagina.at(-1)
+  const siguiente_cursor =
+    hayMas && ultimo ? (orden === 'monto' ? `${ultimo.trx.monto_centavos}|${ultimo.trx.id}` : `${ultimo.trx.fecha}|${ultimo.trx.id}`) : null
+
+  return { transacciones: transaccionesPagina, siguiente_cursor }
 }
 
 export async function getTransaccion(userId: number, id: number) {

@@ -15,6 +15,13 @@
       "when": 1789923874593,
       "tag": "0001_curvy_famine",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790047821407,
+      "tag": "0002_flashy_zaladane",
+      "breakpoints": true
     }
   ]
 }
