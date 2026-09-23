@@ -1,5 +1,6 @@
 {
   "name": "caudal",
+  "version": "0.0.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -13,6 +14,7 @@
     "test": "vitest run",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
+    "release": "bash scripts/release.sh",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
