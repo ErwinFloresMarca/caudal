@@ -1,6 +1,6 @@
 # SPC-022 — Release y cierre de v1
 
-Estado: propuesta
+Estado: implementada (tooling + primer release; cierre v1.0.0 pendiente de PWA/MCP)
 Depende de: todos los specs anteriores
 
 ## Problema
@@ -19,9 +19,14 @@ Cerrar la v1 de Caudal: empaquetar, publicar y entregar una versión usada de ve
 
 ## Criterios de aceptación
 
-- [ ] `pnpm release minor` publica `v1.0.0` y el pipeline termina en verde.
-- [ ] Deploy en producción sirve la versión publicada.
-- [ ] Flujo E2E completo (usuario nuevo → movimiento → reporte → MCP) funciona en producción.
+- [x] Pipeline de release reproducible (`scripts/release.sh` + `.github/workflows/build-release.yml`). Publicado `v0.1.1`.
+- [~] `pnpm release minor` publica `v1.0.0` y el pipeline termina en verde. — el pipeline ya funciona; el tag `v1.0.0` se crea al cerrar (tras PWA/MCP).
+- [~] Deploy en producción sirve la versión publicada. — `v0.1.1` sirviendo en pm2/nginx; falta el registro DNS en Cloudflare.
+- [ ] Flujo E2E completo (usuario nuevo → movimiento → reporte → MCP) funciona en producción. — MCP (SPC-018) pendiente.
 - [ ] Todos los specs indican su estado real; los verificados, `verificada`.
 - [ ] Bitácora de decisiones y deuda técnica registrada.
-- [ ] README/ROADMAP reflejan la v1 entregada.
+- [~] README/ROADMAP reflejan la v1 entregada. — README con Producción/Estado actualizado; ROADMAP se cierra al final.
+
+## Progreso
+
+Tooling de release hecho y validado (`v0.1.1` desplegada). Queda para el cierre: implementar PWA y MCP, recorrer los 22 specs marcando estado, CHANGELOG final, decisiones y deuda técnica (`ponytail:`), y `pnpm release major` → `v1.0.0`.

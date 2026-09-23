@@ -51,7 +51,7 @@ jobs:
         run: pnpm build
 
       - name: Empaquetar .output
-        run: tar -czf caudal-output.tar.gz .output
+        run: tar -czf caudal-output.tar.gz .output ecosystem.config.cjs
 
       - name: Subir artifact para deploy
         uses: actions/upload-artifact@v5

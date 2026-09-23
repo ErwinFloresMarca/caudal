@@ -25,10 +25,18 @@ pnpm dev               # http://localhost:3071
 | `pnpm db:push` | sincroniza el esquema en dev (sin migración) |
 | `pnpm db:studio` | explorar la BD con Drizzle Studio |
 | `pnpm start` | servir el build (`PORT` o 3071) |
+| `pnpm release [patch\|minor\|major]` | release: bump + tag `vX.Y.Z` + push (dispara la CI) |
+
+## Producción
+
+- **Dominio**: `https://caudal.erfm.dev` (nginx → `127.0.0.1:3071`, Cloudflare para DNS/HTTPS).
+- **Proceso**: pm2 `caudal` (`/var/www/caudal/current`, `.env` con `DATABASE_URL` y `NUXT_SESSION_PASSWORD`).
+- **BD**: PostgreSQL `caudal_prod` (rol `caudal`) en `127.0.0.1:5432`.
+- **Release**: `pnpm release` publica `caudal-output.tar.gz`; el deploy en el VPS es `bash /var/www/caudal/current/deploy.sh`.
 
 ## Estado
 
-Fase 1 en curso: bootstrap Nuxt 4 (SPC-001) hecho; siguen specs → wireframes → implementación. Ver `docs/ROADMAP.md` y `docs/specs/`.
+v0.1.1 desplegada en producción: backend completo (fondos, cuentas, transacciones, transferencias, aportes, recurrentes, deudas, metas, presupuestos, dashboard, reportes, búsqueda, ajustes, auth + Google) y shell de la app. Pendientes: PWA, MCP y pase visual. Ver `docs/ROADMAP.md` y `docs/specs/`.
 
 ## Documentación
 

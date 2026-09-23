@@ -36,12 +36,12 @@ pnpm screenshots  # capturas Playwright (1280px + 390px) en .screenshots/ — re
 ## Deploy (producción)
 
 - **Repo**: `https://github.com/ErwinFloresMarca/caudal` — rama `main`. Trunk-based.
-- **Release**: `pnpm release [patch|minor|major]` (`scripts/release.sh`, por crear en SPC-022) valida rama/árbol/lint/tests/build, sube la versión, crea el tag anotado `vX.Y.Z` y hace push.
-- **Pipeline** `.github/workflows/build-release.yml` (por crear en SPC-022): en tag `v*` → `test`+`lint`+`typecheck`+`build` → publica `caudal-output.tar.gz`.
-- **Deploy real** (en el VPS): `bash /var/www/caudal/current/deploy.sh` — descarga el release con `gh`, extrae `.output` y reinicia pm2 (nombre `caudal`, `127.0.0.1:3071`).
-- **nginx**: `<dominio>.erfm.dev` → `127.0.0.1:3071`. DNS/HTTPS los pone Cloudflare.
-- **BD**: PostgreSQL dedicada de producción vía `DATABASE_URL` (env del server, nunca en el repo). Las migraciones se aplican con `pnpm db:migrate` en el deploy/pipeline.
-- **Secrets del repo**: `VPS_HOST`, `VPS_USER`, `VPS_PORT`, `VPS_SSH_KEY`, `VPS_SSH_KEY_PASSPHRASE`, `DATABASE_URL`.
+- **Release**: `pnpm release [patch|minor|major]` (`scripts/release.sh`) valida rama/árbol/lint/tests/build, sube la versión, crea el tag anotado `vX.Y.Z` y hace push.
+- **Pipeline** `.github/workflows/build-release.yml`: en tag `v*` → `test`+`lint`+`typecheck`+`build` → publica `caudal-output.tar.gz` (`.output` + `ecosystem.config.cjs`).
+- **Deploy real** (en el VPS): `bash /var/www/caudal/current/deploy.sh` — descarga el release con `gh`, extrae `.output`+`ecosystem`, aplica migraciones (`pnpm db:migrate` desde un checkout del repo) y reinicia pm2 (nombre `caudal`, `127.0.0.1:3071`). El `.env` vive en `/var/www/caudal/current/.env`.
+- **nginx**: `caudal.erfm.dev` → `127.0.0.1:3071` (`/etc/nginx/sites-available/caudal`). DNS/HTTPS los pone Cloudflare.
+- **BD**: PostgreSQL dedicada de producción (`caudal_prod`, rol `caudal`) en el Postgres de producción `127.0.0.1:5432`, vía `DATABASE_URL` (env del server, nunca en el repo). Las migraciones se aplican en `deploy.sh`.
+- **Secrets del repo** (opcionales; sin ellos el job `deploy` de la CI se omite y se despliega a mano): `VPS_HOST`, `VPS_USER`, `VPS_PORT`, `VPS_SSH_KEY`, `VPS_SSH_KEY_PASSPHRASE`, `DATABASE_URL`.
 
 ## Git y Linear (obligatorio)
 
