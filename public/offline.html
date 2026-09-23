@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0E6FFF" />
+    <title>Sin conexión · Caudal</title>
+    <style>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: #f6f8fc;
+        color: #0b1c34;
+        font-family: Inter, system-ui, -apple-system, sans-serif;
+      }
+      .card {
+        width: 100%;
+        max-width: 380px;
+        background: #fff;
+        border: 1px solid rgb(11 28 52 / 0.08);
+        border-radius: 20px;
+        padding: 32px;
+        text-align: center;
+      }
+      .logo { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+      .drop {
+        width: 32px; height: 32px; border-radius: 9999px; background: #0e6fff;
+        display: grid; place-items: center;
+      }
+      .drop svg { width: 18px; height: 18px; }
+      .name { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+      h1 { font-size: 20px; font-weight: 700; margin: 8px 0 4px; }
+      p { margin: 0; color: #5b6b85; font-size: 14px; line-height: 20px; }
+      a {
+        display: inline-flex; align-items: center; justify-content: center;
+        margin-top: 24px; height: 48px; padding: 0 24px; border-radius: 9999px;
+        background: #0e6fff; color: #fff; font-weight: 700; text-decoration: none;
+      }
+      a:hover { background: #0057d9; }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="logo">
+        <span class="drop">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2C8 7 6 10.5 6 14a6 6 0 0 0 12 0c0-3.5-2-7-6-12z" /></svg>
+        </span>
+        <span class="name">Caudal</span>
+      </div>
+      <h1>Sin conexión</h1>
+      <p>No pudimos cargar la app. Revisa tu conexión y vuelve a intentarlo. Registrar movimientos necesita internet.</p>
+      <a href="/">Reintentar</a>
+    </main>
+  </body>
+</html>
