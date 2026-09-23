@@ -60,11 +60,22 @@ export default defineNuxtConfig({
         (entries: { url: string; revision: string | null; size: number }[]) => ({ manifest: entries, warnings: [] as string[] }),
       ],
       globPatterns: ['**/*.{js,css,html,png,svg,ico,webp,woff2}'],
-      // SSR: sin conexión no hay HTML del servidor → shell estático de aviso.
-      navigateFallback: '/offline.html',
-      navigateFallbackDenylist: [/^\/api\//],
-      // Nunca cachear la API autenticada (aislamiento entre usuarios).
+      // SSR: no se sirve un shell estático en cada navegación (eso es para SPAs).
+      navigateFallback: undefined,
+      // Navegaciones: red primero; si falla (offline), se muestra /offline.html.
+      // Nunca se cachea HTML SSR (aislamiento entre usuarios).
       runtimeCaching: [
+        {
+          urlPattern: ({ request }: { request: Request }) => request.mode === 'navigate',
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'caudal-navegaciones',
+            networkTimeoutSeconds: 4,
+            precacheFallback: { fallbackURL: '/offline.html' },
+            // No cachear HTML SSR (aislamiento entre usuarios).
+            plugins: [{ cacheWillUpdate: async () => null }],
+          },
+        },
         {
           urlPattern: ({ url }: { url: URL }) => url.pathname.startsWith('/api/'),
           handler: 'NetworkOnly',
