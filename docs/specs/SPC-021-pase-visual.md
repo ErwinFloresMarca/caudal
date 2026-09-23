@@ -19,6 +19,29 @@ El diseño de Caudal no debe inventarse pantalla por pantalla en código, ni her
 - Registrar en `docs/decisions/` cualquier cambio de identidad respecto al borrador.
 - Checklist visual por pantalla revisada en 390px y 1280px (capturas Playwright antes/después).
 
+## Plan por pantalla
+
+Se recorre **pantalla por pantalla**; cada una es un commit y una captura 390/1280. Orden = numeración de los mockups.
+
+| # | Pantalla | Mockup | API | Entregable |
+|---|---|---|---|---|
+| 0 | Preparación | — | — | `pnpm screenshots` (Playwright 390/1280) + seed demo |
+| 1 | Dashboard `/` | `01` | `/api/resumen`, `/api/movimientos?limite=5` | Saldo (por moneda+consolidado), mes, cuentas, gastos por categoría, pendientes, metas, recientes |
+| 2 | Login `/login` + Registro `/registro` | `02` | `/api/auth/*` | Formularios + Google + errores inline + `/registro` |
+| 3 | Movimientos `/movimientos` | `03` | `/api/movimientos*`, `/api/fondos/:id/{cuentas,categorias}`, `/api/ajustes/tasa` | Lista agrupada + filtros en URL + alta/edición slideover + borrar |
+| 4 | Cuentas (en `/fondos/:id`) | `04` | `/api/fondos/:id/cuentas*` | Grid de tarjetas + slideover (moneda fija, saldo inicial) |
+| 5 | Fondos `/fondos` + `/fondos/:id` | `05` | `/api/fondos*`, `/api/fondos/:id/categorias*` | Lista, detalle (cuentas+categorías), slideover, ocultar |
+| 6 | Transferencias `/transferencias` | `06` | `/api/transferencias*`, `/api/aportes*` | Tabs «Entre cuentas» / «Entre fondos» + historial |
+| 7 | Recurrentes `/recurrentes` | `07` | `/api/recurrentes*` | Pendientes (Confirmar/Editar/Saltar) + plantillas + slideover |
+| 8 | Deudas/MSI `/deudas` | `08` | `/api/deudas*` | Resumen + lista + detalle con cuotas + pagar + slideover |
+| 9 | Presupuestos `/presupuestos` | `09` | `/api/presupuestos*` | KPIs + pills de estado + cards + compensar + histórico |
+| 10 | Reportes `/reportes` | `10` | `/api/reportes` | Filtros URL + flujo + categorías (SVG) + serie + evolución |
+| 11 | Ajustes `/ajustes` | `11` | `/api/ajustes*`, `/api/api-keys` | Perfil, seguridad, moneda/tasa, categorías, API keys, sesión, datos |
+| 12 | Metas `/metas` | `12` | `/api/metas*` | Grid con progreso + detalle + aportes |
+| 13 | Cierre | — | — | Congelar `DESIGN.md` v1, iconos PWA finales, capturas, decisión si cambia identidad |
+
+Estados por pantalla: **vacío (CTA)**, **con datos** y, donde aplique, **sin resultados**; crear/editar en `USlideover` (ancho completo en móvil) / `UModal`.
+
 ## Criterios de aceptación
 
 - [ ] `docs/wireframe-prompt.md` cubre TODAS las pantallas/estados y se puede usar tal cual para generar mockups.
