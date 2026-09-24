@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.0.0
+
+Primera versión completa de Caudal, desplegada en `https://caudal.erfm.dev`.
+
+- **Fundación**: Nuxt 4 + Nuxt UI v4, PostgreSQL + Drizzle, auth multiusuario (scrypt) + API keys, login con Google (OAuth), shell responsive.
+- **Núcleo**: fondos, cuentas (saldo vivo, multimoneda BOB/USD con tasa histórica), categorías, transacciones, transferencias, aportes/retiros entre fondos.
+- **Inteligencia**: recurrentes, deudas/MSI, metas de ahorro, presupuestos por categoría, dashboard, reportes (SVG), búsqueda y filtros, ajustes.
+- **Entrega**: MCP server (9 tools), PWA (offline + instalable), deploy VPS (pm2 + nginx), pase visual por wireframes (`DESIGN.md` v1).
+- **Release**: `pnpm release` + pipeline CI que publica `caudal-output.tar.gz`; deploy con `deploy.sh`.
+- Verificación E2E en producción: 10/10 checks.
+
 ## v0.1.5
 
 - SPC-018 (MCP server): endpoint `POST /api/mcp` (Streamable HTTP, JSON-RPC 2.0) autenticado con API key (`Bearer caudal_...`), con 9 tools (`list_funds`, `list_accounts`, `get_balances`, `list_categories`, `list_transactions`, `create_transaction`, `create_transfer`, `get_month_summary`, `list_pending`). `create_*` guardan con `fuente='asistente'`. Sin SDK (decisión 0008).

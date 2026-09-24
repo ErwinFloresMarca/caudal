@@ -1,6 +1,6 @@
 # SPC-022 — Release y cierre de v1
 
-Estado: implementada (tooling + primer release; cierre v1.0.0 pendiente de PWA/MCP)
+Estado: verificada
 Depende de: todos los specs anteriores
 
 ## Problema
@@ -19,14 +19,19 @@ Cerrar la v1 de Caudal: empaquetar, publicar y entregar una versión usada de ve
 
 ## Criterios de aceptación
 
-- [x] Pipeline de release reproducible (`scripts/release.sh` + `.github/workflows/build-release.yml`). Publicado `v0.1.1`.
-- [~] `pnpm release minor` publica `v1.0.0` y el pipeline termina en verde. — el pipeline ya funciona; el tag `v1.0.0` se crea al cerrar (tras PWA/MCP).
-- [~] Deploy en producción sirve la versión publicada. — `v0.1.1` sirviendo en pm2/nginx; falta el registro DNS en Cloudflare.
-- [ ] Flujo E2E completo (usuario nuevo → movimiento → reporte → MCP) funciona en producción. — MCP (SPC-018) pendiente.
-- [ ] Todos los specs indican su estado real; los verificados, `verificada`.
-- [ ] Bitácora de decisiones y deuda técnica registrada.
-- [~] README/ROADMAP reflejan la v1 entregada. — README con Producción/Estado actualizado; ROADMAP se cierra al final.
+- [x] Pipeline de release reproducible (`scripts/release.sh` + `.github/workflows/build-release.yml`). Publicado `v0.1.1`…`v0.1.5`.
+- [x] `pnpm release major` publica `v1.0.0` y el pipeline termina en verde. (desde `0.1.5`, `major` → `1.0.0`)
+- [x] Deploy en producción sirve la versión publicada. (`pm2 caudal` v1.0.0)
+- [x] Flujo E2E completo (usuario nuevo → movimiento → reporte → MCP) funciona en producción. (`pnpm e2e` 10/10)
+- [x] Todos los specs indican su estado real; los verificados, `verificada`. (23/23)
+- [x] Bitácora de decisiones y deuda técnica registrada. (`docs/decisions/0001..0008`, `docs/DEUDA-TECNICA.md`)
+- [x] README/ROADMAP reflejan la v1 entregada.
 
-## Progreso
+## Cierre
 
-Tooling de release hecho y validado (`v0.1.1` desplegada). Queda para el cierre: implementar PWA y MCP, recorrer los 22 specs marcando estado, CHANGELOG final, decisiones y deuda técnica (`ponytail:`), y `pnpm release major` → `v1.0.0`.
+v1.0.0 entregada y desplegada en `https://caudal.erfm.dev`.
+
+- **Specs**: 23/23 en `verificada` (SPC-001…024, sin SPC-021→024 gaps).
+- **Verificación E2E** (`scripts/e2e-prod.mjs`, `pnpm e2e`): registro, fondo + cuentas, ingreso/gasto, transferencia, aporte, cuota, meta, reporte y `create_transaction` vía MCP → **10/10** en producción.
+- **Deuda técnica y próximos pasos**: `docs/DEUDA-TECNICA.md`.
+- **Decisiones**: `docs/decisions/0001…0008` (modelo, multimoneda, Postgres/Drizzle, wireframes, Nuxt UI v4, gráficas SVG, identidad v1, transporte MCP).

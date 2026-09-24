@@ -31,6 +31,8 @@ pnpm db:push     # drizzle-kit push: sincroniza el esquema en dev (sin migració
 pnpm db:studio   # drizzle-kit studio: explorar la BD (opcional)
 pnpm release    # release: bump + tag vX.Y.Z + push (dispara la CI). Gates: main, limpio, lint/tests/build
 pnpm screenshots  # capturas Playwright (1280px + 390px) en .screenshots/ — requiere `pnpm build` antes
+pnpm seed:demo    # siembra datos de demo vía API (para capturas/pruebas)
+pnpm e2e          # verificación end-to-end (BASE_URL, por defecto prod)
 ```
 
 ## Deploy (producción)
@@ -42,6 +44,13 @@ pnpm screenshots  # capturas Playwright (1280px + 390px) en .screenshots/ — re
 - **nginx**: `caudal.erfm.dev` → `127.0.0.1:3071` (`/etc/nginx/sites-available/caudal`). DNS/HTTPS los pone Cloudflare.
 - **BD**: PostgreSQL dedicada de producción (`caudal_prod`, rol `caudal`) en el Postgres de producción `127.0.0.1:5432`, vía `DATABASE_URL` (env del server, nunca en el repo). Las migraciones se aplican en `deploy.sh`.
 - **Secrets del repo** (opcionales; sin ellos el job `deploy` de la CI se omite y se despliega a mano): `VPS_HOST`, `VPS_USER`, `VPS_PORT`, `VPS_SSH_KEY`, `VPS_SSH_KEY_PASSPHRASE`, `DATABASE_URL`.
+
+## MCP (asistente)
+
+- **`POST /api/mcp`** — servidor MCP (Streamable HTTP, JSON-RPC 2.0) en `server/api/mcp*.ts`; tools en `server/utils/mcp.ts`.
+- **Auth**: `Authorization: Bearer caudal_...` (API key de SPC-003, se crea en Ajustes). Sin key → 401.
+- Tools (9): `list_funds`, `list_accounts`, `get_balances`, `list_categories`, `list_transactions`, `create_transaction`, `create_transfer`, `get_month_summary`, `list_pending`. `create_*` guardan `fuente='asistente'`.
+- **Sin SDK** (decisión 0008). Las tools operan solo sobre el usuario de la key.
 
 ## Git y Linear (obligatorio)
 

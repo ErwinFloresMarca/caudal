@@ -1,5 +1,9 @@
 # Caudal — Roadmap
 
+## v1.0.0 — entregada (2026-09-24)
+
+Backend completo, shell, PWA, MCP y pase visual. Desplegada en `https://caudal.erfm.dev`.
+
 ## Visión
 
 Llevar un registro claro y honesto de todo el dinero que entra y sale: lo personal y cada emprendimiento, en **bolivianos y dólares** a la vez, sin perder fidelidad histórica. Que "¿cuánto tengo?" y "¿de dónde salió?" se respondan en tres toques.
@@ -14,15 +18,15 @@ Llevar un registro claro y honesto de todo el dinero que entra y sale: lo person
 
 ## Fases
 
-### 0. Cimientos (docs) — en curso
+### 0. Cimientos (docs) — completada
 
 - [x] AGENTS.md, DESIGN.md (borrador), README, ROADMAP
 - [x] docs/decisions/ (modelo de datos, multimoneda)
 - [x] specs README (plantilla + workflow)
 - [x] specs SPC-001…024 (estado `propuesta`)
-- [ ] aprobar specs contra Linear (issues) e implementar en orden
+- [x] aprobar specs contra Linear (issues) e implementar en orden
 
-### 1. Fundación (SPC-001…004)
+### 1. Fundación (SPC-001…004) — completada
 
 - SPC-001 Bootstrap Nuxt 4
 - SPC-002 Modelo de datos y acceso a BD
@@ -30,7 +34,7 @@ Llevar un registro claro y honesto de todo el dinero que entra y sale: lo person
 - SPC-004 Shell / layout / navegación / UI base
 - SPC-023 Login con Google (OAuth) — depende de 002/003/004
 
-### 2. Núcleo del dinero (SPC-005…010)
+### 2. Núcleo del dinero (SPC-005…010) — completada
 
 - SPC-005 Fondos
 - SPC-006 Cuentas
@@ -39,7 +43,7 @@ Llevar un registro claro y honesto de todo el dinero que entra y sale: lo person
 - SPC-009 Transferencias
 - SPC-010 Aportes/retiros entre fondos
 
-### 3. Inteligencia del dinero (SPC-011…017)
+### 3. Inteligencia del dinero (SPC-011…017) — completada
 
 - SPC-011 Recurrentes
 - SPC-012 Deudas y MSI
@@ -50,7 +54,7 @@ Llevar un registro claro y honesto de todo el dinero que entra y sale: lo person
 - SPC-017 Ajustes
 - SPC-024 Presupuestos por categoría (wireframe `09.presupuestos`, entra en v1)
 
-### 4. Integración y entrega (SPC-018…022)
+### 4. Integración y entrega (SPC-018…022) — completada
 
 - SPC-018 MCP server para el asistente
 - SPC-019 PWA

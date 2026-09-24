@@ -58,7 +58,6 @@ function parseFondo(body: Record<string, unknown>): DatosFondo {
   }
 }
 
-// ponytail: saldo_total del fondo se agrega en SPC-006/008; aquí solo datos del fondo.
 export async function listarFondos(userId: number, { incluirInactivos = false } = {}) {
   const cond = and(eq(fondos.user_id, userId), incluirInactivos ? undefined : eq(fondos.activo, true))
   const filas = await db
