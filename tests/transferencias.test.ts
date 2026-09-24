@@ -110,6 +110,26 @@ describe.skipIf(!hasDb)('transferencias', () => {
     expect(t.monto_destino_centavos).toBe(4310)
   })
 
+  it('con tasa (sin monto destino), BOB→USD divide y USD→BOB multiplica', async () => {
+    const bobAUsd = await crearTransferencia(userId, fondoId, {
+      cuenta_origen_id: cuentaBobAId,
+      cuenta_destino_id: cuentaUsdId,
+      monto_origen_centavos: 6960,
+      tasa_ref: 6.96,
+      fecha: '2026-09-19',
+    })
+    expect(bobAUsd.monto_destino_centavos).toBe(1000)
+
+    const usdABob = await crearTransferencia(userId, fondoId, {
+      cuenta_origen_id: cuentaUsdId,
+      cuenta_destino_id: cuentaBobAId,
+      monto_origen_centavos: 1000,
+      tasa_ref: 6.96,
+      fecha: '2026-09-19',
+    })
+    expect(usdABob.monto_destino_centavos).toBe(6960)
+  })
+
   it('no permite transferir a la misma cuenta', async () => {
     await expect(
       crearTransferencia(userId, fondoId, {

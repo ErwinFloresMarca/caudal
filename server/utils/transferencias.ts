@@ -103,7 +103,10 @@ export async function resolverMontos(userId: number, fondoId: number, data: Dato
   } else if (data.monto_destino_centavos != null) {
     montoDestino = data.monto_destino_centavos
   } else if (tasa != null) {
-    montoDestino = Math.round(data.monto_origen_centavos * tasa)
+    // tasa = BOB por USD: BOB→USD divide, USD→BOB multiplica.
+    montoDestino = monOrigen === 'BOB'
+      ? Math.round(data.monto_origen_centavos / tasa)
+      : Math.round(data.monto_origen_centavos * tasa)
   } else {
     throw httpError(400, 'Para monedas distintas indica monto_destino_centavos o tasa_ref')
   }
