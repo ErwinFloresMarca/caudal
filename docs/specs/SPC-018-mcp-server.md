@@ -1,7 +1,26 @@
 # SPC-018 — MCP server
 
-Estado: verificada
+Estado: implementada
 Depende de: SPC-003, SPC-008, SPC-015
+
+## Extensión v2 — cobertura total
+
+La v1 exponía 9 tools (7 de lectura + `create_transaction`/`create_transfer`). La v2 cubre **toda la gestión** por MCP. Se añaden (además de las 9 v1):
+
+- **Fondos**: `create_fund`, `update_fund` (ocultar = `activo:false`).
+- **Cuentas**: `create_account`, `update_account` (ocultar = `activo:false`).
+- **Categorías**: `create_category`, `update_category`, `delete_category`.
+- **Movimientos**: `update_transaction`, `delete_transaction`.
+- **Transferencias**: `update_transfer`, `delete_transfer`.
+- **Aportes/retiros**: `list_aportes`, `create_aporte`, `update_aporte`, `delete_aporte`.
+- **Recurrentes**: `list_recurrentes`, `create_recurrente`, `update_recurrente`, `delete_recurrente`, `confirm_recurrente`, `skip_recurrente`.
+- **Deudas/MSI**: `list_deudas`, `get_deuda`, `create_deuda`, `update_deuda`, `delete_deuda`, `pay_cuota`, `update_cuota`.
+- **Metas**: `list_metas`, `get_meta`, `create_meta`, `update_meta`, `delete_meta`, `create_meta_contribution`, `update_meta_contribution`, `delete_meta_contribution`.
+- **Presupuestos**: `list_budgets`, `upsert_budget`, `update_budget`, `delete_budget`, `compensate_budget`.
+- **Ajustes**: `get_settings`, `update_settings` (moneda base + tasa), `get_rate`.
+- **Reportes**: `get_report`.
+
+**Seguridad**: fondos/cuentas no se borran (se ocultan); categorías `delete` solo si no son predefinidas y no tienen movimientos; **no** se expone «borrar cuenta de usuario»; los `update_*` respetan las reglas del dominio (no cambiar la cuenta de un movimiento/transferencia); todas validan pertenencia al usuario. Los montos se aceptan en formato humano (`"12,50"`).
 
 ## Problema
 

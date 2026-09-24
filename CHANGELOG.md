@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.0
+
+- **MCP v2 — cobertura total**: el servidor MCP pasa de 9 a **54 tools**, con CRUD completo de fondos, cuentas, categorías, movimientos, transferencias, aportes/retiros, recurrentes, deudas/MSI, metas, presupuestos, ajustes (moneda base + tasa) y reportes. Fondos/cuentas se ocultan (no se borran); no se expone «borrar cuenta». Spec SPC-018 v2.
+
 ## v1.0.1
 
 - `/cuentas` deja de ser un placeholder: ahora muestra las cuentas del fondo activo (saldo total, grid con crear/editar y cuentas inactivas), con enlace a la gestión en el fondo. Se elimina el componente `PaginaEnConstruccion` (ya sin uso).
