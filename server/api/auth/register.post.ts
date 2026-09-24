@@ -2,12 +2,14 @@ import { defineEventHandler, createError, readBody } from 'h3'
 import { eq } from 'drizzle-orm'
 import { db } from '../../utils/db'
 import { users } from '../../db/schema'
+import { setSetting } from '../../utils/settings'
 import { hashPasswordScrypt } from '../../../shared/password'
 
 export interface RegisterBody {
   email?: string
   password?: string
   name?: string
+  moneda_base?: string
 }
 
 export default defineEventHandler(async (event) => {
@@ -45,6 +47,11 @@ export default defineEventHandler(async (event) => {
   await setUserSession(event, {
     user: { id: created.id, email: created.email, name: created.name },
   })
+
+  // Moneda base por defecto elegida en el registro (SPC-017).
+  if (body.moneda_base === 'BOB' || body.moneda_base === 'USD') {
+    await setSetting(created.id, 'moneda_base', body.moneda_base)
+  }
 
   return { id: created.id, email: created.email, name: created.name }
 })
