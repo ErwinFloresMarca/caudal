@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.1
+
+- `/cuentas` deja de ser un placeholder: ahora muestra las cuentas del fondo activo (saldo total, grid con crear/editar y cuentas inactivas), con enlace a la gestión en el fondo. Se elimina el componente `PaginaEnConstruccion` (ya sin uso).
+
 ## v1.0.0
 
 Primera versión completa de Caudal, desplegada en `https://caudal.erfm.dev`.

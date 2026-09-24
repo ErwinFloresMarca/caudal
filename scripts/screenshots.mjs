@@ -14,6 +14,7 @@ const RUTAS = [
   { name: '02-registro', path: '/registro', publica: true },
   { name: '01-dashboard', path: '/' },
   { name: '03-movimientos', path: '/movimientos' },
+  { name: '04-cuentas', path: '/cuentas' },
   { name: '05-fondos', path: '/fondos' },
   { name: '06-transferencias', path: '/transferencias' },
   { name: '07-recurrentes', path: '/recurrentes' },
@@ -71,7 +72,7 @@ if (activo) {
 for (const r of RUTAS.filter((r) => !r.publica)) await capturar(r)
 
 // Detalle de fondo (el activo)
-if (activo) await capturar({ name: '04-cuentas', path: `/fondos/${activo.id}` })
+if (activo) await capturar({ name: '05b-fondos-detalle', path: `/fondos/${activo.id}` })
 
 await browser.close()
 console.log('Listo → .screenshots/')
