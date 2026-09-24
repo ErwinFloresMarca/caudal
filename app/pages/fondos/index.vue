@@ -10,7 +10,7 @@ const { fondos } = useFondoActivo()
     </div>
 
     <div v-if="fondos.length" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      <NuxtLink v-for="f in fondos" :key="f.id" to="/" class="card p-5 transition-colors hover:bg-surface-hover">
+      <NuxtLink v-for="f in fondos" :key="f.id" :to="`/fondos/${f.id}`" class="card p-5 transition-colors hover:bg-surface-hover">
         <div class="flex items-center justify-between">
           <span class="grid h-10 w-10 place-items-center rounded-full bg-surface-muted text-ink">
             <UIcon name="i-material-symbols-folder-special" class="size-5" />
