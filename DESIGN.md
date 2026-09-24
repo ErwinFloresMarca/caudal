@@ -90,6 +90,6 @@ Los nombres de clase y tokens se imlementan en SPC-001/004 y se congelan al cerr
 2. Mockups: `docs/stitch_caudal_wireframe_specs/` (36 pantallas, 390px + 1280px).
 3. Implementación sigue los mockups; el pase visual (SPC-021) aprueba variantes exactas y congela este documento.
 
-Estado: **borrador alineado a wireframes**. Se congela al cerrar SPC-021.
+Estado: **v1 (congelada)**. Tokens, tipografía y componentes implementados y verificados en el pase visual (SPC-021). No hubo cambios de identidad respecto al borrador alineado a wireframes.
 
 Nota: `design.md_modo_claro_y_oscuro.md` (propuesta v2.5.0 con modo oscuro y console MCP) NO se adopta: contradice los mockups (todos en modo claro) y el estándar `caudal_ledger_standard`; ver `docs/decisions/0004`.

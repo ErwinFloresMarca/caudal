@@ -1,6 +1,6 @@
 # SPC-021 — Pase visual por wireframes
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-004…017 implementados (pantallas existentes)
 
 ## Problema
@@ -44,9 +44,15 @@ Estados por pantalla: **vacío (CTA)**, **con datos** y, donde aplique, **sin re
 
 ## Criterios de aceptación
 
-- [ ] `docs/wireframe-prompt.md` cubre TODAS las pantallas/estados y se puede usar tal cual para generar mockups.
-- [ ] Existe el set de mockups aprobados (390px + 1280px por pantalla).
-- [ ] `DESIGN.md` deja de estar en borrador y sus tokens son los implementados (grep: no quedan valores fuera del DESIGN).
-- [ ] Capturas Playwright de cada pantalla en ambos anchos, sin desbordes ni elementos cortados.
-- [ ] Iconos PWA/logo finales aplicados.
-- [ ] `pnpm lint`/`build` y tests siguen limpios tras los ajustes.
+- [x] `docs/wireframe-prompt.md` cubre TODAS las pantallas/estados y se puede usar tal cual para generar mockups.
+- [x] Existe el set de mockups aprobados (390px + 1280px por pantalla).
+- [x] `DESIGN.md` deja de estar en borrador y sus tokens son los implementados (grep: no quedan valores fuera del DESIGN).
+- [x] Capturas Playwright de cada pantalla en ambos anchos, sin desbordes ni elementos cortados.
+- [x] Iconos PWA/logo finales aplicados.
+- [x] `pnpm lint`/`build` y tests siguen limpios tras los ajustes.
+
+## Progreso
+
+Pase visual **completo**: las 12 pantallas implementadas y capturadas en 390/1280 (T0–T12), `DESIGN.md` congelado en **v1** (decisión 0007) e iconos PWA desde la identidad. Capturas en `.screenshots/` (`pnpm screenshots`). Tooling de datos: `pnpm seed:demo`.
+
+Pantallas: dashboard, login/registro, movimientos, cuentas (detalle de fondo), fondos, transferencias/aportes, recurrentes, deudas/MSI, presupuestos, reportes, ajustes y metas.

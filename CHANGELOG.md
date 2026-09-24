@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.1.4
+
+- SPC-021 (pase visual) completo: las 12 pantallas implementadas contra los wireframes — dashboard, login/registro, movimientos (filtros en URL + alta/edición), cuentas, fondos + categorías, transferencias/aportes, recurrentes, deudas/MSI, presupuestos, reportes (gráficas SVG), ajustes y metas.
+- `DESIGN.md` congelado en **v1** (decisión 0007); iconos PWA desde la identidad.
+- Fix: dirección de la tasa en transferencias (BOB→USD divide, USD→BOB multiplica).
+- Tooling: `pnpm screenshots` (390/1280) y `pnpm seed:demo`.
+
 ## v0.1.3
 
 - Fix PWA: el service worker ya no sirve el fallback offline en todas las navegaciones; ahora usa `NetworkFirst` + `precacheFallback` (el aviso offline solo aparece si falla la red).
