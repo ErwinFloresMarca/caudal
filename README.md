@@ -34,6 +34,15 @@ pnpm dev               # http://localhost:3071
 - **BD**: PostgreSQL `caudal_prod` (rol `caudal`) en `127.0.0.1:5432`.
 - **Release**: `pnpm release` publica `caudal-output.tar.gz`; el deploy en el VPS es `bash /var/www/caudal/current/deploy.sh`.
 
+## MCP (asistente)
+
+Servidor MCP autenticado por usuario para que el asistente consulte y registre dinero.
+
+- **Endpoint**: `POST https://caudal.erfm.dev/api/mcp` (Streamable HTTP, JSON-RPC 2.0).
+- **Auth**: `Authorization: Bearer caudal_...` — crea la key en **Ajustes → API keys** (se muestra una sola vez).
+- **Tools**: `list_funds`, `list_accounts`, `get_balances`, `list_categories`, `list_transactions`, `create_transaction`, `create_transfer`, `get_month_summary`, `list_pending`.
+- **Escritura**: `create_*` guardan con `fuente='asistente'`; el cliente debe pedir confirmación antes de escribir. Las tools solo operan sobre el usuario de la key.
+
 ## Estado
 
 v0.1.1 desplegada en producción: backend completo (fondos, cuentas, transacciones, transferencias, aportes, recurrentes, deudas, metas, presupuestos, dashboard, reportes, búsqueda, ajustes, auth + Google) y shell de la app. Pendientes: PWA, MCP y pase visual. Ver `docs/ROADMAP.md` y `docs/specs/`.

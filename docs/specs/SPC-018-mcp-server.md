@@ -1,6 +1,6 @@
 # SPC-018 — MCP server
 
-Estado: propuesta
+Estado: verificada
 Depende de: SPC-003, SPC-008, SPC-015
 
 ## Problema
@@ -29,9 +29,22 @@ El asistente personal (app Nuxt aparte, cliente MCP) debe poder consultar y regi
 
 ## Criterios de aceptación
 
-- [ ] Sin Bearer o con key inválida el endpoint MCP responde 401. (test)
-- [ ] `get_balances` devuelve el consolidado calculado con tasas históricas, no con la tasa actual. (test)
-- [ ] `create_transaction` con `"12,50"` en una cuenta BOB crea 1250 centavos y afecta el saldo. (test)
-- [ ] `create_transaction` con `cuenta_id` de otro usuario responde error y NO crea nada. (test)
-- [ ] Las tools aparecen correctamente en una sesión MCP de prueba (initialize + tools/list). (test)
-- [ ] Un `create_*` exitoso referencia un movimiento visible en `/movimientos` con `fuente='asistente'`.
+- [x] Sin Bearer o con key inválida el endpoint MCP responde 401. (test/curl)
+- [x] `get_balances` devuelve el consolidado calculado con tasas históricas, no con la tasa actual. (test)
+- [x] `create_transaction` con `"12,50"` en una cuenta BOB crea 1250 centavos y afecta el saldo. (test)
+- [x] `create_transaction` con `cuenta_id` de otro usuario responde error y NO crea nada. (test)
+- [x] Las tools aparecen correctamente en una sesión MCP de prueba (initialize + tools/list). (curl)
+- [x] Un `create_*` exitoso referencia un movimiento visible en `/movimientos` con `fuente='asistente'`. (test)
+
+## Implementación (decisiones)
+
+- **Transporte Streamable HTTP stateless sin SDK** (decisión `0008`): `POST /api/mcp` con JSON-RPC 2.0 (`initialize`, `tools/list`, `tools/call`, notificaciones → 202); `GET /api/mcp` → 405. Respuesta `application/json` (sin SSE).
+- **Auth**: `authUserId(event)` (Bearer `caudal_...` o sesión); sin key → 401. Las tools operan solo sobre el `user_id` de la key.
+- **Tools** (`server/utils/mcp.ts`): las 9 del spec, reusando los repositorios (`listarFondos`, `listarCuentas`, `listarCategorias`, `listarTransacciones`, `crearTransaccion`, `crearTransferencia`, `listarPendientes`, `proximasCuotas`, `ultimaTasa`, `resumenPeriodo`). `monto` en formato humano → `parseAmount`.
+- **Fondo**: `fund_id` opcional; por defecto el primero del usuario. En `create_*` el fondo se deriva de la cuenta (validación de pertenencia).
+- **Errores de tool**: `result` con `isError:true` y `{"error":"..."}`.
+- **`fuente='asistente'`** en las transacciones creadas por MCP.
+
+Archivos: `server/utils/mcp.ts`, `server/api/mcp.post.ts`, `server/api/mcp.get.ts`, `tests/mcp.test.ts`, `docs/decisions/0008-mcp-transporte.md`.
+
+Verificado con curl (build de producción): `401` sin Bearer; `initialize` → `protocolVersion/capabilities/serverInfo`; `tools/list` → las 9 tools; `tools/call` `list_funds` → content JSON; tool inexistente → `isError` con error JSON.

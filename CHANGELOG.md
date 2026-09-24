@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.5
+
+- SPC-018 (MCP server): endpoint `POST /api/mcp` (Streamable HTTP, JSON-RPC 2.0) autenticado con API key (`Bearer caudal_...`), con 9 tools (`list_funds`, `list_accounts`, `get_balances`, `list_categories`, `list_transactions`, `create_transaction`, `create_transfer`, `get_month_summary`, `list_pending`). `create_*` guardan con `fuente='asistente'`. Sin SDK (decisión 0008).
+
 ## v0.1.4
 
 - SPC-021 (pase visual) completo: las 12 pantallas implementadas contra los wireframes — dashboard, login/registro, movimientos (filtros en URL + alta/edición), cuentas, fondos + categorías, transferencias/aportes, recurrentes, deudas/MSI, presupuestos, reportes (gráficas SVG), ajustes y metas.
