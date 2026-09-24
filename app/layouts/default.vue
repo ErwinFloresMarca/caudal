@@ -25,7 +25,7 @@ await Promise.all([cargarFondos(), cargarFondoActivo()])
         </div>
 
         <div class="flex items-center gap-2">
-          <NuxtLink to="/movimientos" class="btn-primary h-11 px-5 text-sm">
+          <NuxtLink to="/movimientos?nuevo=1" class="btn-primary h-11 px-5 text-sm">
             <UIcon name="i-material-symbols-add" class="size-5" />
             <span class="hidden sm:inline">Registrar</span>
           </NuxtLink>

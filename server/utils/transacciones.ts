@@ -111,7 +111,7 @@ export async function validarOrigen(userId: number, fondoId: number, data: Datos
   return { moneda: cuenta.moneda as Moneda, categoria }
 }
 
-function transaccionPublica(t: FilaTransaccion, extra?: { moneda: Moneda; categoria: { id: number; nombre: string; icono: string | null; color: string | null } | null }) {
+function transaccionPublica(t: FilaTransaccion, extra?: { moneda: Moneda; categoria: { id: number; nombre: string; icono: string | null; color: string | null } | null; cuentaNombre?: string | null }) {
   return {
     id: t.id,
     fecha: t.fecha,
@@ -122,6 +122,7 @@ function transaccionPublica(t: FilaTransaccion, extra?: { moneda: Moneda; catego
     nota: t.nota ?? null,
     fuente: t.fuente ?? null,
     cuenta_id: t.cuenta_id,
+    cuenta_nombre: extra?.cuentaNombre ?? null,
     fondo_id: t.fondo_id,
     monto_formateado: formatMoney({ centavos: t.monto_centavos, moneda: (extra?.moneda ?? t.moneda) as Moneda }),
     categoria: extra?.categoria ?? null,
@@ -163,6 +164,7 @@ function listadoQuery() {
     .select({
       trx: transacciones,
       cuenta_moneda: cuentas.moneda,
+      cuenta_nombre: cuentas.nombre,
       categoria_id: categorias.id,
       categoria_nombre: categorias.nombre,
       categoria_icono: categorias.icono,
@@ -187,6 +189,7 @@ export async function listarTransacciones(userId: number, fondoId: number, { des
   return filas.map((f) =>
     transaccionPublica(f.trx, {
       moneda: f.cuenta_moneda as Moneda,
+      cuentaNombre: f.cuenta_nombre,
       categoria: f.categoria_id ? { id: f.categoria_id, nombre: f.categoria_nombre!, icono: f.categoria_icono, color: f.categoria_color } : null,
     }),
   )
@@ -251,6 +254,7 @@ export async function buscarTransacciones(userId: number, filtros: FiltrosBusque
   const transaccionesPagina = pagina.map((f) =>
     transaccionPublica(f.trx, {
       moneda: f.cuenta_moneda as Moneda,
+      cuentaNombre: f.cuenta_nombre,
       categoria: f.categoria_id ? { id: f.categoria_id, nombre: f.categoria_nombre!, icono: f.categoria_icono, color: f.categoria_color } : null,
     }),
   )
@@ -268,6 +272,7 @@ export async function getTransaccion(userId: number, id: number) {
   if (!fila) return null
   return transaccionPublica(fila.trx, {
     moneda: fila.cuenta_moneda as Moneda,
+    cuentaNombre: fila.cuenta_nombre,
     categoria: fila.categoria_id ? { id: fila.categoria_id, nombre: fila.categoria_nombre!, icono: fila.categoria_icono, color: fila.categoria_color } : null,
   })
 }

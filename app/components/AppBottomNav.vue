@@ -20,7 +20,7 @@ const esActivo = (to: string) => (to === '/' ? route.path === '/' : route.path.s
     </NuxtLink>
 
     <NuxtLink
-      to="/movimientos"
+      to="/movimientos?nuevo=1"
       aria-label="Registrar movimiento"
       class="-mt-6 grid h-14 w-14 shrink-0 place-items-center rounded-full bg-brand text-white shadow-md"
     >
