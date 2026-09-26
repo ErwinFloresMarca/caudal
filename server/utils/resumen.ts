@@ -8,8 +8,11 @@ import { proximasCuotas } from './deudas'
 import { listarMetas } from './metas'
 import { convertToBase, formatMoney, type Moneda } from '../../shared/money'
 import { gastosPorCategoria, rangoMes, resumenPeriodo, type MovResumen } from '../../shared/resumen'
+import { getTasa } from './ajustes'
 
 // Última tasa USD registrada en el fondo, para consolidar saldos (stock) a BOB.
+// Si el fondo no tiene movimientos USD con tasa (p. ej. la cuenta USD se financió solo
+// con saldo inicial), cae a la tasa paralelo configurada en Ajustes.
 export async function ultimaTasa(userId: number, fondoId: number): Promise<number | null> {
   const [row] = await db
     .select({ tasa_ref: transacciones.tasa_ref })
@@ -17,7 +20,8 @@ export async function ultimaTasa(userId: number, fondoId: number): Promise<numbe
     .where(and(eq(transacciones.user_id, userId), eq(transacciones.fondo_id, fondoId), eq(transacciones.moneda, 'USD'), isNotNull(transacciones.tasa_ref)))
     .orderBy(desc(transacciones.fecha), desc(transacciones.id))
     .limit(1)
-  return row?.tasa_ref ?? null
+  if (row?.tasa_ref != null) return row.tasa_ref
+  return (await getTasa(userId)).actual?.valor ?? null
 }
 
 // Agrega todo lo que el dashboard necesita en una sola pasada de servidor.

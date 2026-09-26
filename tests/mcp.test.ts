@@ -81,6 +81,18 @@ describe.skipIf(!hasDb)('MCP callTool', () => {
     expect(bob.centavos).toBeGreaterThan(0)
   })
 
+  it('get_balances consolida con la tasa de Ajustes si el fondo no tiene tasa histórica', async () => {
+    const fondo = await crearFondo(userId, { nombre: 'Fondo saldo inicial', tipo: 'personal', moneda_base: 'BOB' })
+    await crearCuenta(userId, fondo.id, { nombre: 'Caja', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 50000 })
+    await crearCuenta(userId, fondo.id, { nombre: 'Ahorro USD', tipo: 'ahorro', moneda: 'USD', saldo_inicial_centavos: 10000 })
+    await callTool(userId, 'update_settings', { tasa: 12.32 })
+
+    const r = (await callTool(userId, 'get_balances', { fund_id: fondo.id, base: 'BOB' })) as { consolidado: { tasa_ref: number; centavos: number } | null }
+    expect(r.consolidado).not.toBeNull()
+    expect(r.consolidado!.tasa_ref).toBe(12.32)
+    expect(r.consolidado!.centavos).toBe(50000 + Math.round(10000 * 12.32))
+  })
+
   it('create_transaction con "12,50" y fuente=asistente; update y delete', async () => {
     const antes = (await getCuenta(userId, cuentaBobId))!.saldo_actual_centavos
     const trx = (await callTool(userId, 'create_transaction', { cuenta_id: cuentaBobId, categoria_id: catGastoId, tipo: 'gasto', monto: '12,50', nota: 'café' })) as { id: number; monto_centavos: number; fuente: string | null }

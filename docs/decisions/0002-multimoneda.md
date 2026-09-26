@@ -13,6 +13,7 @@ Caudal maneja **BOB y USD** a la vez. El boliviano es volátil frente al dólar,
 3. **Tasa histórica por transacción**: cada transacción/envg/transferencia en **USD** guarda `tasa_ref` (BOB por USD) del momento. Las de BOB **no cargan tasa** (se leen tal cual).
 4. **Consolidación**: convertir todo a **BOB** (moneda base por defecto) usando la tasa de cada movimiento; el color de resultado no difiere de la percepción real del momento. Si se quiere ver en USD, se usa la tasa propia de cada transacción de BOB.
 5. **Transacciones en USD-consolidado**: `monto_centavos × tasa_ref` = BOB equivalente. Sin decimales en origen: el monto se guarda en centavos de SU moneda; el equivalente es solo para reportes.
+6. **Saldos (stock) sin tasa histórica**: si un fondo tiene cuentas en dos monedas pero ningún movimiento USD con `tasa_ref` (p. ej. la cuenta USD se financió solo con saldo inicial), el consolidado usa la **tasa paralelo configurada en Ajustes** (`settings`, punto 2) como respaldo; nunca devuelve `null` habiendo tasa.
 
 ## Impacto
 
