@@ -163,23 +163,23 @@ export async function callTool(userId: number, name: string, args: Record<string
 
     case 'get_balances': {
       const fondo = await resolverFondo(userId, args.fund_id as number | undefined)
-      const base = (args.base === 'USD' ? 'USD' : 'BOB') as Moneda
+      const base: Moneda = args.base === 'BOB' || args.base === 'USD' ? (args.base as Moneda) : await getMonedaBase(userId)
       const cs = await listarCuentas(userId, fondo.id)
       const porMoneda = new Map<Moneda, number>()
       for (const c of cs) porMoneda.set(c.moneda as Moneda, (porMoneda.get(c.moneda as Moneda) ?? 0) + c.saldo_actual_centavos)
-      const hayUsd = porMoneda.has('USD')
-      const tasa = hayUsd ? await ultimaTasa(userId, fondo.id) : null
+      const necesitaTasa = [...porMoneda.keys()].some((moneda) => moneda !== base)
+      const tasa = necesitaTasa ? await ultimaTasa(userId, fondo.id) : null
       const consolidado =
-        !hayUsd || tasa != null
+        !necesitaTasa || tasa != null
           ? [...porMoneda.entries()].reduce(
-              (s, [moneda, centavos]) => s + convertToBase({ centavos, moneda }, moneda === 'BOB' ? undefined : (tasa ?? undefined), base).centavos,
+              (s, [moneda, centavos]) => s + convertToBase({ centavos, moneda }, moneda === base ? undefined : (tasa ?? undefined), base).centavos,
               0,
             )
           : null
       return {
         fondo: fondo.nombre,
         por_moneda: [...porMoneda.entries()].map(([moneda, centavos]) => ({ moneda, centavos, formateado: formatMoney({ centavos, moneda }) })),
-        consolidado: consolidado == null ? null : { base, centavos: consolidado, formateado: formatMoney({ centavos: consolidado, moneda: base }), tasa_ref: tasa, nota: hayUsd ? 'convertido con tasa histórica' : null },
+        consolidado: consolidado == null ? null : { base, centavos: consolidado, formateado: formatMoney({ centavos: consolidado, moneda: base }), tasa_ref: tasa, nota: necesitaTasa ? 'convertido con tasa registrada' : null },
       }
     }
 

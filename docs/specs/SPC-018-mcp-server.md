@@ -33,7 +33,7 @@ El asistente personal (app Nuxt aparte, cliente MCP) debe poder consultar y regi
 - Set de tools v1 (nombres estables, en inglés snake_case):
   - `list_funds` → fondos del usuario.
   - `list_accounts(fund_id?)` → cuentas + `saldo_actual_centavos` + moneda.
-  - `get_balances(fund_id?)` → saldo por cuenta y consolidado a moneda base (tasa histórica por movimiento; si el fondo no tiene ninguna —p. ej. cuenta USD financiada solo con saldo inicial— cae a la tasa configurada en Ajustes, 0002).
+  - `get_balances(fund_id?, base?)` → saldo por cuenta y consolidado a la moneda base elegida (`BOB`/`USD`; por defecto la `moneda_base` del usuario). Convierte cualquier cuenta de moneda distinta a la base; la tasa es la histórica por movimiento y, si el fondo no tiene ninguna —p. ej. cuenta USD financiada solo con saldo inicial—, la configurada en Ajustes (0002). Sin tasa → `consolidado: null` (SPC-025).
   - `list_categories(fund_id, tipo?)` → categorías del fondo.
   - `list_transactions(fund_id?, from?, to?, categoria?, tipo?, limite?)` → movimientos.
   - `create_transaction(cuenta_id, categoria_id, tipo, monto, fecha?, nota?, tasa_ref?)` → crea gasto/ingreso. `monto` en formato humano (`"12,50"`), parseado con `shared/money.ts`.
@@ -50,6 +50,7 @@ El asistente personal (app Nuxt aparte, cliente MCP) debe poder consultar y regi
 
 - [x] Sin Bearer o con key inválida el endpoint MCP responde 401. (test/curl)
 - [x] `get_balances` devuelve el consolidado con las tasas históricas de los movimientos; si el fondo no tiene ninguna, usa la tasa configurada en Ajustes (no `null`). (test)
+- [x] `get_balances` admite `base` BOB o USD (por defecto la del usuario) y consolida en ambos sentidos; sin tasa, `consolidado: null` (SPC-025). (test)
 - [x] `create_transaction` con `"12,50"` en una cuenta BOB crea 1250 centavos y afecta el saldo. (test)
 - [x] `create_transaction` con `cuenta_id` de otro usuario responde error y NO crea nada. (test)
 - [x] Las tools aparecen correctamente en una sesión MCP de prueba (initialize + tools/list). (curl)

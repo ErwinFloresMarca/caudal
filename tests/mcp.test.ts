@@ -93,6 +93,47 @@ describe.skipIf(!hasDb)('MCP callTool', () => {
     expect(r.consolidado!.centavos).toBe(50000 + Math.round(10000 * 12.32))
   })
 
+  it('get_balances con base USD consolida BOB→USD sin fallar', async () => {
+    const fondo = await crearFondo(userId, { nombre: 'Fondo base USD', tipo: 'personal', moneda_base: 'BOB' })
+    await crearCuenta(userId, fondo.id, { nombre: 'Caja BOB', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 50000 })
+    await crearCuenta(userId, fondo.id, { nombre: 'Ahorro USD', tipo: 'ahorro', moneda: 'USD', saldo_inicial_centavos: 10000 })
+    await callTool(userId, 'update_settings', { tasa: 12.32 })
+
+    const r = (await callTool(userId, 'get_balances', { fund_id: fondo.id, base: 'USD' })) as { consolidado: { base: string; tasa_ref: number; centavos: number } | null }
+    expect(r.consolidado).not.toBeNull()
+    expect(r.consolidado!.base).toBe('USD')
+    expect(r.consolidado!.tasa_ref).toBe(12.32)
+    expect(r.consolidado!.centavos).toBe(Math.round(50000 / 12.32) + 10000)
+  })
+
+  it('get_balances base USD con solo BOB divide por la tasa', async () => {
+    const fondo = await crearFondo(userId, { nombre: 'Fondo solo BOB', tipo: 'personal', moneda_base: 'BOB' })
+    await crearCuenta(userId, fondo.id, { nombre: 'Caja', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 50000 })
+    await callTool(userId, 'update_settings', { tasa: 12.32 })
+
+    const r = (await callTool(userId, 'get_balances', { fund_id: fondo.id, base: 'USD' })) as { consolidado: { centavos: number } | null }
+    expect(r.consolidado!.centavos).toBe(Math.round(50000 / 12.32))
+  })
+
+  it('get_balances base USD sin tasa disponible devuelve consolidado null', async () => {
+    const fondo = await crearFondo(userIdOtro, { nombre: 'Sin tasa', tipo: 'personal', moneda_base: 'BOB' })
+    await crearCuenta(userIdOtro, fondo.id, { nombre: 'Caja', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 50000 })
+
+    const r = (await callTool(userIdOtro, 'get_balances', { fund_id: fondo.id, base: 'USD' })) as { consolidado: unknown }
+    expect(r.consolidado).toBeNull()
+  })
+
+  it('get_balances sin base usa la moneda base del usuario', async () => {
+    const fondo = await crearFondo(userIdOtro, { nombre: 'Moneda base USD', tipo: 'personal', moneda_base: 'BOB' })
+    await crearCuenta(userIdOtro, fondo.id, { nombre: 'Caja', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 50000 })
+    await callTool(userIdOtro, 'update_settings', { moneda_base: 'USD', tasa: 12.32 })
+
+    const r = (await callTool(userIdOtro, 'get_balances', { fund_id: fondo.id })) as { consolidado: { base: string; centavos: number } | null }
+    expect(r.consolidado!.base).toBe('USD')
+    expect(r.consolidado!.centavos).toBe(Math.round(50000 / 12.32))
+    await callTool(userIdOtro, 'update_settings', { moneda_base: 'BOB' })
+  })
+
   it('create_transaction con "12,50" y fuente=asistente; update y delete', async () => {
     const antes = (await getCuenta(userId, cuentaBobId))!.saldo_actual_centavos
     const trx = (await callTool(userId, 'create_transaction', { cuenta_id: cuentaBobId, categoria_id: catGastoId, tipo: 'gasto', monto: '12,50', nota: 'café' })) as { id: number; monto_centavos: number; fuente: string | null }
