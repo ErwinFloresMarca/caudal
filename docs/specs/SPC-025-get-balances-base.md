@@ -20,8 +20,7 @@ cifra. Además, sin parámetro `base` ignora la moneda base del usuario
   fondo y, si no existe, la tasa paralelo configurada en Ajustes.
 - Si hay conversión pendiente y NO hay tasa disponible, el consolidado DEBE ser
   `null` (degradación elegante), nunca un error.
-- Si no se pasa `base`, DEBE usarse la moneda base del usuario
-  (`getMonedaBase`), con BOB como valor por defecto del usuario.
+- Si no se pasa `base`, DEBE usarse la moneda base **del fondo** (`fondos.moneda_base`), no la del usuario (alineado con el dashboard en SEL-114).
 - `base: "BOB"` DEBE conservar el comportamiento actual (compatibilidad con
   SEL-112).
 - El campo `nota` DEBE describir la conversión sin afirmar que la tasa es
@@ -33,7 +32,7 @@ cifra. Además, sin parámetro `base` ignora la moneda base del usuario
   lanzar. (test)
 - [x] `base: "USD"` con solo cuentas BOB divide por la tasa. (test)
 - [x] `base: "USD"` sin tasa disponible → `consolidado: null`. (test)
-- [x] Sin `base`, se usa la `moneda_base` del usuario. (test)
+- [x] Sin `base`, se usa la `moneda_base` del fondo. (test)
 - [x] `base: "BOB"` con fondo mixto sigue devolviendo lo de SEL-112. (test)
 
 ## Fuera de alcance

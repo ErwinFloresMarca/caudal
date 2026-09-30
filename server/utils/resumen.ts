@@ -2,6 +2,7 @@ import { and, desc, eq, isNotNull } from 'drizzle-orm'
 import { db } from './db'
 import { transacciones } from '../db/schema'
 import { listarCuentas } from './cuentas'
+import { getFondo } from './fondos'
 import { hoyLocal, listarTransacciones } from './transacciones'
 import { listarPendientes } from './recurrentes'
 import { proximasCuotas } from './deudas'
@@ -25,7 +26,10 @@ export async function ultimaTasa(userId: number, fondoId: number): Promise<numbe
 }
 
 // Agrega todo lo que el dashboard necesita en una sola pasada de servidor.
+// Consolida a la moneda base del fondo (SPC-014/SPC-025).
 export async function resumenDashboard(userId: number, fondoId: number) {
+  const fondo = await getFondo(userId, fondoId)
+  const base: Moneda = fondo?.moneda_base === 'USD' ? 'USD' : 'BOB'
   const cuentas = await listarCuentas(userId, fondoId)
 
   const porMoneda = new Map<Moneda, number>()
@@ -39,20 +43,22 @@ export async function resumenDashboard(userId: number, fondoId: number) {
     formateado: formatMoney({ centavos, moneda }),
   }))
 
-  // Consolidar saldos USD requiere una tasa; se usa la última registrada (0002).
-  const hayUsd = porMoneda.has('USD')
-  const tasa = hayUsd ? await ultimaTasa(userId, fondoId) : null
+  // Consolidar a la base requiere tasa si hay otra moneda; se usa la última del fondo
+  // y, si no hay, la configurada en Ajustes (0002).
+  const necesitaTasa = [...porMoneda.keys()].some((moneda) => moneda !== base)
+  const tasa = necesitaTasa ? await ultimaTasa(userId, fondoId) : null
   let saldo_consolidado = null
-  if (!hayUsd || tasa != null) {
+  if (!necesitaTasa || tasa != null) {
     const centavos = [...porMoneda.entries()].reduce(
-      (s, [moneda, c]) => s + convertToBase({ centavos: c, moneda }, moneda === 'BOB' ? undefined : (tasa ?? undefined)).centavos,
+      (s, [moneda, c]) => s + convertToBase({ centavos: c, moneda }, moneda === base ? undefined : (tasa ?? undefined), base).centavos,
       0,
     )
     saldo_consolidado = {
+      base,
       centavos,
-      formateado: formatMoney({ centavos, moneda: 'BOB' }),
+      formateado: formatMoney({ centavos, moneda: base }),
       tasa_ref: tasa,
-      nota: hayUsd ? 'Convertido con tasa histórica' : null,
+      nota: necesitaTasa ? 'Convertido con tasa registrada' : null,
     }
   }
 
@@ -70,8 +76,10 @@ export async function resumenDashboard(userId: number, fondoId: number) {
     categoria_color: t.categoria?.color ?? null,
   }))
 
-  const mes = resumenPeriodo(movs, { ...rango })
-  const categorias = gastosPorCategoria(movs, { ...rango })
+  // Base USD: los movimientos BOB (que no guardan tasa) se convierten con la tasa actual (0002).
+  const tasaFallback = base === 'USD' ? (await getTasa(userId)).actual?.valor : undefined
+  const mes = resumenPeriodo(movs, { ...rango, base, tasaFallback })
+  const categorias = gastosPorCategoria(movs, { ...rango, base, tasaFallback })
 
   const [recurrentes, cuotas, todasMetas] = await Promise.all([
     listarPendientes(userId, fondoId),

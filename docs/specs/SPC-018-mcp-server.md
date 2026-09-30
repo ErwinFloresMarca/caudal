@@ -33,7 +33,7 @@ El asistente personal (app Nuxt aparte, cliente MCP) debe poder consultar y regi
 - Set de tools v1 (nombres estables, en inglés snake_case):
   - `list_funds` → fondos del usuario.
   - `list_accounts(fund_id?)` → cuentas + `saldo_actual_centavos` + moneda.
-  - `get_balances(fund_id?, base?)` → saldo por cuenta y consolidado a la moneda base elegida (`BOB`/`USD`; por defecto la `moneda_base` del usuario). Convierte cualquier cuenta de moneda distinta a la base; la tasa es la histórica por movimiento y, si el fondo no tiene ninguna —p. ej. cuenta USD financiada solo con saldo inicial—, la configurada en Ajustes (0002). Sin tasa → `consolidado: null` (SPC-025).
+  - `get_balances(fund_id?, base?)` → saldo por cuenta y consolidado a la moneda base elegida (`BOB`/`USD`; por defecto la `moneda_base` del fondo). Convierte cualquier cuenta de moneda distinta a la base; la tasa es la histórica por movimiento y, si el fondo no tiene ninguna —p. ej. cuenta USD financiada solo con saldo inicial—, la configurada en Ajustes (0002). Sin tasa → `consolidado: null` (SPC-025).
   - `list_categories(fund_id, tipo?)` → categorías del fondo.
   - `list_transactions(fund_id?, from?, to?, categoria?, tipo?, limite?)` → movimientos.
   - `create_transaction(cuenta_id, categoria_id, tipo, monto, fecha?, nota?, tasa_ref?)` → crea gasto/ingreso. `monto` en formato humano (`"12,50"`), parseado con `shared/money.ts`.

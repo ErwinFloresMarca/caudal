@@ -123,15 +123,14 @@ describe.skipIf(!hasDb)('MCP callTool', () => {
     expect(r.consolidado).toBeNull()
   })
 
-  it('get_balances sin base usa la moneda base del usuario', async () => {
-    const fondo = await crearFondo(userIdOtro, { nombre: 'Moneda base USD', tipo: 'personal', moneda_base: 'BOB' })
+  it('get_balances sin base usa la moneda base del fondo', async () => {
+    const fondo = await crearFondo(userIdOtro, { nombre: 'Fondo base USD', tipo: 'personal', moneda_base: 'USD' })
     await crearCuenta(userIdOtro, fondo.id, { nombre: 'Caja', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 50000 })
-    await callTool(userIdOtro, 'update_settings', { moneda_base: 'USD', tasa: 12.32 })
+    await callTool(userIdOtro, 'update_settings', { tasa: 12.32 })
 
     const r = (await callTool(userIdOtro, 'get_balances', { fund_id: fondo.id })) as { consolidado: { base: string; centavos: number } | null }
     expect(r.consolidado!.base).toBe('USD')
     expect(r.consolidado!.centavos).toBe(Math.round(50000 / 12.32))
-    await callTool(userIdOtro, 'update_settings', { moneda_base: 'BOB' })
   })
 
   it('create_transaction con "12,50" y fuente=asistente; update y delete', async () => {

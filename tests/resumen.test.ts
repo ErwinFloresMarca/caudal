@@ -10,6 +10,7 @@ import { crearTransaccion, hoyLocal } from '../server/utils/transacciones'
 import { crearRecurrente } from '../server/utils/recurrentes'
 import { crearDeuda } from '../server/utils/deudas'
 import { crearMeta, crearAporteMeta } from '../server/utils/metas'
+import { setTasa } from '../server/utils/ajustes'
 import { resumenDashboard } from '../server/utils/resumen'
 import { rangoMes, resumenPeriodo, consolidarBase, gastosPorCategoria, type MovResumen } from '#shared/resumen'
 
@@ -131,15 +132,29 @@ describe('resumen (puro)', () => {
 })
 
 describe.skipIf(!hasDb)('resumenDashboard (agregación)', () => {
-  it('muestra saldo por moneda y consolidado etiquetado como histórico', async () => {
+  it('muestra saldo por moneda y consolidado a la moneda base del fondo', async () => {
     const r = await resumenDashboard(userId, fondoId)
     const bob = r.saldos.por_moneda.find((p) => p.moneda === 'BOB')!
     const usd = r.saldos.por_moneda.find((p) => p.moneda === 'USD')!
     expect(bob.centavos).toBe(400000) // 100000 + 400000 − 100000
     expect(usd.centavos).toBe(10000)
+    expect(r.saldos.consolidado!.base).toBe('BOB')
     expect(r.saldos.consolidado!.centavos).toBe(400000 + Math.round(10000 * 6.96))
-    expect(r.saldos.consolidado!.nota).toBe('Convertido con tasa histórica')
+    expect(r.saldos.consolidado!.nota).toBe('Convertido con tasa registrada')
     expect(r.vacio).toBe(false)
+  })
+
+  it('consolida a la moneda base del fondo cuando es USD', async () => {
+    const fondoUsd = await crearFondo(userId, { nombre: 'Fondo base USD', tipo: 'personal', moneda_base: 'USD' })
+    await crearCuenta(userId, fondoUsd.id, { nombre: 'Caja BOB', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 69600 })
+    await crearCuenta(userId, fondoUsd.id, { nombre: 'Ahorro USD', tipo: 'ahorro', moneda: 'USD', saldo_inicial_centavos: 10000 })
+    await setTasa(userId, { valor: 6.96 })
+
+    const r = await resumenDashboard(userId, fondoUsd.id)
+    expect(r.saldos.consolidado!.base).toBe('USD')
+    expect(r.saldos.consolidado!.centavos).toBe(20000)
+    expect(r.saldos.consolidado!.formateado).toBe('US$ 200,00')
+    expect(r.saldos.consolidado!.nota).toBe('Convertido con tasa registrada')
   })
 
   it('neto del mes = Σ ingresos − Σ egresos (consolidado)', async () => {

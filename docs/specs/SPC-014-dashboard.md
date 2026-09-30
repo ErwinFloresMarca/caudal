@@ -16,14 +16,14 @@ Al abrir Caudal el usuario quiere responder de un vistazo: ¿cuánto tengo?, ¿c
   - **Gastos por categoría del mes** (top categorías, mini barras).
   - **Pendientes**: movimientos recurrentes por confirmar (SPC-011) y próximas cuotas de deuda (SPC-012).
   - **Metas de ahorro** activas con progreso (SPC-013).
-- En multimoneda: se muestra el saldo por moneda; el total consolidado a BOB aparece explícito con la leyenda "convertido con tasa histórica" (0002).
+- En multimoneda: se muestra el saldo por moneda; el total consolidado a la **moneda base del fondo** (`fondos.moneda_base`) aparece explícito con la leyenda «convertido con tasa registrada» (0002).
 - Todo con datos reales (no mock). Si no hay datos, estados vacíos con CTA ("registra tu primer movimiento").
 - Rendimiento: el dashboard se arma con varias consultas agregadas en el servidor (`server/api/resumen.get.ts`), no N+1 en el cliente.
 - Responsive: móvil apilado (saldo → mes → pendientes), escritorio en grid de cards.
 
 ## Criterios de aceptación
 
-- [x] Con 2 cuentas (BOB/USD) el dashboard muestra saldo por moneda y el consolidado etiquetado como histórico. (test de agregación + captura)
+- [x] Con 2 cuentas (BOB/USD) el dashboard muestra saldo por moneda y el consolidado en la moneda base del fondo. (test de agregación + captura)
 - [x] El neto del mes = Σ ingresos − Σ egresos del mes (excluye transferencias/aportes internos según SPC-015). (test)
 - [x] Aparecen solo los pendientes reales (recurrentes vencidos y cuotas por vencer), no todos.
 - [x] Estados vacíos correctos sin datos.
@@ -32,7 +32,7 @@ Al abrir Caudal el usuario quiere responder de un vistazo: ¿cuánto tengo?, ¿c
 ## Implementación (decisiones)
 
 - **Agregación en servidor**: `server/api/resumen.get.ts` → `server/utils/resumen.ts#resumenDashboard(userId, fondoId)`. Lógica pura en `shared/resumen.ts` (`rangoMes`, `consolidarBase`, `resumenPeriodo`, `gastosPorCategoria`). Reusa `listarCuentas`, `listarTransacciones`, `listarPendientes`, `proximasCuotas`, `listarMetas`. Sin N+1 en el cliente.
-- **Saldo consolidado**: el saldo por moneda es exacto; para consolidar USD a BOB (stock) se usa la **última tasa USD registrada** en el fondo, con leyenda «Convertido con tasa histórica». Si hay USD y no hay tasa, `consolidado = null`. El mes sí usa la tasa **histórica de cada movimiento** (0002).
+- **Saldo consolidado**: el saldo por moneda es exacto; para el stock se consolida a la **moneda base del fondo** (`fondos.moneda_base`) usando la **última tasa del fondo** y, si no hay, la configurada en Ajustes (0002), con leyenda «Convertido con tasa registrada». Si hay otra moneda y no hay tasa, `consolidado = null`. El mes usa la tasa **histórica de cada movimiento** y, en base USD, la tasa actual como `tasaFallback` para los movimientos BOB (SPC-017).
 - **Neto del mes**: Σ ingresos − Σ egresos de las transacciones del fondo en el mes en curso. Las transferencias no viven en `transacciones`, por lo que quedan fuera por construcción; los aportes/retiros cuentan como resultado del fondo (SPC-015).
 - **Pendientes**: recurrentes vencidos (`listarPendientes`, SPC-011) + próximas cuotas sin pagar (`proximasCuotas`, SPC-012).
 - **`vacio`**: el dashboard marca estado vacío cuando el fondo no tiene cuentas; los montos quedan en cero.

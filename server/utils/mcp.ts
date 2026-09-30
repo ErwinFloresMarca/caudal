@@ -163,7 +163,7 @@ export async function callTool(userId: number, name: string, args: Record<string
 
     case 'get_balances': {
       const fondo = await resolverFondo(userId, args.fund_id as number | undefined)
-      const base: Moneda = args.base === 'BOB' || args.base === 'USD' ? (args.base as Moneda) : await getMonedaBase(userId)
+      const base: Moneda = args.base === 'BOB' || args.base === 'USD' ? (args.base as Moneda) : ((fondo.moneda_base === 'USD' ? 'USD' : 'BOB') as Moneda)
       const cs = await listarCuentas(userId, fondo.id)
       const porMoneda = new Map<Moneda, number>()
       for (const c of cs) porMoneda.set(c.moneda as Moneda, (porMoneda.get(c.moneda as Moneda) ?? 0) + c.saldo_actual_centavos)
