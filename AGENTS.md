@@ -31,6 +31,7 @@ pnpm db:push     # drizzle-kit push: sincroniza el esquema en dev (sin migració
 pnpm db:studio   # drizzle-kit studio: explorar la BD (opcional)
 pnpm release    # release: bump + tag vX.Y.Z + push (dispara la CI). Gates: main, limpio, lint/tests/build
 pnpm screenshots  # capturas Playwright (1280px + 390px) en .screenshots/ — requiere `pnpm build` antes
+pnpm icons        # regenera favicon.ico + PNG de marca desde public/favicon.svg (Playwright)
 pnpm seed:demo    # siembra datos de demo vía API (para capturas/pruebas)
 pnpm e2e          # verificación end-to-end (BASE_URL, por defecto prod)
 ```
