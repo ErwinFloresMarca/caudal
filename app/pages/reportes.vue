@@ -61,7 +61,7 @@ const donut = computed(() => {
   let start = 0
   return cats.slice(0, 8).map((c) => {
     const pct = total > 0 ? (c.centavos / total) * 100 : 0
-    const seg = { ...c, pct, offset: 25 - start, color: c.color ?? '#8E9BAE' }
+    const seg = { ...c, pct, offset: 25 - start, color: c.color ?? 'var(--color-ink-faint)' }
     start += pct
     return seg
   })

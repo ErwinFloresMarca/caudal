@@ -166,7 +166,7 @@ const ahorroPct = computed(() => {
             <ul class="divide-y divide-border">
               <li v-for="m in recientes?.transacciones ?? []" :key="m.id" class="flex items-center justify-between py-3">
                 <span class="flex items-center gap-3">
-                  <span class="grid h-10 w-10 place-items-center rounded-full bg-surface-muted" :style="{ color: m.categoria?.color ?? '#5B6B85' }">
+                  <span class="grid h-10 w-10 place-items-center rounded-full bg-surface-muted" :style="{ color: m.categoria?.color ?? 'var(--color-ink-muted)' }">
                     <UIcon :name="iconoMaterial(m.categoria?.icono)" class="size-5" />
                   </span>
                   <span class="flex flex-col">
@@ -189,13 +189,13 @@ const ahorroPct = computed(() => {
               <span
                 v-for="g in resumen.gastos_por_categoria"
                 :key="g.categoria_id ?? 'sin'"
-                :style="{ width: `${g.porcentaje}%`, background: g.color ?? '#8E9BAE' }"
+                :style="{ width: `${g.porcentaje}%`, background: g.color ?? 'var(--color-ink-faint)' }"
               />
             </div>
             <ul class="space-y-3">
               <li v-for="g in resumen.gastos_por_categoria" :key="g.categoria_id ?? 'sin'" class="flex items-center justify-between gap-3">
                 <span class="flex items-center gap-3">
-                  <span class="grid h-8 w-8 place-items-center rounded-full bg-surface-muted" :style="{ color: g.color ?? '#5B6B85' }">
+                  <span class="grid h-8 w-8 place-items-center rounded-full bg-surface-muted" :style="{ color: g.color ?? 'var(--color-ink-muted)' }">
                     <UIcon :name="iconoMaterial(g.icono)" class="size-4" />
                   </span>
                   <span class="text-sm text-ink">{{ g.nombre }}</span>

@@ -178,7 +178,7 @@ async function confirmarBorradoCat() {
     <div class="card mt-3 divide-y divide-border p-2">
       <div v-for="c in [...catsGasto, ...catsIngreso]" :key="c.id" class="flex items-center justify-between gap-3 px-3 py-3">
         <span class="flex items-center gap-3">
-          <span class="grid h-9 w-9 place-items-center rounded-full bg-surface-muted" :style="{ color: c.color ?? '#5B6B85' }">
+          <span class="grid h-9 w-9 place-items-center rounded-full bg-surface-muted" :style="{ color: c.color ?? 'var(--color-ink-muted)' }">
             <UIcon :name="iconoMaterial(c.icono)" class="size-4" />
           </span>
           <span class="flex flex-col">

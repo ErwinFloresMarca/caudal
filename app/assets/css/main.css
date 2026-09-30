@@ -24,6 +24,30 @@
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 }
 
+/* Modo oscuro (SPC-028): se redefinen los neutros; brand y semánticos se
+   aclaran lo justo para contraste AA sobre fondos oscuros. */
+.dark {
+  --color-frost: #080b11;
+  --color-surface: #0e131d;
+  --color-surface-muted: #141a26;
+  --color-surface-hover: #1a2232;
+  --color-surface-tint: #12233f;
+  --color-ink: #e2e8f0;
+  --color-ink-muted: #94a3b8;
+  --color-ink-faint: #64748b;
+  --color-brand-600: #3d8bff;
+  --color-positive: #34d399;
+  --color-negative: #f87171;
+  --color-warning: #fbbf24;
+  --color-border: rgb(255 255 255 / 0.08);
+  --color-border-strong: rgb(255 255 255 / 0.14);
+  color-scheme: dark;
+}
+
+:root {
+  color-scheme: light;
+}
+
 @layer base {
   body {
     @apply bg-frost text-ink font-sans antialiased;
@@ -99,13 +123,13 @@
 
 /* Badges */
 @utility badge-plus {
-  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#0FA47F] bg-[rgb(15_164_127/0.10)];
+  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#0FA47F] bg-[rgb(15_164_127/0.10)] dark:text-[#34D399] dark:bg-[rgb(52_211_153/0.16)];
 }
 
 @utility badge-minus {
-  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#E5484D] bg-[rgb(229_72_77/0.10)];
+  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#E5484D] bg-[rgb(229_72_77/0.10)] dark:text-[#F87171] dark:bg-[rgb(248_113_113/0.16)];
 }
 
 @utility badge-warning {
-  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#C27A18] bg-[rgb(232_161_58/0.12)];
+  @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#C27A18] bg-[rgb(232_161_58/0.12)] dark:text-[#FBBF24] dark:bg-[rgb(251_191_36/0.18)];
 }

@@ -243,7 +243,7 @@ onMounted(() => {
         <ul class="divide-y divide-border">
           <li v-for="m in items" :key="m.id" class="group flex items-center justify-between gap-3 px-3 py-3">
             <span class="flex min-w-0 items-center gap-3">
-              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-surface-muted" :style="{ color: m.categoria?.color ?? '#5B6B85' }">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-surface-muted" :style="{ color: m.categoria?.color ?? 'var(--color-ink-muted)' }">
                 <UIcon :name="iconoMaterial(m.categoria?.icono)" class="size-5" />
               </span>
               <span class="flex min-w-0 flex-col">

@@ -13,25 +13,29 @@ Prioridad visual:
 2. **Datos ordenados en canales** (filas y columnas), nunca decoración.
 3. **Señal de color semántico**: teal = entra dinero, coral = sale dinero. El azul es acción/navegación, no moneda.
 
-## Tokens (solo luz)
+## Tokens (claro / oscuro)
 
-| Token | Valor | Uso |
-|---|---|---|
-| `bg` | `#F6F8FC` (Frost) | Fondo de la app / canvas global |
-| `surface` | `#FFFFFF` | Cards, tablas, formularios (L1) |
-| `surface-muted` | `#EDF1F8` (Mist) | Fondos de secciones, chips, headers de tabla, pills secundarias |
-| `surface-hover` | `#F0F3FF` | Hover de cards/inputs, filas seleccionables |
-| `surface-tint` | `#EBF3FF` | Fondo teñido de brand: inputs enfocados, nav activo, pills seleccionadas |
-| `ink` | `#0B1C34` (Deep Water) | Texto primario, números |
-| `ink-muted` | `#5B6B85` | Texto secundario |
-| `ink-faint` | `#8E9BAE` | Metadatos, placeholders |
-| `brand` | `#0E6FFF` (Caudal Blue) | Acciones, enlaces, navegación activa, titulares two-tone |
-| `brand-600` | `#0057D9` | Hover de acciones |
-| `positive` | `#0FA47F` (Creek) | Ingresos, saldo positivo, aportes recibidos |
-| `negative` | `#E5484D` (Coral) | Egresos, saldo negativo, deudas por pagar |
-| `warning` | `#E8A13A` (Amber) | Avisos, metas lejanas, presupuestos en alerta >80% |
-| `border` | `rgb(11 28 52 / 0.08)` | 1px separadores estructurales |
-| `border-strong` | `rgb(11 28 52 / 0.12)` | Inputs y selectores (frontera interactiva) |
+Claro en `@theme static`; oscuro en el bloque `.dark` de `app/assets/css/main.css` (SPC-028). Brand y semánticos se mantienen; en oscuro se aclaran para contraste AA.
+
+| Token | Claro | Oscuro | Uso |
+|---|---|---|---|
+| `frost` | `#F6F8FC` (Frost) | `#080B11` | Fondo de la app / canvas global |
+| `surface` | `#FFFFFF` | `#0E131D` | Cards, tablas, formularios (L1) |
+| `surface-muted` | `#EDF1F8` (Mist) | `#141A26` | Fondos de secciones, chips, headers de tabla, pills secundarias |
+| `surface-hover` | `#F0F3FF` | `#1A2232` | Hover de cards/inputs, filas seleccionables |
+| `surface-tint` | `#EBF3FF` | `#12233F` | Fondo teñido de brand: inputs enfocados, nav activo, pills seleccionadas |
+| `ink` | `#0B1C34` (Deep Water) | `#E2E8F0` | Texto primario, números |
+| `ink-muted` | `#5B6B85` | `#94A3B8` | Texto secundario |
+| `ink-faint` | `#8E9BAE` | `#64748B` | Metadatos, placeholders |
+| `brand` | `#0E6FFF` (Caudal Blue) | `#0E6FFF` | Acciones, enlaces, navegación activa, titulares two-tone |
+| `brand-600` | `#0057D9` | `#3D8BFF` | Hover de acciones |
+| `positive` | `#0FA47F` (Creek) | `#34D399` | Ingresos, saldo positivo, aportes recibidos |
+| `negative` | `#E5484D` (Coral) | `#F87171` | Egresos, saldo negativo, deudas por pagar |
+| `warning` | `#E8A13A` (Amber) | `#FBBF24` | Avisos, metas lejanas, presupuestos en alerta >80% |
+| `border` | `rgb(11 28 52 / 0.08)` | `rgb(255 255 255 / 0.08)` | 1px separadores estructurales |
+| `border-strong` | `rgb(11 28 52 / 0.12)` | `rgb(255 255 255 / 0.14)` | Inputs y selectores (frontera interactiva) |
+
+`color-scheme` se declara por modo (claro en `:root`, oscuro en `.dark`).
 
 Radios: cards `rounded-[20px]`, botones píldora `h-13 rounded-full` (48–52px), inputs `rounded-xl` (12px), badges `rounded-full`.
 Sombra: elevación por borde hairline + `shadow-sm` (`0 1px 2px 0 rgb(11 28 52 / 0.04)`). Flotantes (modales, slideovers): borde `border-strong` + `0 8px 24px -4px rgb(11 28 52 / 0.08)`. Zero-shadow por defecto; sin sombras tintadas ni tonales.

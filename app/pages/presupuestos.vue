@@ -40,7 +40,7 @@ const lista = computed(() => {
 
 const ESTADO: Record<EstadoPresupuesto, { label: string; text: string; bar: string }> = {
   en_ritmo: { label: 'En ritmo', text: 'text-positive', bar: 'bg-brand' },
-  alerta: { label: 'Alerta', text: 'text-[#C27A18]', bar: 'bg-warning' },
+  alerta: { label: 'Alerta', text: 'text-[#C27A18] dark:text-[#FBBF24]', bar: 'bg-warning' },
   sobregiro: { label: 'Sobregiro', text: 'text-negative', bar: 'bg-negative' },
 }
 const barra = (p: Presupuesto) => Math.min(100, Math.max(0, p.porcentaje))
@@ -151,7 +151,7 @@ const maxHist = computed(() => Math.max(1, ...barras.value.map((h) => Math.max(h
         <div v-for="p in lista" :key="p.id" class="card p-5">
           <div class="flex items-center justify-between">
             <span class="flex items-center gap-3">
-              <span class="grid h-10 w-10 place-items-center rounded-full bg-surface-muted" :style="{ color: p.categoria.color ?? '#5B6B85' }">
+              <span class="grid h-10 w-10 place-items-center rounded-full bg-surface-muted" :style="{ color: p.categoria.color ?? 'var(--color-ink-muted)' }">
                 <UIcon :name="iconoMaterial(p.categoria.icono)" class="size-5" />
               </span>
               <span class="flex flex-col">

@@ -1,6 +1,18 @@
 <script setup lang="ts">
 const request = useRequestFetch()
 const { user, clear } = useUserSession()
+const colorMode = useColorMode()
+
+// Apariencia
+const OPCIONES_MODO = [
+  { value: 'light', label: 'Claro' },
+  { value: 'dark', label: 'Oscuro' },
+  { value: 'system', label: 'Sistema' },
+]
+const modo = computed({
+  get: () => colorMode.preference,
+  set: (v: string) => { colorMode.preference = v },
+})
 
 const { data: ajustes, refresh } = await useAsyncData('ajustes', () => request<{ perfil: { id: number; nombre: string; email: string; timezone: string; tiene_password: boolean }; moneda_base: 'BOB' | 'USD'; tasa: { actual: { valor: number; fecha: string } | null; historial: { valor: number; fecha: string }[] } }>('/api/ajustes'))
 const { data: keys, refresh: refreshKeys } = await useAsyncData('api-keys', () => request<{ id: number; nombre: string; created_at: string; last_used_at: string | null }[]>('/api/api-keys'))
@@ -148,6 +160,15 @@ async function borrarCuenta() {
           <p class="truncate text-sm text-ink-muted">{{ perfil?.nombre }} · {{ perfil?.email }} · {{ perfil?.timezone }}</p>
         </div>
         <button type="button" class="btn-secondary h-10 shrink-0 px-4 text-sm" @click="abrirPerfil">Editar</button>
+      </div>
+
+      <!-- Apariencia -->
+      <div class="card flex items-center justify-between gap-4 p-5">
+        <div>
+          <p class="text-sm font-semibold text-ink">Apariencia</p>
+          <p class="text-sm text-ink-muted">Tema de la interfaz</p>
+        </div>
+        <USelect v-model="modo" :items="OPCIONES_MODO" class="w-36" />
       </div>
 
       <!-- Seguridad -->
