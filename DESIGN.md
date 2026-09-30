@@ -46,7 +46,8 @@ Sombra: elevación por borde hairline + `shadow-sm` (`0 1px 2px 0 rgb(11 28 52 /
 
 ## Componentes e iconos
 
-- **Iconos**: Material Symbols (redondeado/`rounded`). No mezclar otros sets (el logo es SVG propio).
+- **Iconos**: Material Symbols (redondeado/`rounded`). No mezclar otros sets.
+- **Logo/marca**: gota de agua (`i-material-symbols-water-drop`) blanca sobre círculo `brand #0E6FFF`. Es la marca oficial y la fuente del favicon (`public/favicon.svg`) y del logo del shell/login.
 - **Botón primario**: píldora `h-13 rounded-full` `font-bold`, fondo `brand`, texto blanco, hover `brand-600`. Focus ring 3px `surface-tint`.
 - **Botón secundario**: píldora `h-13`/`h-11`, fondo `surface-muted`, texto `ink`, hover `surface-hover`/`#dfe8ff`.
 - **Filtro/pill terciaria**: píldora `h-9` (36px), sin seleccionar = 1px `border` + `ink-muted`; seleccionada = `surface-tint` con `ink`, o `brand` con texto blanco.
