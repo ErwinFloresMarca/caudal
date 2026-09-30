@@ -35,6 +35,7 @@ Sin un shell común, cada pantalla reinventará la navegación y el layout. Hace
 - **Navegación**: `app/utils/navegacion.ts` con las 11 rutas (incluye `Presupuestos`). Sidebar `AppSidebar` y barra inferior `AppBottomNav` (Inicio, Movimientos, **+**, Fondos, Ajustes). Iconos **Material Symbols** vía `UIcon` (`i-material-symbols-*`).
 - **Pantallas**: dashboard `/` (saldos reales), `/login` (login real contra `/api/auth/login`) y `/fondos` (listado real). El resto de rutas son un `PaginaEnConstruccion` de relleno que el pase visual (SPC-021) reemplaza; así la navegación no da 404.
 - **BalancesPanel**: total por moneda + filas por cuenta con icono por tipo y formato `formatMoney` (tabular-nums).
+- **Cabecera**: `AppUserMenu` (SPC-027) a la derecha — avatar con foto de Google o iniciales y menú con Ajustes / Cerrar sesión; `FondoActivoMenu` para el fondo activo.
 - **Verificación visual**: Playwright (bundled Chromium) — login, redirección sin sesión, cambio de fondo sin recarga y responsive. Capturas en `.screenshots/` (gitignored).
 
 Archivos: `app/layouts/{default,auth}.vue`, `app/middleware/auth.global.ts`, `app/composables/useFondoActivo.ts`, `app/utils/navegacion.ts`, `app/components/{AppSidebar,AppBottomNav,FondoActivoMenu,BalancesPanel,PaginaEnConstruccion}.vue`, `app/pages/*.vue`.

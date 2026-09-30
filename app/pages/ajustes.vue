@@ -205,7 +205,7 @@ async function borrarCuenta() {
       <div class="card flex items-center justify-between gap-4 p-5">
         <div>
           <p class="text-sm font-semibold text-ink">Sesión</p>
-          <p class="text-sm text-ink-muted">{{ (user as { email?: string } | undefined)?.email }}</p>
+          <p class="text-sm text-ink-muted">{{ user?.email }}</p>
         </div>
         <button type="button" class="btn-secondary h-10 shrink-0 px-4 text-sm" @click="cerrarSesion">Cerrar sesión</button>
       </div>

@@ -7,9 +7,9 @@ import { users } from '../../db/schema'
 export default defineEventHandler(async (event) => {
   const userId = await authUserId(event)
   const [user] = await db
-    .select({ id: users.id, email: users.email, name: users.name })
+    .select({ id: users.id, email: users.email, name: users.name, avatar_url: users.avatar_url })
     .from(users)
     .where(eq(users.id, userId))
     .limit(1)
-  return user ?? { id: userId, email: null, name: null }
+  return user ?? { id: userId, email: null, name: null, avatar_url: null }
 })

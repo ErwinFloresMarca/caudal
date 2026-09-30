@@ -30,3 +30,8 @@ Caudal es multiusuario (también para el asistente IA vía MCP). Hace falta regi
 - [x] Con la key NO se puede pasar `user_id` propio (se ignora y se toma el de la key).
 - [x] Test: dos usuarios crean datos; usuario B con API key no ve los datos del A.
 - [x] `pnpm lint` y `pnpm build` pasan.
+
+## Implementación (decisiones)
+
+- **Tipos de sesión** (SEL-116): el augmentation de `nuxt-auth-utils` va en `shared/types/auth.d.ts` apuntando al módulo **`#auth-utils`** (no `nuxt-auth-utils`). Nuxt solo incluye `shared/**/*.d.ts` y `*.d.ts` raíz en el tsconfig, por eso un `types/` raíz no se aplicaba. `User` = `{ id, email, name, avatar_url? }`; `UserSession` = `{ fondo_activo_id? }`.
+- `avatar_url` (de Google, SPC-023) se incluye en la sesión desde `login.post.ts` y en `GET /api/auth/me`.

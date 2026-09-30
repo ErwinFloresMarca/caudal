@@ -29,9 +29,7 @@ await Promise.all([cargarFondos(), cargarFondoActivo()])
             <UIcon name="i-material-symbols-add" class="size-5" />
             <span class="hidden sm:inline">Registrar</span>
           </NuxtLink>
-          <span class="grid h-8 w-8 place-items-center rounded-full bg-brand text-white">
-            <UIcon name="i-material-symbols-person" class="size-4" />
-          </span>
+          <AppUserMenu />
         </div>
       </header>
 
