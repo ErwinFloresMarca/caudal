@@ -1,6 +1,6 @@
 # SPC-018 — MCP server
 
-Estado: implementada
+Estado: verificada
 Depende de: SPC-003, SPC-008, SPC-015
 
 ## Extensión v2 — cobertura total
