@@ -72,3 +72,8 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-022 | release | SEL-98 | propuesta |
 | SPC-023 | google-oauth | SEL-99 | propuesta |
 | SPC-024 | presupuestos | SEL-100 | propuesta |
+| SPC-025 | get-balances-base | SEL-112 | verificada |
+| SPC-026 | favicon-marca | — | verificada |
+| SPC-027 | menu-usuario | — | verificada |
+| SPC-028 | modo-oscuro | — | verificada |
+| SPC-029 | migraciones-en-deploy-ci | SEL-265 | propuesta |
