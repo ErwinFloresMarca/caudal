@@ -1,6 +1,13 @@
 # SPC-029 — Migraciones de BD en el deploy de CI
 
-Estado: implementada · Issue: SEL-265
+Estado: verificada · Issue: SEL-265
+
+Verificado en el run [38904019394](https://github.com/ErwinFloresMarca/caudal/actions/runs/38904019394)
+(`workflow_dispatch`, commit `7491ce7`): el job `deploy` ya no se saltea sus steps, entra por SSH y
+ejecuta `deploy.sh` con el tag; el log remoto muestra `> Desplegando release: ...`,
+`> Migraciones (desde ...)`, `drizzle-kit migrate` con `[✓] migrations applied successfully!`,
+el restart de pm2 y `> Deploy OK: ...` (health check 200). El caso de una migración pendiente sigue
+sin probarse (ver Fuera de alcance).
 
 Depende de: [SPC-020](./SPC-020-deploy.md) (deploy en VPS + nginx), [SPC-022](./SPC-022-release.md) (release)
 
