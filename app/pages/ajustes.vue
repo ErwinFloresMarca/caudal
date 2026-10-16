@@ -17,6 +17,14 @@ const modo = computed({
 const { data: ajustes, refresh } = await useAsyncData('ajustes', () => request<{ perfil: { id: number; nombre: string; email: string; timezone: string; tiene_password: boolean }; moneda_base: 'BOB' | 'USD'; tasa: { actual: { valor: number; fecha: string } | null; historial: { valor: number; fecha: string }[] } }>('/api/ajustes'))
 const { data: keys, refresh: refreshKeys } = await useAsyncData('api-keys', () => request<{ id: number; nombre: string; created_at: string; last_used_at: string | null }[]>('/api/api-keys'))
 
+const { fondos, marcarPredeterminado } = useFondoActivo()
+const fondoAbierto = ref(false)
+const fondoPredeterminado = computed(() => fondos.value.find((f) => f.predeterminado) ?? null)
+async function elegirFondo(id: number | null) {
+  await marcarPredeterminado(id)
+  fondoAbierto.value = false
+}
+
 const perfil = computed(() => ajustes.value?.perfil ?? null)
 const fechaCorta = (f: string | null) => (f ? new Date(f).toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Nunca')
 
@@ -192,6 +200,17 @@ async function borrarCuenta() {
         <button type="button" class="btn-secondary h-10 shrink-0 px-4 text-sm" @click="abrirPref">Editar</button>
       </div>
 
+      <!-- Fondo por defecto -->
+      <div class="card flex items-center justify-between gap-4 p-5">
+        <div class="min-w-0">
+          <p class="text-sm font-semibold text-ink">Fondo por defecto</p>
+          <p class="truncate text-sm text-ink-muted">
+            {{ fondoPredeterminado ? fondoPredeterminado.nombre : 'Sin definir: se usa el primer fondo' }}
+          </p>
+        </div>
+        <button type="button" class="btn-secondary h-10 shrink-0 px-4 text-sm" @click="fondoAbierto = true">Cambiar</button>
+      </div>
+
       <!-- Categorías y Fondos -->
       <div class="card flex items-center justify-between gap-4 p-5">
         <div>
@@ -261,6 +280,40 @@ async function borrarCuenta() {
         <div class="flex justify-end gap-2">
           <button type="button" class="btn-secondary h-11 px-5 text-sm" @click="perfilAbierto = false">Cancelar</button>
           <button type="button" class="btn-primary h-11 px-5 text-sm" @click="guardarPerfil">Guardar</button>
+        </div>
+      </template>
+    </USlideover>
+
+    <!-- Fondo por defecto: lo que usa el sistema al entrar y cuando no se elige fondo -->
+    <USlideover v-model:open="fondoAbierto" title="Fondo por defecto" description="Se usa al entrar y cuando no elegís fondo.">
+      <template #body>
+        <div class="flex flex-col gap-2">
+          <button
+            type="button"
+            class="flex items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors hover:bg-surface-hover"
+            :class="fondoPredeterminado ? 'border-border' : 'border-brand bg-surface-tint'"
+            @click="elegirFondo(null)"
+          >
+            <span class="flex min-w-0 flex-col">
+              <span class="text-sm font-semibold text-ink">Sin definir</span>
+              <span class="text-xs text-ink-muted">Se usa el primer fondo activo.</span>
+            </span>
+            <UIcon v-if="!fondoPredeterminado" name="i-material-symbols-check" class="size-5 shrink-0 text-brand" />
+          </button>
+          <button
+            v-for="f in fondos"
+            :key="f.id"
+            type="button"
+            class="flex items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors hover:bg-surface-hover"
+            :class="f.predeterminado ? 'border-brand bg-surface-tint' : 'border-border'"
+            @click="elegirFondo(f.id)"
+          >
+            <span class="flex min-w-0 flex-col">
+              <span class="truncate text-sm font-semibold text-ink">{{ f.nombre }}</span>
+              <span class="text-xs capitalize text-ink-muted">{{ f.tipo }} · {{ f.moneda_base }}</span>
+            </span>
+            <UIcon v-if="f.predeterminado" name="i-material-symbols-check" class="size-5 shrink-0 text-brand" />
+          </button>
         </div>
       </template>
     </USlideover>

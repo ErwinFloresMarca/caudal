@@ -81,3 +81,4 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-031 | mcp-fund-id-y-tests-en-ci | SEL-268 | verificada |
 | SPC-032 | deploy-sh-versionado | SEL-270 | implementada |
 | SPC-033 | validar-argumentos-mcp | SEL-271 | implementada |
+| SPC-034 | fondo-por-defecto-ajustes | SEL-272 | implementada |
