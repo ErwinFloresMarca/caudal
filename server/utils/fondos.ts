@@ -2,6 +2,10 @@ import { and, eq } from 'drizzle-orm'
 import { db } from './db'
 import { fondos } from '../db/schema'
 import { sembrarCategorias } from './categorias'
+import { getSetting } from './settings'
+
+// Fondo por defecto del usuario: preferencia persistente (no la sesión, que vive en la cookie).
+export const KEY_FONDO_DEFAULT = 'fondo_default_id'
 
 // Error HTTP sin depender de h3 (para que vitest pueda importar el repositorio).
 function httpError(statusCode: number, statusMessage: string): Error & { statusCode: number } {
@@ -142,12 +146,28 @@ export async function ocultarFondo(userId: number, id: number) {
 
 export { parseFondo, fondoPublico }
 
-// Fondo activo de la sesión; si no existe o se ocultó, fallback al primer fondo activo.
+// Fondo por defecto: el que eligió el usuario si sigue activo; si no, el primer fondo activo por
+// id (orden de creación). Determinista, a diferencia del orden por nombre del listado.
+export async function fondoDefaultUsuario(userId: number) {
+  const guardado = Number(await getSetting<number | null>(userId, KEY_FONDO_DEFAULT))
+  if (Number.isInteger(guardado) && guardado > 0) {
+    const elegido = await getFondoPublico(userId, guardado)
+    if (elegido?.activo) return elegido
+  }
+  const [primero] = await db
+    .select()
+    .from(fondos)
+    .where(and(eq(fondos.user_id, userId), eq(fondos.activo, true)))
+    .orderBy(fondos.id)
+    .limit(1)
+  return primero ? fondoPublico(primero) : null
+}
+
+// Fondo activo de la sesión; si no existe o se ocultó, cae al fondo por defecto.
 export async function fondoActivoUsuario(userId: number, sessionFondoId: number | undefined | null) {
   if (sessionFondoId != null) {
     const activo = await getFondoPublico(userId, sessionFondoId)
     if (activo?.activo) return activo
   }
-  const primeros = await listarFondos(userId)
-  return primeros[0] ?? null
+  return fondoDefaultUsuario(userId)
 }

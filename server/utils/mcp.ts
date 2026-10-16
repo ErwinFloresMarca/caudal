@@ -120,9 +120,9 @@ async function resolverFondo(userId: number, fundId?: number) {
     if (!f) throw toolError('fondo no encontrado')
     return f
   }
-  const fondos = await listarFondos(userId)
-  if (!fondos[0]) throw toolError('no hay fondos')
-  return fondos[0]
+  const defecto = await fondoDefaultUsuario(userId)
+  if (!defecto) throw toolError('no hay fondos')
+  return defecto
 }
 
 async function fondoDeCuenta(userId: number, cuentaId: number): Promise<number> {

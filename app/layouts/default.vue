@@ -9,11 +9,12 @@ await Promise.all([cargarFondos(), cargarFondoActivo()])
 
     <div class="lg:pl-[260px]">
       <header class="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-surface/90 px-4 backdrop-blur lg:px-6">
-        <div class="flex items-center gap-2 lg:hidden">
-          <span class="grid h-8 w-8 place-items-center rounded-full bg-brand text-white">
+        <div class="flex min-w-0 items-center gap-2 lg:hidden">
+          <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand text-white">
             <UIcon name="i-material-symbols-water-drop" class="size-5" />
           </span>
-          <span class="text-lg font-extrabold tracking-tight text-ink">Caudal</span>
+          <span class="hidden text-lg font-extrabold tracking-tight text-ink sm:inline">Caudal</span>
+          <FondoActivoMenu compacto />
         </div>
 
         <div class="hidden lg:block">

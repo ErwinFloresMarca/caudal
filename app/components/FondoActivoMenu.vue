@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
 
+// `compacto` = versión para el header móvil (pill con nombre + moneda); el sidebar usa la grande.
+const props = defineProps<{ compacto?: boolean }>()
+
 const { fondos, fondoActivo, seleccionarFondo } = useFondoActivo()
 
 const items = computed<DropdownMenuItem[][]>(() => [
@@ -13,8 +16,19 @@ const items = computed<DropdownMenuItem[][]>(() => [
 </script>
 
 <template>
-  <UDropdownMenu :items="items" :content="{ align: 'start', side: 'top' }" :ui="{ content: 'w-60' }">
+  <UDropdownMenu :items="items" :content="{ align: 'start', side: props.compacto ? 'bottom' : 'top' }" :ui="{ content: 'w-60' }">
     <button
+      v-if="props.compacto"
+      type="button"
+      class="flex h-9 items-center gap-1.5 rounded-full bg-surface-muted px-3 transition-colors hover:bg-surface-hover"
+    >
+      <UIcon name="i-material-symbols-account-balance-wallet" class="size-4 text-brand" />
+      <span class="max-w-[7rem] truncate text-sm font-semibold text-ink">{{ fondoActivo?.nombre ?? 'Sin fondo' }}</span>
+      <UIcon name="i-material-symbols-unfold-more" class="size-4 text-ink-muted" />
+    </button>
+
+    <button
+      v-else
       type="button"
       class="flex w-full items-center justify-between gap-2 rounded-2xl bg-surface-muted px-3 py-2 text-left transition-colors hover:bg-surface-hover"
     >

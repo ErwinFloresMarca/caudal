@@ -46,6 +46,9 @@
 
 :root {
   color-scheme: light;
+  /* Nuxt UI lee su color primario de aquí: sin esto `bg-primary` queda transparente
+     (el switch encendido no se veía) y los focus rings de los componentes tampoco. SPC-030. */
+  --ui-primary: var(--color-brand);
 }
 
 @layer base {

@@ -1,31 +1,35 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { randomUUID } from 'node:crypto'
 import { db } from '../server/utils/db'
-import { users, fondos, categorias } from '../server/db/schema'
+import { users, fondos, categorias, settings } from '../server/db/schema'
 import { eq } from 'drizzle-orm'
-import { crearFondo, listarFondos, getFondo, editarFondo, ocultarFondo, parseFondo } from '../server/utils/fondos'
+import { crearFondo, listarFondos, getFondo, editarFondo, ocultarFondo, parseFondo, fondoActivoUsuario, fondoDefaultUsuario, KEY_FONDO_DEFAULT } from '../server/utils/fondos'
+import { setSetting } from '../server/utils/settings'
 
 const hasDb = Boolean(process.env.DATABASE_URL)
 
 let userIdA: number
 let userIdB: number
+let userIdC: number
 
 beforeAll(async () => {
   if (!hasDb) return
   const [a] = await db.insert(users).values({ email: `fnd-a-${randomUUID()}@test.dev`, name: 'Fondos A' }).returning({ id: users.id })
   const [b] = await db.insert(users).values({ email: `fnd-b-${randomUUID()}@test.dev`, name: 'Fondos B' }).returning({ id: users.id })
+  const [c] = await db.insert(users).values({ email: `fnd-c-${randomUUID()}@test.dev`, name: 'Fondos C' }).returning({ id: users.id })
   userIdA = a.id
   userIdB = b.id
+  userIdC = c.id
 })
 
 afterAll(async () => {
   if (!hasDb) return
-  await db.delete(categorias).where(eq(categorias.user_id, userIdA))
-  await db.delete(categorias).where(eq(categorias.user_id, userIdB))
-  await db.delete(fondos).where(eq(fondos.user_id, userIdA))
-  await db.delete(fondos).where(eq(fondos.user_id, userIdB))
-  await db.delete(users).where(eq(users.id, userIdA))
-  await db.delete(users).where(eq(users.id, userIdB))
+  for (const uid of [userIdA, userIdB, userIdC]) {
+    await db.delete(settings).where(eq(settings.user_id, uid))
+    await db.delete(categorias).where(eq(categorias.user_id, uid))
+    await db.delete(fondos).where(eq(fondos.user_id, uid))
+    await db.delete(users).where(eq(users.id, uid))
+  }
 })
 
 describe.skipIf(!hasDb)('repositorio fondos', () => {
@@ -106,5 +110,44 @@ describe.skipIf(!hasDb)('repositorio fondos', () => {
     const deB = await listarFondos(userIdB)
     const deA = await listarFondos(userIdA)
     expect(deB.some((f) => deA.some((a) => a.id === f.id))).toBe(false)
+  })
+})
+
+describe.skipIf(!hasDb)('fondo por defecto', () => {
+  it('sin default usa el primer fondo por id, no el alfabéticamente primero', async () => {
+    const zeta = await crearFondo(userIdC, { nombre: 'Zeta Zeta', tipo: 'personal', moneda_base: 'BOB' })
+    const alfa = await crearFondo(userIdC, { nombre: 'Alfa Alfa', tipo: 'personal', moneda_base: 'BOB' })
+    expect(zeta.id).toBeLessThan(alfa.id)
+    // El listado sigue alfabético (lo que ve el selector), pero el default no depende de eso.
+    expect((await listarFondos(userIdC))[0]?.nombre).toBe('Alfa Alfa')
+    expect((await fondoDefaultUsuario(userIdC))?.id).toBe(zeta.id)
+    expect((await fondoActivoUsuario(userIdC, null))?.id).toBe(zeta.id)
+  })
+
+  it('el default elegido manda; el fondo de la sesión manda sobre el default', async () => {
+    const cs = await listarFondos(userIdC)
+    const alfa = cs.find((f) => f.nombre === 'Alfa Alfa')!
+    const zeta = cs.find((f) => f.nombre === 'Zeta Zeta')!
+    await setSetting(userIdC, KEY_FONDO_DEFAULT, alfa.id)
+    expect((await fondoActivoUsuario(userIdC, null))?.id).toBe(alfa.id)
+    expect((await fondoActivoUsuario(userIdC, zeta.id))?.id).toBe(zeta.id)
+  })
+
+  it('un default oculto no se usa', async () => {
+    const alfa = (await listarFondos(userIdC)).find((f) => f.nombre === 'Alfa Alfa')!
+    const zeta = (await listarFondos(userIdC)).find((f) => f.nombre === 'Zeta Zeta')!
+    await ocultarFondo(userIdC, alfa.id)
+    expect((await fondoDefaultUsuario(userIdC))?.id).toBe(zeta.id)
+  })
+
+  it('aislamiento: el default y la sesión no cruzan usuarios', async () => {
+    const deA = await crearFondo(userIdA, { nombre: 'Default de A', tipo: 'personal', moneda_base: 'BOB' })
+    await setSetting(userIdA, KEY_FONDO_DEFAULT, deA.id)
+    expect((await fondoDefaultUsuario(userIdA))?.id).toBe(deA.id)
+
+    // Un fondo de A no puede ser el activo de la sesión de B: cae al default de B.
+    const zeta = (await listarFondos(userIdC)).find((f) => f.nombre === 'Zeta Zeta')!
+    expect((await fondoActivoUsuario(userIdC, deA.id))?.id).toBe(zeta.id)
+    expect((await fondoDefaultUsuario(userIdC))?.id).not.toBe(deA.id)
   })
 })

@@ -19,3 +19,8 @@ export async function setSetting(userId: number, key: string, value: unknown): P
     .values({ user_id: userId, key, value })
     .onConflictDoUpdate({ target: [settings.user_id, settings.key], set: { value } })
 }
+
+// `value` es jsonb NOT NULL: para "sin valor" hay que borrar la fila, no guardar null.
+export async function borrarSetting(userId: number, key: string): Promise<void> {
+  await db.delete(settings).where(and(eq(settings.user_id, userId), eq(settings.key, key)))
+}

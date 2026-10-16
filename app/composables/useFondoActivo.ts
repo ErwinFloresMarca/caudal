@@ -6,6 +6,8 @@ export interface FondoPublico {
   color: string | null
   icono: string | null
   activo: boolean
+  /** Solo lo devuelve el listado de /api/fondos. */
+  predeterminado?: boolean
 }
 
 export interface CuentaPublica {
@@ -39,5 +41,10 @@ export function useFondoActivo() {
     fondoActivo.value = r.fondo
   }
 
-  return { fondos, fondoActivo, cargarFondos, cargarFondoActivo, seleccionarFondo }
+  async function marcarPredeterminado(id: number | null) {
+    await request('/api/fondos/predeterminado', { method: 'POST', body: { id } })
+    await cargarFondos()
+  }
+
+  return { fondos, fondoActivo, cargarFondos, cargarFondoActivo, seleccionarFondo, marcarPredeterminado }
 }

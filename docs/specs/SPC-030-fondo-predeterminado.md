@@ -1,6 +1,12 @@
 # SPC-030 — Fondo predeterminado y selección de fondo
 
-Estado: aprobada · Issue: SEL-269
+Estado: implementada · Issue: SEL-269
+
+Verificado en local (dev server al 2026-10-16): API end-to-end (marcar default manda; limpiar vuelve
+al primer fondo **por id**; fondo ajeno → 404, id inexistente → 404, id inválido → 400, usuario sin
+fondos → `null`), UI en 390px y 1280px, en claro y oscuro (switch encendido en el fondo por defecto,
+badge "Activo" en el activo, "Usar este fondo" en el resto, selector en el header solo en móvil), y
+`pnpm test` 171/171 en base fresca + `pnpm lint` + `pnpm typecheck` + `pnpm build`.
 
 Depende de: [SPC-005](./SPC-005-fondos.md) (fondos), [SPC-004](./SPC-004-shell.md) (shell/navegación), [SPC-031](./SPC-031-mcp-fund-id-y-tests-en-ci.md) (deja los tests del MCP sin depender del fondo implícito)
 
@@ -76,6 +82,14 @@ fondo"** (390px y 1280px), y el selector de fondo en el header móvil.
   oculto) y `pnpm lint` / `pnpm build` verdes.
 - Capturas en 390px y 1280px verificadas (`pnpm screenshots`), en claro y oscuro.
 
+## Hallazgo de theming
+
+El switch encendido salía **invisible**: el proyecto nunca definió el color primario de Nuxt UI, así
+que `bg-primary` resolvía a `rgba(0,0,0,0)` (y los `outline-primary/*` de los focus rings también).
+Se fijó `--ui-primary: var(--color-brand)` en `app/assets/css/main.css`. Es un arreglo global: ahora
+cualquier componente de Nuxt UI que use `primary` (focus rings, checkboxes, radios) se pinta con la
+marca en vez de quedar transparente.
+
 ## Fuera de alcance
 
 - Persistir el **fondo activo** entre dispositivos: sigue en la cookie de sesión (`SPC-005`).
@@ -100,4 +114,6 @@ fondo"** (390px y 1280px), y el selector de fondo en el header móvil.
 | `app/layouts/default.vue` | Selector de fondo en el header móvil (reusa `FondoActivoMenu`) |
 | `app/components/FondoActivoMenu.vue` | Adaptarse al header móvil (posición del dropdown) |
 | `tests/fondos.test.ts` | Tests de `fondoActivoUsuario` y de aislamiento del default |
+| `app/assets/css/main.css` | `--ui-primary` (el primario de Nuxt UI, que faltaba) |
+| `server/utils/settings.ts` | `borrarSetting` (limpiar el default = borrar la fila: la columna es jsonb NOT NULL) |
 | `docs/specs/README.md` | Fila de este spec |
