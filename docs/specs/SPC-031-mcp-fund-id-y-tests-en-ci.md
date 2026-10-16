@@ -1,6 +1,12 @@
 # SPC-031 — Contrato de `fund_id` en el MCP y tests de BD en CI
 
-Estado: implementada · Issue: SEL-268
+Estado: verificada · Issue: SEL-268
+
+Verificado en el run [38960875539](https://github.com/ErwinFloresMarca/caudal/actions/runs/38960875539)
+(tag `v1.1.4`): el job `build` levantó el servicio Postgres, `Migrar BD de tests` aplicó las
+migraciones y `Tests` reportó **`Test Files 20 passed (20)` / `Tests 167 passed (167)`** sin
+saltados (antes, los archivos que necesitan BD no corrían en CI). El job `deploy` desplegó v1.1.4
+con `deploy.sh` y el health check pasó.
 
 Depende de: [SPC-018](./SPC-018-mcp-server.md) (MCP server)
 
