@@ -64,6 +64,15 @@ describe('MCP tools (definición)', () => {
     }
     for (const t of TOOLS) expect(t.inputSchema).toHaveProperty('type', 'object')
   })
+
+  it('declara fund_id en las tools que lo leen', () => {
+    for (const n of ['create_deuda', 'create_meta', 'upsert_budget']) {
+      const tool = TOOLS.find((t) => t.name === n)!
+      const props = tool.inputSchema.properties as Record<string, unknown>
+      expect(props).toHaveProperty('fund_id')
+      expect(tool.inputSchema.required ?? []).not.toContain('fund_id')
+    }
+  })
 })
 
 describe.skipIf(!hasDb)('MCP callTool', () => {
@@ -184,18 +193,18 @@ describe.skipIf(!hasDb)('MCP callTool', () => {
     const conf = (await callTool(userId, 'confirm_recurrente', { recurrente_id: rec.id })) as { transaccion: { id: number } }
     expect(conf.transaccion.id).toBeGreaterThan(0)
 
-    const deuda = (await callTool(userId, 'create_deuda', { contraparte: 'MCP Banco', direccion: 'por_pagar', monto: '20,00', num_cuotas: 2, fecha_inicio: '2026-01-01' })) as { id: number; cuotas: { id: number }[] }
+    const deuda = (await callTool(userId, 'create_deuda', { fund_id: fondoId, contraparte: 'MCP Banco', direccion: 'por_pagar', monto: '20,00', num_cuotas: 2, fecha_inicio: '2026-01-01' })) as { id: number; cuotas: { id: number }[] }
     const pago = (await callTool(userId, 'pay_cuota', { deuda_id: deuda.id, cuota_id: deuda.cuotas[0]!.id, cuenta_id: cuentaBobId })) as { cuota: { pagada: boolean } }
     expect(pago.cuota.pagada).toBe(true)
 
-    const meta = (await callTool(userId, 'create_meta', { nombre: 'MCP Meta', monto_objetivo: '100,00' })) as { id: number }
+    const meta = (await callTool(userId, 'create_meta', { fund_id: fondoId, nombre: 'MCP Meta', monto_objetivo: '100,00' })) as { id: number }
     const ap = (await callTool(userId, 'create_meta_contribution', { meta_id: meta.id, monto: '25,00' })) as { meta: { progreso: { porcentaje: number } } }
     expect(ap.meta.progreso.porcentaje).toBe(25)
   })
 
   it('presupuestos y ajustes', async () => {
     const mes = new Date().toISOString().slice(0, 7)
-    const pres = (await callTool(userId, 'upsert_budget', { categoria_id: catGastoId, monto: '100,00', mes })) as { id: number }
+    const pres = (await callTool(userId, 'upsert_budget', { fund_id: fondoId, categoria_id: catGastoId, monto: '100,00', mes })) as { id: number }
     expect(pres.id).toBeGreaterThan(0)
     const lista = (await callTool(userId, 'list_budgets', { fund_id: fondoId, mes })) as { presupuestos: { id: number }[] }
     expect(lista.presupuestos.some((p) => p.id === pres.id)).toBe(true)

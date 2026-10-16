@@ -17,6 +17,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      DATABASE_URL: postgresql://dev:dev@127.0.0.1:5432/caudal_test
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: dev
+          POSTGRES_PASSWORD: dev
+          POSTGRES_DB: caudal_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
       version: ${{ steps.version.outputs.version }}
@@ -38,6 +54,9 @@ jobs:
 
       - name: Lint
         run: pnpm lint
+
+      - name: Migrar BD de tests
+        run: pnpm db:migrate
 
       - name: Tests
         run: pnpm test

@@ -77,3 +77,4 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-027 | menu-usuario | — | verificada |
 | SPC-028 | modo-oscuro | — | verificada |
 | SPC-029 | migraciones-en-deploy-ci | SEL-265 | verificada |
+| SPC-031 | mcp-fund-id-y-tests-en-ci | SEL-268 | implementada |
