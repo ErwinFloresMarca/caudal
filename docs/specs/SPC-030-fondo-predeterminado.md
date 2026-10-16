@@ -1,11 +1,16 @@
 # SPC-030 — Fondo predeterminado y selección de fondo
 
-Estado: implementada · Issue: SEL-269
+Estado: verificada · Issue: SEL-269
 
-Verificado en local (dev server al 2026-10-16): API end-to-end (marcar default manda; limpiar vuelve
-al primer fondo **por id**; fondo ajeno → 404, id inexistente → 404, id inválido → 400, usuario sin
-fondos → `null`), UI en 390px y 1280px, en claro y oscuro (switch encendido en el fondo por defecto,
-badge "Activo" en el activo, "Usar este fondo" en el resto, selector en el header solo en móvil), y
+Verificado en el run [38980332808](https://github.com/ErwinFloresMarca/caudal/actions/runs/38980332808)
+(tag `v1.2.0`): CI `Test Files 20 passed (20)` / `Tests 171 passed (171)` sin saltados, y el deploy
+aplicó migraciones y reinició pm2 con `> Deploy OK: v1.2.0` (health 200 en `caudal.erfm.dev`).
+
+Antes, en local con dev server: API end-to-end (marcar default manda; limpiar vuelve al primer fondo
+**por id**; fondo ajeno → 404, id inexistente → 404, id inválido → 400, usuario sin fondos → `null`),
+flujo completo en 390px (elegir fondo en Fondos → el header y el badge cambian → el alta de
+movimiento preselecciona las cuentas de ese fondo), UI en 390/1280 en claro y oscuro (switch encendido
+en el fondo por defecto, badge "Activo", "Usar este fondo" en el resto, selector solo en móvil), y
 `pnpm test` 171/171 en base fresca + `pnpm lint` + `pnpm typecheck` + `pnpm build`.
 
 Depende de: [SPC-005](./SPC-005-fondos.md) (fondos), [SPC-004](./SPC-004-shell.md) (shell/navegación), [SPC-031](./SPC-031-mcp-fund-id-y-tests-en-ci.md) (deja los tests del MCP sin depender del fondo implícito)
