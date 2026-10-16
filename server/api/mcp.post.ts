@@ -46,8 +46,13 @@ export default defineEventHandler(async (event) => {
         const result = await callTool(userId, name, (params.arguments as Record<string, unknown>) ?? {})
         respuestas.push(ok(id, { content: [{ type: 'text', text: JSON.stringify(result) }] }))
       } catch (e) {
-        // Errores de tool: result con isError (el asistente puede reaccionar).
-        respuestas.push(ok(id, { content: [{ type: 'text', text: JSON.stringify({ error: (e as Error).message }) }], isError: true }))
+        if ((e as { paramsError?: boolean } | null)?.paramsError) {
+          // Argumentos que no cumplen el schema: error de protocolo, no de la tool.
+          respuestas.push(err(id, -32602, (e as Error).message))
+        } else {
+          // Errores de tool: result con isError (el asistente puede reaccionar).
+          respuestas.push(ok(id, { content: [{ type: 'text', text: JSON.stringify({ error: (e as Error).message }) }], isError: true }))
+        }
       }
     } else if (msg.method?.startsWith('notifications/')) {
       // Notificación: sin respuesta.

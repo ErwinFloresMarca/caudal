@@ -17,9 +17,16 @@ import { ultimaTasa } from './resumen'
 import { resumenPeriodo, rangoMes, type MovResumen } from '../../shared/resumen'
 import type { Cadencia } from '../../shared/recurrentes'
 import { convertToBase, formatMoney, parseAmount, type Moneda } from '../../shared/money'
+import { validarArgs, type EsquemaTool } from '../../shared/mcp-schema'
 
 function toolError(message: string): Error {
   return new Error(message)
+}
+
+// Argumentos inválidos: es un error del protocolo (JSON-RPC -32602), no un
+// resultado de tool con `isError`.
+function paramsError(message: string): Error & { paramsError?: boolean } {
+  return Object.assign(new Error(message), { paramsError: true })
 }
 
 interface ToolDef {
@@ -73,7 +80,7 @@ export const TOOLS: ToolDef[] = [
   // Aportes/retiros
   { name: 'list_aportes', description: 'Aportes/retiros que tocan el fondo.', inputSchema: { type: 'object', properties: { fund_id: FUND }, additionalProperties: false } },
   { name: 'create_aporte', description: 'Aporte/retiro entre fondos (o externo).', inputSchema: { type: 'object', properties: { cuenta_destino_id: { type: 'integer' }, monto: MONTO, cuenta_origen_id: { type: 'integer' }, fecha: FECHA, nota: { type: 'string' }, tasa_ref: { type: 'number' } }, required: ['cuenta_destino_id', 'monto'], additionalProperties: false } },
-  { name: 'update_aporte', description: 'Edita un aporte/retiro (no cambia las cuentas).', inputSchema: { type: 'object', properties: { aporte_id: { type: 'integer' }, monto: MONTO, cuenta_origen_id: { type: 'integer' }, fecha: FECHA, nota: { type: 'string' }, tasa_ref: { type: 'number' } }, required: ['aporte_id', 'monto'], additionalProperties: false } },
+  { name: 'update_aporte', description: 'Edita un aporte/retiro (no cambia las cuentas).', inputSchema: { type: 'object', properties: { aporte_id: { type: 'integer' }, monto: MONTO, fecha: FECHA, nota: { type: 'string' }, tasa_ref: { type: 'number' } }, required: ['aporte_id', 'monto'], additionalProperties: false } },
   { name: 'delete_aporte', description: 'Borra un aporte/retiro (ambas patas).', inputSchema: { type: 'object', properties: { aporte_id: { type: 'integer' } }, required: ['aporte_id'], additionalProperties: false } },
 
   // Recurrentes
@@ -151,6 +158,15 @@ function aMov(t: Awaited<ReturnType<typeof listarTransacciones>>[number]): MovRe
 }
 
 export async function callTool(userId: number, name: string, args: Record<string, unknown>): Promise<unknown> {
+  const tool = TOOLS.find((t) => t.name === name)
+  if (!tool) throw toolError(`tool desconocida: ${name}`)
+
+  // El inputSchema es el contrato publicado: se valida antes de ejecutar, así un
+  // cliente que se equivoque de propiedad recibe un error claro en vez de que la
+  // tool corra con un default (SPC-033).
+  const problema = validarArgs(tool.inputSchema as EsquemaTool, args)
+  if (problema) throw paramsError(`${name}: ${problema}`)
+
   switch (name) {
     // ---------- Lectura ----------
     case 'list_funds':

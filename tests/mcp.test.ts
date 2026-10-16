@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { randomUUID } from 'node:crypto'
+import { readFileSync } from 'node:fs'
 import { db } from '../server/utils/db'
 import {
   users, fondos, cuentas, categorias, transacciones, transferencias, recurrentes,
@@ -71,6 +72,28 @@ describe('MCP tools (definición)', () => {
       const props = tool.inputSchema.properties as Record<string, unknown>
       expect(props).toHaveProperty('fund_id')
       expect(tool.inputSchema.required ?? []).not.toContain('fund_id')
+    }
+  })
+
+  it('cada tool declara exactamente los argumentos que su handler lee', () => {
+    const fuente = readFileSync(new URL('../server/utils/mcp.ts', import.meta.url), 'utf8')
+    const casos = fuente.split(/^ {4}case '/m).slice(1)
+    expect(casos.length).toBe(TOOLS.length)
+
+    for (const bloque of casos) {
+      const nombre = bloque.slice(0, bloque.indexOf("'"))
+      const tool = TOOLS.find((t) => t.name === nombre)
+      expect(tool, `case '${nombre}' sin tool declarada`).toBeTruthy()
+
+      const declaradas = Object.keys((tool!.inputSchema.properties ?? {}) as Record<string, unknown>)
+      const leidas = [...new Set([...bloque.matchAll(/\bargs\.([a-zA-Z_]\w*)/g)].map((m) => m[1]))]
+
+      for (const arg of leidas) {
+        expect(declaradas, `${nombre} lee args.${arg} y no lo declara`).toContain(arg)
+      }
+      for (const prop of declaradas) {
+        expect(leidas, `${nombre} declara «${prop}» y no lo lee`).toContain(prop)
+      }
     }
   })
 })
