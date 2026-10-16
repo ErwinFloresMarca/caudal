@@ -12,7 +12,7 @@ set -euo pipefail
 #
 # Deploy en la VPS (sin secrets VPS_* el job `deploy` de la CI se omite):
 #
-#   bash /var/www/caudal/current/deploy.sh
+#   bash scripts/deploy.sh
 
 usage() {
   cat <<'EOF'
@@ -161,7 +161,7 @@ if [ "$NO_PUSH" -eq 0 ]; then
   git push origin "$TAG"
   echo "✓ Release $TAG enviado. La CI construirá y publicará el release."
   echo "  Workflow: https://github.com/ErwinFloresMarca/caudal/actions/workflows/build-release.yml"
-  echo "  Deploy en la VPS: bash /var/www/caudal/current/deploy.sh"
+  echo "  Deploy en la VPS (si no lo hizo la CI): bash scripts/deploy.sh"
 else
   echo "✓ Release $TAG creado localmente (--no-push)."
   echo "  Push manual: git push origin $BRANCH && git push origin $TAG"

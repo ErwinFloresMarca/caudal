@@ -79,3 +79,4 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-029 | migraciones-en-deploy-ci | SEL-265 | verificada |
 | SPC-030 | fondo-predeterminado | SEL-269 | verificada |
 | SPC-031 | mcp-fund-id-y-tests-en-ci | SEL-268 | verificada |
+| SPC-032 | deploy-sh-versionado | SEL-270 | implementada |

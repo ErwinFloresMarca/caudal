@@ -127,4 +127,6 @@ jobs:
           passphrase: ${{ env.VPS_PASSPHRASE }}
           script: |
             set -e
-            bash /var/www/caudal/current/deploy.sh "${{ needs.build.outputs.tag }}"
+            # El script vive en el repo (SPC-032); la ruta del checkout debe coincidir
+            # con CAUDAL_REPO_DIR, que deploy.sh valida antes de migrar.
+            bash /root/apps/opencode-workdir/caudal/scripts/deploy.sh "${{ needs.build.outputs.tag }}"
