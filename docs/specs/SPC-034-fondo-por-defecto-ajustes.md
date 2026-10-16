@@ -1,6 +1,13 @@
 # SPC-034 — Fondo por defecto también en Ajustes
 
-Estado: implementada · Issue: SEL-272
+Estado: verificada · Issue: SEL-272
+
+Verificado en local (dev server) y desplegado en el run
+[38983068375](https://github.com/ErwinFloresMarca/caudal/actions/runs/38983068375) (tag `v1.3.0`,
+`Test Files 21 passed (21)` / `Tests 180 passed (180)`, `> Deploy OK: v1.3.0`; producción en 1.3.0 con
+health 200). Flujo comprobado en el navegador a 390px: la fila mostraba `Impresión 3D`, al elegir
+`Personal` en el slideover `GET /api/fondos` pasó a `predeterminado: true` en `Personal`, la fila se
+actualizó y el slideover se cerró. Capturas en 390/1280 y claro/oscuro.
 
 Depende de: [SPC-030](./SPC-030-fondo-predeterminado.md) (fondo predeterminado), [SPC-017](./SPC-017-ajustes.md) (ajustes)
 

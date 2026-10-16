@@ -1,6 +1,14 @@
 # SPC-033 — Validar los argumentos del MCP contra su `inputSchema`
 
-Estado: implementada · Issue: SEL-271
+Estado: verificada · Issue: SEL-271
+
+Verificado en el run [38983068375](https://github.com/ErwinFloresMarca/caudal/actions/runs/38983068375)
+(tag `v1.3.0`): **`Test Files 21 passed (21)` / `Tests 180 passed (180)`** (incluye los tests puros del
+validador y el de contrato). Antes, contra el dev server, con una API key real y `POST /api/mcp`:
+`list_funds` válido responde normal; `{"fond_id": 2}` → `-32602 "argumento desconocido «fond_id»;
+acepta: fund_id"`; `activo: "false"` → `«activo» debe ser boolean`; required faltante → `falta el
+argumento obligatorio`; `update_aporte` con `cuenta_origen_id` → `-32602`; ids como string (`"3"`)
+siguen funcionando; una tool inexistente mantiene el `isError` de tool.
 
 Verificado en local: `pnpm test` **180/180** (21 archivos, incluye 8 tests puros del validador y el
 test de contrato en las dos direcciones), `pnpm lint`, `pnpm typecheck`. Contra el dev server, con una

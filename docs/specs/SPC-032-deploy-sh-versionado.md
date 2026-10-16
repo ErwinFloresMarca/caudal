@@ -1,6 +1,13 @@
 # SPC-032 — Versionar `deploy.sh`
 
-Estado: implementada · Issue: SEL-270
+Estado: verificada · Issue: SEL-270
+
+Verificado en el run [38983068375](https://github.com/ErwinFloresMarca/caudal/actions/runs/38983068375)
+(tag `v1.3.0`): el job `deploy` ejecutó
+`bash /root/apps/opencode-workdir/caudal/scripts/deploy.sh "v1.3.0"` — el script **del repo**, no una
+copia suelta — y terminó con `> Deploy OK: v1.3.0`. En la VPS `/var/www/caudal/current` ya no queda
+`deploy.sh`. `scripts/release.sh` también imprime el comando nuevo. Producción: pm2 `caudal` 1.3.0
+online, health 200.
 
 Depende de: [SPC-020](./SPC-020-deploy.md) (deploy en VPS), [SPC-029](./SPC-029-migraciones-en-deploy-ci.md) (la CI invoca `deploy.sh`)
 
