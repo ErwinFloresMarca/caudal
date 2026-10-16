@@ -76,4 +76,4 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-026 | favicon-marca | — | verificada |
 | SPC-027 | menu-usuario | — | verificada |
 | SPC-028 | modo-oscuro | — | verificada |
-| SPC-029 | migraciones-en-deploy-ci | SEL-265 | propuesta |
+| SPC-029 | migraciones-en-deploy-ci | SEL-265 | implementada |

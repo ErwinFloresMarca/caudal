@@ -53,13 +53,6 @@ jobs:
       - name: Empaquetar .output
         run: tar -czf caudal-output.tar.gz .output ecosystem.config.cjs
 
-      - name: Subir artifact para deploy
-        uses: actions/upload-artifact@v5
-        with:
-          name: caudal-output
-          path: caudal-output.tar.gz
-          retention-days: 7
-
       - name: Definir versión
         id: version
         run: |
@@ -93,7 +86,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     env:
       VPS_HOST: ${{ secrets.VPS_HOST }}
       VPS_USER: ${{ secrets.VPS_USER }}
@@ -101,25 +94,10 @@ jobs:
       VPS_KEY: ${{ secrets.VPS_SSH_KEY }}
       VPS_PASSPHRASE: ${{ secrets.VPS_SSH_KEY_PASSPHRASE }}
     steps:
-      - name: Descargar artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: caudal-output
-          path: .
-
-      - name: Copiar a la VPS
-        if: ${{ env.VPS_HOST != '' && env.VPS_KEY != '' }}
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ env.VPS_HOST }}
-          username: ${{ env.VPS_USER }}
-          port: ${{ env.VPS_PORT }}
-          key: ${{ env.VPS_KEY }}
-          passphrase: ${{ env.VPS_PASSPHRASE }}
-          source: caudal-output.tar.gz
-          target: /tmp
-
-      - name: Desplegar en la VPS
+      # Un solo camino de deploy: el mismo script que se ejecuta a mano. Él
+      # descarga el release del tag, migra desde el checkout del repo y reinicia
+      # pm2; si la migración falla, el script aborta y este job queda en rojo.
+      - name: Desplegar en la VPS (deploy.sh)
         if: ${{ env.VPS_HOST != '' && env.VPS_KEY != '' }}
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -130,12 +108,4 @@ jobs:
           passphrase: ${{ env.VPS_PASSPHRASE }}
           script: |
             set -e
-            test -f /tmp/caudal-output.tar.gz
-            rm -rf /var/www/caudal/current/.output
-            tar -xzf /tmp/caudal-output.tar.gz -C /var/www/caudal/current
-            rm -f /tmp/caudal-output.tar.gz
-            cd /var/www/caudal/current && bash -lc 'set -a; . ./.env; set +a; pnpm db:migrate' || true
-            pm2 restart caudal --update-env || pm2 start /var/www/caudal/current/ecosystem.config.cjs
-            pm2 save
-            sleep 3
-            curl -sf http://127.0.0.1:3071/api/_health > /dev/null && echo "Health check OK" || { echo "Health check FALLIDO"; exit 1; }
+            bash /var/www/caudal/current/deploy.sh "${{ needs.build.outputs.tag }}"
