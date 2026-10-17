@@ -1,6 +1,11 @@
 # SPC-038 — Distinguir el tipo de grupo: los pagos de cuota no son aportes
 
-Estado: implementada · Issue: — (Linear rechaza crear más: límite del plan free alcanzado)
+Estado: verificada · Issue: — (Linear rechaza crear más: límite del plan free alcanzado)
+
+Verificado en el run del tag **v1.4.2**: `Test Files 21 passed (21)` / **`Tests 198 passed (198)**`,
+`> Deploy OK: v1.4.2` y la columna `grupo_tipo` aplicada en la base de producción (el deploy migra
+antes de reiniciar pm2). Los 4 casos nuevos fallan si se revierte el cambio (comprobado mutando el
+código). Registro de la decisión: [`docs/decisions/0009-grupo-tipo.md`](../decisions/0009-grupo-tipo.md).
 
 Depende de: [SPC-035](./SPC-035-pago-cuota-dos-patas.md) (pago con dos patas), [SPC-010](./SPC-010-aportes-retiros.md) (aportes/retiros)
 
