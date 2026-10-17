@@ -129,6 +129,8 @@ export const transacciones = pgTable('transacciones', {
   nota: text('nota'),
   fuente: text('fuente'),
   grupo_id: integer('grupo_id'),
+  // Qué operación creó el grupo (SPC-038). NULL = grupos previos, tratados como aporte.
+  grupo_tipo: text('grupo_tipo').$type<'aporte' | 'pago_cuota'>(),
   created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (t) => [
   index('transacciones_user_id_fecha_idx').on(t.user_id, t.fecha),

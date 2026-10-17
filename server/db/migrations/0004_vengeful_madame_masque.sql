@@ -1,0 +1,1 @@
+ALTER TABLE "transacciones" ADD COLUMN "grupo_tipo" text;

@@ -19,6 +19,7 @@ import {
   borrarDeuda,
 } from '../server/utils/deudas'
 import { repartirMonto, fechasCuotas, generarCuotas } from '#shared/cuotas'
+import { listarAportes, borrarAporte } from '../server/utils/aportes'
 
 const hasDb = Boolean(process.env.DATABASE_URL)
 
@@ -509,6 +510,67 @@ describe.skipIf(!hasDb)('deudas (repositorio)', () => {
     expect(await getTransaccion(userIdOtro, otraId)).toBeNull()
     expect((await listarTransacciones(userIdOtro, fondoOtroId)).length).toBe(0)
     expect(await getTransaccion(userId, otraId)).not.toBeNull()
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('SPC-038: el pago de una cuota no aparece en aportes ni se puede borrar desde ahí', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 20000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 2,
+    })
+    const res = await pagarCuota(userId, d!.id, d!.cuotas![0]!.id, {
+      cuenta_id: cuentaBobId,
+      categoria_id: catGastoId,
+      otra_cuenta_id: cuentaOtroBobId,
+      fecha: '2026-09-05',
+    })
+    const grupoId = res.transaccion.id
+
+    const legs = await db
+      .select({ tipo: transacciones.grupo_tipo })
+      .from(transacciones)
+      .where(eq(transacciones.grupo_id, grupoId))
+    expect(legs.map((l) => l.tipo)).toEqual(['pago_cuota', 'pago_cuota'])
+
+    // No aparece en la pestaña de aportes de ninguno de los dos fondos.
+    expect((await listarAportes(userId, fondoId)).some((a) => a.grupo_id === grupoId)).toBe(false)
+    expect((await listarAportes(userId, fondoOtroId)).some((a) => a.grupo_id === grupoId)).toBe(false)
+
+    // Las patas siguen visibles en los movimientos y la cuota sigue pagada.
+    const movsOtra = await listarTransacciones(userId, fondoOtroId, { desde: '2026-09-05', hasta: '2026-09-05' })
+    expect(movsOtra.some((m) => m.id === res.transaccion_otra!.id)).toBe(true)
+    expect((await getDeuda(userId, d!.id))!.progreso).toEqual({ pagadas: 1, total: 2 })
+
+    await expect(borrarAporte(userId, grupoId)).rejects.toMatchObject({ statusCode: 400, message: /cuota/ })
+    // Rechazó sin borrar nada.
+    expect(await getTransaccion(userId, res.transaccion.id)).not.toBeNull()
+    expect(await getTransaccion(userId, res.transaccion_otra!.id)).not.toBeNull()
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('SPC-038: si el UPDATE de la cuota falla, no queda ninguna pata creada', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 3000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const antes = (await listarTransacciones(userId, fondoId)).length
+
+    // El monto entra convertido en la pata (3000 BOB / 1000 = 3 USD) pero revienta la
+    // columna integer de la cuota: el UPDATE falla dentro de la transacción.
+    await expect(
+      pagarCuota(userId, d!.id, d!.cuotas![0]!.id, { cuenta_id: cuentaUsdId, monto_centavos: 3000000000, tasa_ref: 1000 }),
+    ).rejects.toThrow()
+
+    expect((await listarTransacciones(userId, fondoId)).length).toBe(antes)
+    expect((await getDeuda(userId, d!.id))!.cuotas![0]!.pagada).toBe(false)
     await borrarDeuda(userId, d!.id)
   })
 })

@@ -198,9 +198,9 @@ export async function crearAporte(userId: number, data: DatosAporte) {
       throw httpError(500, 'No se pudo registrar el aporte')
     }
     // grupo_id = id de la pata destino (clave única del grupo).
-    await tx.update(transacciones).set({ grupo_id: dest.id }).where(eq(transacciones.id, dest.id))
+    await tx.update(transacciones).set({ grupo_id: dest.id, grupo_tipo: 'aporte' }).where(eq(transacciones.id, dest.id))
 
-    const created: FilaTransaccion[] = [{ ...dest, grupo_id: dest.id }]
+    const created: FilaTransaccion[] = [{ ...dest, grupo_id: dest.id, grupo_tipo: 'aporte' }]
     if (r.origen && r.montoOrigen != null) {
       const [orig] = await tx
         .insert(transacciones)
@@ -216,6 +216,7 @@ export async function crearAporte(userId: number, data: DatosAporte) {
           fecha,
           nota: data.nota,
           grupo_id: dest.id,
+          grupo_tipo: 'aporte',
         })
         .returning()
       if (orig) created.push(orig)
@@ -269,6 +270,8 @@ export async function listarAportes(userId: number, fondoId: number) {
 
   const out = []
   for (const [g, ls] of grupos) {
+    // Solo grupos de aporte; NULL = grupos creados antes de SPC-038 (se asumen aportes).
+    if (ls[0]!.grupo_tipo != null && ls[0]!.grupo_tipo !== 'aporte') continue
     if (!ls.some((l) => l.fondo_id === fondoId)) continue
     out.push(agruparAporte(g, ls))
   }
@@ -331,6 +334,10 @@ export async function borrarAporte(userId: number, id: number) {
   const res = await obtenerLegs(userId, id)
   if (!res) {
     throw httpError(404, 'Aporte no encontrado')
+  }
+  const tipo = res.legs[0]!.grupo_tipo
+  if (tipo != null && tipo !== 'aporte') {
+    throw httpError(400, 'No se puede borrar desde acá: es el pago de una cuota. Se deshace desde la deuda.')
   }
   await db.delete(transacciones).where(and(eq(transacciones.user_id, userId), eq(transacciones.grupo_id, res.grupoId)))
   return agruparAporte(res.grupoId, res.legs)

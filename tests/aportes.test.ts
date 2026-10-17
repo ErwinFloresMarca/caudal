@@ -254,6 +254,38 @@ describe.skipIf(!hasDb)('aportes/retiros entre fondos', () => {
     await borrarAporte(userId, a.grupo_id)
   })
 
+  it('SPC-038: un aporte nuevo se marca grupo_tipo "aporte" y se sigue listando y borrando', async () => {
+    const a = await crearAporte(userId, {
+      cuenta_destino_id: negocioCajaId,
+      monto_destino_centavos: 9000,
+      cuenta_origen_id: personalEfectivoId,
+      fecha: '2026-09-06',
+    })
+    const legs = await db
+      .select({ tipo: transacciones.grupo_tipo })
+      .from(transacciones)
+      .where(and(eq(transacciones.user_id, userId), eq(transacciones.grupo_id, a.grupo_id)))
+    expect(legs.map((l) => l.tipo)).toEqual(['aporte', 'aporte'])
+
+    expect((await listarAportes(userId, fondoNegocioId)).some((x) => x.grupo_id === a.grupo_id)).toBe(true)
+    await borrarAporte(userId, a.grupo_id)
+    expect(await getAporte(userId, a.grupo_id)).toBeNull()
+  })
+
+  it('SPC-038: un grupo viejo sin grupo_tipo (NULL) se sigue listando y borrando como aporte', async () => {
+    // Grupo creado antes de SPC-038: sin tipo. Se inserta a mano, como quedó en producción.
+    const [leg] = await db
+      .insert(transacciones)
+      .values({ user_id: userId, fondo_id: fondoNegocioId, cuenta_id: negocioCajaId, tipo: 'ingreso', monto_centavos: 1000, moneda: 'BOB', fecha: '2026-09-05' })
+      .returning()
+    await db.update(transacciones).set({ grupo_id: leg!.id }).where(eq(transacciones.id, leg!.id))
+    expect(leg!.grupo_tipo).toBeNull()
+
+    expect((await listarAportes(userId, fondoNegocioId)).some((x) => x.grupo_id === leg!.id)).toBe(true)
+    await borrarAporte(userId, leg!.id)
+    expect(await getAporte(userId, leg!.id)).toBeNull()
+  })
+
   it('crea la categoría de sistema "Aporte recibido" una sola vez por fondo', async () => {
     await crearAporte(userId, { cuenta_destino_id: negocioUsdId, monto_destino_centavos: 100, tasa_ref: 7, fecha: '2026-09-07' })
     await crearAporte(userId, { cuenta_destino_id: negocioUsdId, monto_destino_centavos: 200, tasa_ref: 7, fecha: '2026-09-07' })

@@ -376,7 +376,7 @@ export async function pagarCuota(userId: number, deudaId: number, cuotaId: numbe
     otraCuenta = cuenta
   }
 
-  const { transaccion, transaccionOtra } = await db.transaction(async (tx) => {
+  const { transaccion, transaccionOtra, actualizada } = await db.transaction(async (tx) => {
     const primera = await crearTransaccion(
       userId,
       d.fondo_id,
@@ -391,32 +391,41 @@ export async function pagarCuota(userId: number, deudaId: number, cuotaId: numbe
       },
       tx,
     )
-    if (!otraCuenta) return { transaccion: primera, transaccionOtra: null }
 
-    const segunda = await crearTransaccion(
-      userId,
-      otraCuenta.fondo_id,
-      {
-        cuenta_id: otraCuenta.id,
-        categoria_id: null,
-        tipo: tipo === 'gasto' ? 'ingreso' : 'gasto',
-        monto_centavos: montoEnMoneda(primera.monto_centavos, primera.moneda, otraCuenta.moneda as Moneda, pago.tasa_ref ?? null),
-        fecha,
-        nota,
-        tasa_ref: pago.tasa_ref ?? null,
-      },
-      tx,
-    )
-    // Ambas patas comparten grupo_id, como los aportes entre fondos (SPC-010).
-    await tx.update(transacciones).set({ grupo_id: primera.id }).where(inArray(transacciones.id, [primera.id, segunda.id]))
-    return { transaccion: primera, transaccionOtra: segunda }
+    let segunda: typeof primera | null = null
+    if (otraCuenta) {
+      segunda = await crearTransaccion(
+        userId,
+        otraCuenta.fondo_id,
+        {
+          cuenta_id: otraCuenta.id,
+          categoria_id: null,
+          tipo: tipo === 'gasto' ? 'ingreso' : 'gasto',
+          monto_centavos: montoEnMoneda(primera.monto_centavos, primera.moneda, otraCuenta.moneda as Moneda, pago.tasa_ref ?? null),
+          fecha,
+          nota,
+          tasa_ref: pago.tasa_ref ?? null,
+        },
+        tx,
+      )
+      // Ambas patas comparten grupo_id, como los aportes entre fondos (SPC-010); grupo_tipo
+      // las distingue de un aporte (SPC-038), así no aparecen en la pestaña de aportes.
+      await tx
+        .update(transacciones)
+        .set({ grupo_id: primera.id, grupo_tipo: 'pago_cuota' })
+        .where(inArray(transacciones.id, [primera.id, segunda.id]))
+    }
+
+    // La cuota se marca pagada dentro de la misma transacción (SPC-038): si el UPDATE
+    // falla, tampoco quedan las patas.
+    const [fila] = await tx
+      .update(cuotas)
+      .set({ pagada: true, fecha_pago: fecha, monto_centavos: monto })
+      .where(eq(cuotas.id, cuotaId))
+      .returning()
+
+    return { transaccion: primera, transaccionOtra: segunda, actualizada: fila }
   })
-
-  const [actualizada] = await db
-    .update(cuotas)
-    .set({ pagada: true, fecha_pago: fecha, monto_centavos: monto })
-    .where(eq(cuotas.id, cuotaId))
-    .returning()
 
   const pendientes = await db
     .select({ id: cuotas.id })
