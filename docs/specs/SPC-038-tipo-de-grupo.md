@@ -1,6 +1,6 @@
 # SPC-038 — Distinguir el tipo de grupo: los pagos de cuota no son aportes
 
-Estado: verificada · Issue: — (Linear rechaza crear más: límite del plan free alcanzado)
+Estado: verificada · Issue: SEL-277
 
 Verificado en el run del tag **v1.4.2**: `Test Files 21 passed (21)` / **`Tests 198 passed (198)**`,
 `> Deploy OK: v1.4.2` y la columna `grupo_tipo` aplicada en la base de producción (el deploy migra
