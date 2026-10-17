@@ -16,6 +16,7 @@ import { generarReporte } from './reportes'
 import { ultimaTasa } from './resumen'
 import { resumenPeriodo, rangoMes, type MovResumen } from '../../shared/resumen'
 import type { Cadencia } from '../../shared/recurrentes'
+import { FRECUENCIAS } from '../../shared/recurrentes'
 import { convertToBase, formatMoney, parseAmount, type Moneda } from '../../shared/money'
 import { validarArgs, type EsquemaTool } from '../../shared/mcp-schema'
 
@@ -36,9 +37,20 @@ interface ToolDef {
 }
 
 const FUND = { type: 'integer', description: 'ID del fondo (por defecto, el primero del usuario)' }
-const FECHA = { type: 'string', description: 'Fecha YYYY-MM-DD' }
-const MONTO = { type: 'string', description: 'Monto en formato humano, ej. "12,50"' }
+const FECHA = { type: 'string', format: 'date', description: 'Fecha YYYY-MM-DD' }
+const MONTO = { type: 'string', format: 'amount', description: 'Monto en formato humano, ej. "12,50"' }
 const MONEDA = { type: 'string', enum: ['BOB', 'USD'] }
+const CADENCIA = {
+  type: 'object',
+  properties: {
+    frecuencia: { type: 'string', enum: [...FRECUENCIAS] },
+    dia: { type: 'integer' },
+    dia_semana: { type: 'integer' },
+  },
+  required: ['frecuencia'],
+  additionalProperties: false,
+  description: '{frecuencia, dia?, dia_semana?}',
+}
 
 // Tools MCP (SPC-018 v2). Solo operan sobre el user_id de la API key.
 export const TOOLS: ToolDef[] = [
@@ -85,7 +97,7 @@ export const TOOLS: ToolDef[] = [
 
   // Recurrentes
   { name: 'list_recurrentes', description: 'Plantillas recurrentes de un fondo.', inputSchema: { type: 'object', properties: { fund_id: FUND }, additionalProperties: false } },
-  { name: 'create_recurrente', description: 'Crea un recurrente.', inputSchema: { type: 'object', properties: { cuenta_id: { type: 'integer' }, categoria_id: { type: 'integer' }, tipo: { type: 'string', enum: ['ingreso', 'gasto'] }, monto: MONTO, cadencia: { type: 'object', description: '{frecuencia, dia?, dia_semana?}' }, proxima_fecha: FECHA, nota: { type: 'string' } }, required: ['cuenta_id', 'tipo', 'monto', 'cadencia'], additionalProperties: false } },
+  { name: 'create_recurrente', description: 'Crea un recurrente.', inputSchema: { type: 'object', properties: { cuenta_id: { type: 'integer' }, categoria_id: { type: 'integer' }, tipo: { type: 'string', enum: ['ingreso', 'gasto'] }, monto: MONTO, cadencia: CADENCIA, proxima_fecha: FECHA, nota: { type: 'string' } }, required: ['cuenta_id', 'tipo', 'monto', 'cadencia'], additionalProperties: false } },
   { name: 'update_recurrente', description: 'Edita un recurrente (por defecto pausa/activa).', inputSchema: { type: 'object', properties: { recurrente_id: { type: 'integer' }, cuenta_id: { type: 'integer' }, categoria_id: { type: 'integer' }, tipo: { type: 'string', enum: ['ingreso', 'gasto'] }, monto: MONTO, cadencia: { type: 'object' }, proxima_fecha: FECHA, nota: { type: 'string' }, activo: { type: 'boolean' } }, required: ['recurrente_id'], additionalProperties: false } },
   { name: 'delete_recurrente', description: 'Borra un recurrente.', inputSchema: { type: 'object', properties: { recurrente_id: { type: 'integer' } }, required: ['recurrente_id'], additionalProperties: false } },
   { name: 'confirm_recurrente', description: 'Confirma un pendiente (crea el movimiento y avanza).', inputSchema: { type: 'object', properties: { recurrente_id: { type: 'integer' }, fecha: FECHA, tasa_ref: { type: 'number' } }, required: ['recurrente_id'], additionalProperties: false } },
@@ -208,8 +220,12 @@ export async function callTool(userId: number, name: string, args: Record<string
     case 'list_transactions': {
       const fondo = await resolverFondo(userId, args.fund_id as number | undefined)
       const trx = await listarTransacciones(userId, fondo.id, { desde: args.from as string | undefined, hasta: args.to as string | undefined })
-      const filtradas = trx.filter((t) => (args.categoria == null || t.categoria?.id === args.categoria) && (args.tipo == null || t.tipo === args.tipo))
-      return filtradas.slice(0, Number.isInteger(args.limite) ? Number(args.limite) : 50)
+      // Igual que el resto de los handlers: se coerciona, un "10" no cae al default en silencio.
+      const categoria = args.categoria == null ? null : Number(args.categoria)
+      const categoriaId = Number.isNaN(categoria) ? null : categoria
+      const limite = args.limite == null || Number.isNaN(Number(args.limite)) ? 50 : Number(args.limite)
+      const filtradas = trx.filter((t) => (categoriaId == null || t.categoria?.id === categoriaId) && (args.tipo == null || t.tipo === args.tipo))
+      return filtradas.slice(0, limite)
     }
 
     case 'get_month_summary': {

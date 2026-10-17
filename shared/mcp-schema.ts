@@ -1,12 +1,17 @@
-// Validador de argumentos del MCP contra el `inputSchema` publicado (SPC-033).
-// Cubre el subconjunto que las 54 tools declaran de verdad: type, enum, items,
-// required y additionalProperties. Sin dependencias (los schemas son chicos y
-// conocidos; un validador de JSON Schema completo sería maquinaria de más).
+// Validador de argumentos del MCP contra el `inputSchema` publicado (SPC-033, huecos en SPC-036).
+// Cubre el subconjunto que las tools declaran de verdad: type, enum, items, format,
+// required y additionalProperties (también dentro de objetos anidados). Sin dependencias.
+
+import { parseAmount } from './money'
 
 export interface EsquemaPropiedad {
   type?: string
   enum?: unknown[]
+  format?: 'date' | 'amount'
   items?: EsquemaPropiedad
+  properties?: Record<string, EsquemaPropiedad>
+  required?: string[]
+  additionalProperties?: boolean
 }
 
 export interface EsquemaTool {
@@ -38,6 +43,23 @@ function encaja(v: unknown, tipo: string | undefined): boolean {
   }
 }
 
+function fechaReal(v: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return false
+  const [anio, mes, dia] = v.split('-').map(Number) as [number, number, number]
+  const f = new Date(Date.UTC(anio, mes - 1, dia))
+  return f.getUTCFullYear() === anio && f.getUTCMonth() === mes - 1 && f.getUTCDate() === dia
+}
+
+function montoInterpretable(v: unknown): boolean {
+  if (typeof v !== 'string' && typeof v !== 'number') return false
+  try {
+    parseAmount(String(v))
+    return true
+  } catch {
+    return false
+  }
+}
+
 const describe = (v: unknown) => (v === undefined ? 'undefined' : JSON.stringify(v))
 
 /** Motivo del rechazo, o `null` si los argumentos son válidos. */
@@ -65,12 +87,25 @@ export function validarArgs(schema: EsquemaTool, args: Record<string, unknown>):
     if (!encaja(valor, prop.type)) {
       return `«${clave}» debe ser ${prop.type} (recibido ${describe(valor)})`
     }
+    if (prop.format === 'date' && !fechaReal(String(valor))) {
+      return `«${clave}» debe ser una fecha YYYY-MM-DD válida (recibido ${describe(valor)})`
+    }
+    if (prop.format === 'amount' && !montoInterpretable(valor)) {
+      return `«${clave}» debe ser un monto como "12,50" (recibido ${describe(valor)})`
+    }
     if (prop.type === 'array' && prop.items) {
       for (const [i, item] of (valor as unknown[]).entries()) {
         if (!encaja(item, prop.items.type)) {
           return `«${clave}[${i}]» debe ser ${prop.items.type} (recibido ${describe(item)})`
         }
       }
+    }
+    if (prop.type === 'object' && prop.properties) {
+      const interno = validarArgs(
+        { properties: prop.properties, required: prop.required, additionalProperties: prop.additionalProperties },
+        valor as Record<string, unknown>,
+      )
+      if (interno) return `«${clave}»: ${interno}`
     }
   }
   return null

@@ -225,6 +225,16 @@ describe.skipIf(!hasDb)('MCP callTool', () => {
     expect(ap.meta.progreso.porcentaje).toBe(25)
   })
 
+  it('coerciona ids que llegan como string (limite y categoria)', async () => {
+    const cat = (await callTool(userId, 'create_category', { fund_id: fondoId, nombre: 'MCP Cat Coercion', tipo: 'gasto' })) as { id: number }
+    const trx = (await callTool(userId, 'create_transaction', { cuenta_id: cuentaBobId, tipo: 'gasto', monto: '7,00', categoria_id: cat.id })) as { id: number }
+    expect(trx.id).toBeGreaterThan(0)
+
+    const conNumero = (await callTool(userId, 'list_transactions', { fund_id: fondoId, categoria: cat.id })) as { id: number }[]
+    const conString = (await callTool(userId, 'list_transactions', { fund_id: fondoId, categoria: String(cat.id), limite: '1' })) as { id: number }[]
+    expect(conString.map((t) => t.id)).toEqual(conNumero.map((t) => t.id).slice(0, 1))
+  })
+
   it('presupuestos y ajustes', async () => {
     const mes = new Date().toISOString().slice(0, 7)
     const pres = (await callTool(userId, 'upsert_budget', { fund_id: fondoId, categoria_id: catGastoId, monto: '100,00', mes })) as { id: number }

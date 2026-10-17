@@ -14,7 +14,7 @@ export interface Cadencia {
   dia_semana?: number
 }
 
-const FRECUENCIAS: Frecuencia[] = ['diaria', 'semanal', 'quincenal', 'mensual', 'bimestral', 'trimestral', 'semestral', 'anual']
+export const FRECUENCIAS: Frecuencia[] = ['diaria', 'semanal', 'quincenal', 'mensual', 'bimestral', 'trimestral', 'semestral', 'anual']
 
 // Meses que avanzan por mes calendario (el resto son sumas de días).
 const MESES: Partial<Record<Frecuencia, number>> = {

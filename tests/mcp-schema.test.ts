@@ -16,6 +16,25 @@ const ESQUEMA: EsquemaTool = {
   additionalProperties: false,
 }
 
+// Con las validaciones nuevas de SPC-036 (formato y anidados).
+const ESQUEMA_NUEVO: EsquemaTool = {
+  type: 'object',
+  properties: {
+    fecha: { type: 'string', format: 'date' },
+    monto: { type: 'string', format: 'amount' },
+    cadencia: {
+      type: 'object',
+      properties: {
+        frecuencia: { type: 'string', enum: ['diaria', 'mensual'] },
+        dia: { type: 'integer' },
+      },
+      required: ['frecuencia'],
+      additionalProperties: false,
+    },
+  },
+  additionalProperties: false,
+}
+
 describe('validarArgs (SPC-033)', () => {
   it('acepta lo válido y los opcionales ausentes', () => {
     expect(validarArgs(ESQUEMA, { monto: '12,50' })).toBeNull()
@@ -66,5 +85,32 @@ describe('validarArgs (SPC-033)', () => {
 
   it('deja pasar null (el handler aplica su default)', () => {
     expect(validarArgs(ESQUEMA, { monto: '1', fund_id: null })).toBeNull()
+  })
+
+  describe('SPC-036: formatos y objetos anidados', () => {
+    it('valida dentro de objetos anidados (y no solo que sean objetos)', () => {
+      expect(validarArgs(ESQUEMA_NUEVO, { cadencia: { frecuencia: 'mensual', dia: 5 } })).toBeNull()
+      expect(validarArgs(ESQUEMA_NUEVO, { cadencia: { frecuncia: 'mensual' } })).toContain('frecuencia')
+      expect(validarArgs(ESQUEMA_NUEVO, { cadencia: { frecuencia: 'otra' } })).toContain('mensual')
+      expect(validarArgs(ESQUEMA_NUEVO, { cadencia: { dia: 5 } })).toContain('frecuencia')
+      expect(validarArgs(ESQUEMA_NUEVO, { cadencia: { frecuencia: 'diaria', dia: 'x' } })).toContain('dia')
+    })
+
+    it('exige fechas YYYY-MM-DD reales', () => {
+      expect(validarArgs(ESQUEMA_NUEVO, { fecha: '2026-10-17' })).toBeNull()
+      for (const mala of ['2026-9-1', 'mañana', '2026-02-31', '17/10/2026', '']) {
+        expect(validarArgs(ESQUEMA_NUEVO, { fecha: mala }), mala).toContain('fecha')
+      }
+    })
+
+    it('exige montos interpretables por parseAmount', () => {
+      expect(validarArgs(ESQUEMA_NUEVO, { monto: '12,50' })).toBeNull()
+      expect(validarArgs(ESQUEMA_NUEVO, { monto: '1.234,50' })).toBeNull()
+      expect(validarArgs(ESQUEMA_NUEVO, { monto: '12.5' })).toBeNull() // un punto con 1-2 dígitos = decimal
+      // `parseAmount` rechaza lo que no puede interpretar y también 0 (centavos <= 0).
+      for (const malo of ['abc', '', '1,2,3', '0']) {
+        expect(validarArgs(ESQUEMA_NUEVO, { monto: malo }), malo).toContain('monto')
+      }
+    })
   })
 })
