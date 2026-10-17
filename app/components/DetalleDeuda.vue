@@ -65,14 +65,21 @@ const pago = reactive({
 })
 const pagoError = ref('')
 const pagoAbierto = computed({ get: () => !!pagando.value, set: (v: boolean) => { if (!v) pagando.value = null } })
-const cuentaPagoUsd = computed(() => cuentas.value.find((c) => c.id === pago.cuenta_id)?.moneda === 'USD')
 const tipoPago = computed(() => (deuda.value?.direccion === 'por_pagar' ? 'gasto' : 'ingreso'))
 const catsPago = computed(() => categorias.value.filter((c) => c.tipo === tipoPago.value))
 const fondosOtros = computed(() => fondos.value.filter((f) => f.id !== deuda.value?.fondo_id).map((f) => ({ value: f.id, label: f.nombre })))
 const cuentasOtras = computed(() => cuentasTodosData.value?.[pago.fondo_otro_id] ?? [])
 const opcionesCuentasOtras = computed(() => cuentasOtras.value.map((c) => ({ value: c.id, label: `${c.nombre} · ${c.moneda}` })))
-const otraCuentaUsd = computed(() => cuentasOtras.value.find((c) => c.id === pago.otra_cuenta_id)?.moneda === 'USD')
-const tasaNecesaria = computed(() => cuentaPagoUsd.value || (pago.desdeOtro && otraCuentaUsd.value))
+const cuentaPago = computed(() => cuentas.value.find((c) => c.id === pago.cuenta_id) ?? null)
+const otraCuenta = computed(() => cuentasOtras.value.find((c) => c.id === pago.otra_cuenta_id) ?? null)
+// La tasa la exige el server para toda cuenta USD, y además si su moneda difiere de la
+// de la deuda (pata 1) o de la de la otra cuenta (pata 2). SPC-037
+const tasaNecesaria = computed(() => {
+  const cuenta = cuentaPago.value
+  if (!cuenta || !deuda.value) return false
+  if (cuenta.moneda === 'USD' || cuenta.moneda !== deuda.value.moneda) return true
+  return pago.desdeOtro && !!otraCuenta.value && otraCuenta.value.moneda !== cuenta.moneda
+})
 const esPorPagar = computed(() => deuda.value?.direccion === 'por_pagar')
 const textoOtroLado = computed(() =>
   esPorPagar.value
@@ -118,7 +125,7 @@ async function confirmarPago() {
   if (tasaNecesaria.value) {
     const tasa = Number(pago.tasa_ref.replace(',', '.'))
     if (!Number.isFinite(tasa) || tasa <= 0) {
-      pagoError.value = 'Indica la tasa para esta cuenta en dólares'
+      pagoError.value = 'Indica la tasa (BOB por USD) para el pago entre monedas distintas'
       return
     }
     body.tasa_ref = tasa

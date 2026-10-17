@@ -356,12 +356,141 @@ describe.skipIf(!hasDb)('deudas (repositorio)', () => {
     expect(res.transaccion_otra!.monto_centavos).toBe(1250)
     expect(res.transaccion_otra!.tasa_ref).toBe(8)
 
-    // Pata de la deuda en USD → segunda pata en BOB: 10000 centavos * 8
+    // Pata de la deuda en USD → primera pata en BOB (10000 / 8 = 1250 USD) y
+    // segunda pata en BOB (1250 * 8 = 10000).
     const res2 = await pagarCuota(userId, d!.id, d!.cuotas![1]!.id, { cuenta_id: cuentaUsdId, otra_cuenta_id: cuentaOtroBobId, tasa_ref: 8, fecha: '2026-09-06' })
     expect(res2.transaccion.moneda).toBe('USD')
+    expect(res2.transaccion.monto_centavos).toBe(1250)
     expect(res2.transaccion.tasa_ref).toBe(8)
     expect(res2.transaccion_otra!.moneda).toBe('BOB')
-    expect(res2.transaccion_otra!.monto_centavos).toBe(80000)
+    expect(res2.transaccion_otra!.monto_centavos).toBe(10000)
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('SPC-037: deuda BOB pagada desde una cuenta USD → pata 1 convertida y cuota en BOB', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 3000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const antes = (await getCuenta(userId, cuentaUsdId))!.saldo_actual_centavos
+
+    const res = await pagarCuota(userId, d!.id, d!.cuotas![0]!.id, { cuenta_id: cuentaUsdId, categoria_id: catGastoId, tasa_ref: 6.96, fecha: '2026-09-05' })
+
+    // 30,00 BOB a 6,96 → 431 centavos de USD
+    expect(res.transaccion.moneda).toBe('USD')
+    expect(res.transaccion.monto_centavos).toBe(431)
+    expect(res.transaccion.tasa_ref).toBe(6.96)
+    expect(res.transaccion_otra).toBeNull()
+    // La cuota sigue en la moneda de la deuda con su importe original
+    expect(res.cuota!.monto_centavos).toBe(3000)
+    expect(res.deuda!.saldo_pendiente_centavos).toBe(0)
+    expect((await getCuenta(userId, cuentaUsdId))!.saldo_actual_centavos).toBe(antes - 431)
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('SPC-037: deuda USD pagada desde una cuenta BOB → pata 1 en BOB convertida', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 431,
+      moneda: 'USD',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const antes = (await getCuenta(userId, cuentaBobId))!.saldo_actual_centavos
+
+    const res = await pagarCuota(userId, d!.id, d!.cuotas![0]!.id, { cuenta_id: cuentaBobId, categoria_id: catGastoId, tasa_ref: 6.96, fecha: '2026-09-05' })
+
+    // 4,31 USD a 6,96 → 3000 centavos de BOB (la tasa no se guarda fuera de USD)
+    expect(res.transaccion.moneda).toBe('BOB')
+    expect(res.transaccion.monto_centavos).toBe(3000)
+    expect(res.transaccion.tasa_ref).toBeNull()
+    expect(res.cuota!.monto_centavos).toBe(431)
+    expect((await getCuenta(userId, cuentaBobId))!.saldo_actual_centavos).toBe(antes - 3000)
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('SPC-037: monedas distintas sin tasa → error y ninguna pata creada', async () => {
+    const bobs = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 3000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const usds = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 431,
+      moneda: 'USD',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const antes = (await listarTransacciones(userId, fondoId)).length
+
+    // Deuda BOB desde una cuenta USD y deuda USD desde una cuenta BOB: las dos piden tasa.
+    await expect(pagarCuota(userId, bobs!.id, bobs!.cuotas![0]!.id, { cuenta_id: cuentaUsdId })).rejects.toMatchObject({
+      statusCode: 400,
+      message: /cuenta de pago está en otra moneda/,
+    })
+    await expect(pagarCuota(userId, usds!.id, usds!.cuotas![0]!.id, { cuenta_id: cuentaBobId })).rejects.toMatchObject({
+      statusCode: 400,
+      message: /cuenta de pago está en otra moneda/,
+    })
+
+    expect((await listarTransacciones(userId, fondoId)).length).toBe(antes)
+    expect((await getDeuda(userId, bobs!.id))!.cuotas![0]!.pagada).toBe(false)
+    expect((await getDeuda(userId, usds!.id))!.cuotas![0]!.pagada).toBe(false)
+    await borrarDeuda(userId, bobs!.id)
+    await borrarDeuda(userId, usds!.id)
+  })
+
+  it('SPC-037: misma moneda en deuda y cuenta de pago → pata idéntica a hoy (sin regresión)', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 3000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const res = await pagarCuota(userId, d!.id, d!.cuotas![0]!.id, { cuenta_id: cuentaBobId, categoria_id: catGastoId, fecha: '2026-09-05' })
+
+    expect(res.transaccion.moneda).toBe('BOB')
+    expect(res.transaccion.monto_centavos).toBe(3000)
+    expect(res.transaccion.tasa_ref).toBeNull()
+    expect(res.cuota!.monto_centavos).toBe(3000)
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('SPC-037: dos patas con conversión en la primera (deuda USD, pago BOB, otra cuenta USD)', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 431,
+      moneda: 'USD',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const res = await pagarCuota(userId, d!.id, d!.cuotas![0]!.id, {
+      cuenta_id: cuentaBobId,
+      categoria_id: catGastoId,
+      otra_cuenta_id: cuentaOtroUsdId,
+      tasa_ref: 6.96,
+      fecha: '2026-09-05',
+    })
+
+    expect(res.transaccion.moneda).toBe('BOB')
+    expect(res.transaccion.monto_centavos).toBe(3000)
+    expect(res.transaccion_otra!.moneda).toBe('USD')
+    expect(res.transaccion_otra!.monto_centavos).toBe(431)
+    expect(res.transaccion_otra!.tasa_ref).toBe(6.96)
+    expect(res.cuota!.monto_centavos).toBe(431)
     await borrarDeuda(userId, d!.id)
   })
 

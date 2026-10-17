@@ -342,6 +342,22 @@ export async function pagarCuota(userId: number, deudaId: number, cuotaId: numbe
   const fecha = pago.fecha ?? hoyLocal()
   const nota = pago.nota ?? d.concepto ?? `Cuota ${c.numero}`
 
+  // La pata de pago va en la moneda de SU cuenta: si difiere de la de la deuda se
+  // convierte con la tasa (SPC-037), igual que la segunda pata.
+  const [cuentaPago] = await db
+    .select({ moneda: cuentas.moneda })
+    .from(cuentas)
+    .where(and(eq(cuentas.id, pago.cuenta_id), eq(cuentas.user_id, userId)))
+    .limit(1)
+  if (!cuentaPago) {
+    throw httpError(404, 'Cuenta no encontrada')
+  }
+  const monedaPago = cuentaPago.moneda as Moneda
+  if (monedaPago !== (d.moneda as Moneda) && (pago.tasa_ref == null || pago.tasa_ref <= 0)) {
+    throw httpError(400, 'tasa_ref es obligatoria cuando la cuenta de pago está en otra moneda')
+  }
+  const montoPata = montoEnMoneda(monto, d.moneda as Moneda, monedaPago, pago.tasa_ref ?? null)
+
   // Segunda pata opcional (SPC-035): el fondo de la deuda registra el pago y la cuenta
   // elegida recibe el importe (espejado si la deuda es por_cobrar).
   let otraCuenta: { id: number; fondo_id: number; moneda: string } | null = null
@@ -368,7 +384,7 @@ export async function pagarCuota(userId: number, deudaId: number, cuotaId: numbe
         cuenta_id: pago.cuenta_id,
         categoria_id: pago.categoria_id ?? null,
         tipo,
-        monto_centavos: monto,
+        monto_centavos: montoPata,
         fecha,
         nota,
         tasa_ref: pago.tasa_ref ?? null,
@@ -384,7 +400,7 @@ export async function pagarCuota(userId: number, deudaId: number, cuotaId: numbe
         cuenta_id: otraCuenta.id,
         categoria_id: null,
         tipo: tipo === 'gasto' ? 'ingreso' : 'gasto',
-        monto_centavos: montoEnMoneda(monto, primera.moneda, otraCuenta.moneda as Moneda, pago.tasa_ref ?? null),
+        monto_centavos: montoEnMoneda(primera.monto_centavos, primera.moneda, otraCuenta.moneda as Moneda, pago.tasa_ref ?? null),
         fecha,
         nota,
         tasa_ref: pago.tasa_ref ?? null,

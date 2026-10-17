@@ -1,6 +1,6 @@
 # SPC-037 — Convertir el importe de la primera pata si la cuenta de pago está en otra moneda
 
-Estado: aprobada · Issue: SEL-275
+Estado: implementada · Issue: SEL-275
 
 Depende de: [SPC-035](./SPC-035-pago-cuota-dos-patas.md) (pago con dos patas), [SPC-008](./SPC-008-transacciones.md) (transacciones), [SPC-002](./SPC-002-modelo-datos.md) (multimoneda)
 

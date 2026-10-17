@@ -84,3 +84,4 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-034 | fondo-por-defecto-ajustes | SEL-272 | verificada |
 | SPC-035 | pago-cuota-dos-patas | SEL-273 | verificada |
 | SPC-036 | huecos-validacion-mcp | SEL-274 | verificada |
+| SPC-037 | conversion-primera-pata | SEL-275 | implementada |
