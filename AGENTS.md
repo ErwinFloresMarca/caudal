@@ -51,7 +51,7 @@ pnpm e2e          # verificación end-to-end (BASE_URL, por defecto prod)
 
 - **`POST /api/mcp`** — servidor MCP (Streamable HTTP, JSON-RPC 2.0) en `server/api/mcp*.ts`; tools en `server/utils/mcp.ts`.
 - **Auth**: `Authorization: Bearer caudal_...` (API key de SPC-003, se crea en Ajustes). Sin key → 401.
-- Tools (9): `list_funds`, `list_accounts`, `get_balances`, `list_categories`, `list_transactions`, `create_transaction`, `create_transfer`, `get_month_summary`, `list_pending`. `create_*` guardan `fuente='asistente'`.
+- **Tools (54)** definidas en `server/utils/mcp.ts` (`TOOLS`), agrupadas por dominio (fondos, cuentas, transacciones, transferencias, aportes, recurrentes, deudas, metas, presupuestos, reportes, ajustes). Cada una declara su `inputSchema` y los argumentos se validan contra él (SPC-033/SPC-036): un argumento no declarado responde -32602. `create_*` guardan `fuente='asistente'`.
 - **Sin SDK** (decisión 0008). Las tools operan solo sobre el usuario de la key.
 
 ## Git y Linear (obligatorio)

@@ -40,7 +40,7 @@ Servidor MCP autenticado por usuario para que el asistente consulte y registre d
 
 - **Endpoint**: `POST https://caudal.erfm.dev/api/mcp` (Streamable HTTP, JSON-RPC 2.0).
 - **Auth**: `Authorization: Bearer caudal_...` — crea la key en **Ajustes → API keys** (se muestra una sola vez).
-- **Tools**: `list_funds`, `list_accounts`, `get_balances`, `list_categories`, `list_transactions`, `create_transaction`, `create_transfer`, `get_month_summary`, `list_pending`.
+- **Tools**: **54** (en `server/utils/mcp.ts`), agrupadas por dominio; los argumentos se validan contra el `inputSchema`.
 - **Escritura**: `create_*` guardan con `fuente='asistente'`; el cliente debe pedir confirmación antes de escribir. Las tools solo operan sobre el usuario de la key.
 
 ## Estado

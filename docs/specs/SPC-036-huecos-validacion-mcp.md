@@ -1,6 +1,6 @@
 # SPC-036 — Cerrar los huecos de validación del MCP
 
-Estado: implementada · Issue: SEL-274
+Estado: verificada · Issue: SEL-274
 
 Verificado en local: **184/184 tests** (21 archivos; 12 tests puros del validador, incluidos los de
 objetos anidados, fechas y montos), `pnpm lint`, `pnpm typecheck`. `list_transactions` con
