@@ -1,6 +1,8 @@
 # SPC-037 — Convertir el importe de la primera pata si la cuenta de pago está en otra moneda
 
-Estado: implementada · Issue: SEL-275
+Estado: verificada · Issue: SEL-275
+
+Verificado en el run del tag **v1.4.1**: `Test Files 21 passed (21)` / `Tests 194 passed (194)`, `> Deploy OK: v1.4.1`, producción en 1.4.1 online. Los 5 tests nuevos fallan si se revierte `deudas.ts` (verificado por el builder).
 
 Depende de: [SPC-035](./SPC-035-pago-cuota-dos-patas.md) (pago con dos patas), [SPC-008](./SPC-008-transacciones.md) (transacciones), [SPC-002](./SPC-002-modelo-datos.md) (multimoneda)
 
