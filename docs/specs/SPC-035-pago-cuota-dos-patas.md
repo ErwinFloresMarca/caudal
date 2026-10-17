@@ -1,6 +1,19 @@
 # SPC-035 — Pago de cuota con dos patas (elegir fondo y cuenta del otro lado)
 
-Estado: implementada · Issue: SEL-273
+Estado: verificada · Issue: SEL-273
+
+Verificado en local (dev server en 3099): pago desde la UI a 390px con la opción activada → cuota
+pagada y deuda `saldada`, y en la BD las dos patas con el **mismo `grupo_id`**: `Personal` `gasto`
+3.000 + `Impresión 3D` `ingreso` 3.000 (misma fecha) — el fondo de la deuda registra el pago y el
+elegido lo recibe. También comprobado con multimoneda (pago 50.000 BOB → pata 2 7.184 USD centavos con
+tasa 6.96) y `400` con el mensaje exacto al elegir el mismo fondo. En el run del tag **v1.4.0**:
+`Test Files 21 passed (21)` / **`Tests 189 passed (189)`**, `> Deploy OK: v1.4.0`, producción en 1.4.0
+con health 200.
+
+Notas de implementación: las dos patas se crean en **una sola transacción de BD** (`crearTransaccion`
+acepta un ejecutor) y la UI muestra el campo de tasa también cuando es USD la cuenta del otro lado.
+Queda anotado como pendiente que el UPDATE de la cuota ocurre fuera de esa transacción y que estos
+grupos aparecen en `/api/aportes` (ver "Fuera de alcance").
 
 Depende de: [SPC-012](./SPC-012-deudas.md) (deudas/MSI), [SPC-010](./SPC-010-aportes-retiros.md) (aportes entre fondos), [SPC-008](./SPC-008-transacciones.md) (transacciones)
 
@@ -61,8 +74,13 @@ real**: la pata de gasto está en la cuenta de donde salió la plata.
 ## Fuera de alcance
 
 - Pagos parciales reales (hoy `pagarCuota` sobrescribe el monto de la cuota: `deudas.ts:335`).
-- Que la operación aparezca en la lista de aportes/retiros (queda en el detalle de la deuda y en
-  movimientos; si se quiere agrupar con aportes, es otro spec).
+- Agrupar estos pagos con los aportes/retiros: como comparten `grupo_id`, `listarAportes` los muestra
+  en la pestaña de aportes de Transferencias (y desde ahí se pueden borrar dejando la cuota pagada).
+  Si molesta, es otro spec (excluir estos grupos o darles un tipo propio).
+- Meter el `UPDATE` de la cuota dentro de la transacción de las dos patas (hoy queda afuera: si esa
+  escritura falla, las patas existen y la cuota no queda marcada).
+- Convertir el monto de la **primera** pata cuando la cuenta de pago está en otra moneda que la deuda
+  (comportamiento previo, no lo cambia este spec).
 - Borrar o desligar transacciones al borrar la deuda.
 - Intereses, MSI o amortización (no existen: `shared/cuotas.ts` reparte en partes iguales).
 
