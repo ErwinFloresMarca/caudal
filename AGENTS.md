@@ -57,13 +57,13 @@ pnpm e2e          # verificación end-to-end (BASE_URL, por defecto prod)
 ## Git y Linear (obligatorio)
 
 - **Repo**: `ErwinFloresMarca/caudal` — rama `main`. Trunk-based: se trabaja sobre `main`.
-- **Seguimiento**: cada feature/tarea tiene un issue en el proyecto **Caudal** de Linear ([Caudal](https://linear.app/self-proyects/project/caudal-52321193bd83), team `SEL`, ids tipo `SEL-xxx`). Toda implementación queda enlazada a su issue.
+- **Seguimiento**: cada feature/tarea **abierta** tiene un issue en el proyecto **Caudal** de Linear ([Caudal](https://linear.app/self-proyects/project/caudal-52321193bd83), team `SEL`, ids tipo `SEL-xxx`). Al cerrarse, el issue se borra de Linear: el rastro histórico vive en el repo (`docs/PROGRESO.md`), así que los ids `SEL-xxx` de los specs son históricos.
 
 Workflow por feature:
 
 1. El feature tiene su spec en `docs/specs/` y su issue en Linear. Al empezar, mover el issue a **In Progress**.
 2. Al terminar cada paso funcional (no "cada archivo"), hacer commit y push a `main` con el issue como prefijo.
-3. Al cerrar la feature: spec `verificada`, issue a **Done** (o **Canceled**), registrar en `docs/decisions/` las decisiones importantes.
+3. Al cerrar la feature: spec `verificada`, issue a **Done**, anotar la fila del spec en `docs/PROGRESO.md` (versión y commit) y registrar en `docs/decisions/` las decisiones importantes. Después, el issue se borra de Linear: Linear solo guarda trabajo abierto.
 
 Formato de commit:
 
@@ -75,7 +75,7 @@ Reglas:
 
 - **Nunca terminar una sesión con cambios sin subir.** Worktree limpio y push hecho antes de dar una tarea por finalizada.
 - Un commit se asocia a un solo issue. Sin issue → prefijo `chore:`.
-- **Planificación y specs ↔ Linear**: cualquier cambio en planificación o en specs (criterios de aceptación, alcance, estado) debe reflejarse en los issues de Linear correspondientes. Si cambia el plan, crear/actualizar el issue.
+- **Planificación y specs ↔ Linear**: los issues de Linear son **solo para trabajo abierto**; al cerrarse se borran y el rastro queda en `docs/PROGRESO.md`. Cualquier cambio de planificación o de specs (criterios, alcance, estado) se refleja en el issue mientras esté abierto y, al cerrar, en `docs/PROGRESO.md`. Si cambia el plan, crear/actualizar el issue.
 
 ## Estructura
 
@@ -100,6 +100,7 @@ caudal/
   tests/              vitest: money, recurrentes, transacciones, aislamiento
   docs/
     ROADMAP.md
+    PROGRESO.md       histórico: cada spec con su issue, versión y commit + releases (Linear solo guarda lo abierto)
     specs/            specs SDD por feature (SPC-001…)
     decisions/        decisiones marcadas (modelo de datos, multimoneda, diseño)
     stitch_caudal_wireframe_specs/   mockups aprobados (36 pantallas 390px/1280px) + design canónico

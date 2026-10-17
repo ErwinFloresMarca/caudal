@@ -1,6 +1,6 @@
-# Deuda técnica y próximos pasos — Caudal v1.0.0
+# Deuda técnica y próximos pasos — Caudal
 
-Registro de atajos deliberados (`ponytail:`), pendientes menores del pase visual y features fuera de v1.
+Registro de atajos deliberados (`ponytail:`), pendientes menores del pase visual y features fuera de v1. El estado entregado y en qué versión quedó cada spec: `docs/PROGRESO.md`.
 
 ## Deuda técnica (con techo conocido)
 
@@ -12,8 +12,10 @@ Registro de atajos deliberados (`ponytail:`), pendientes menores del pase visual
 | 4 | Metas (SPC-013) | El aporte es **solo registro** (no descuenta de una cuenta). | v1 deliberado; ampliar si se pide "aportar y descontar". |
 | 5 | Reportes / Ajustes | **Exportar CSV** (reportes) y **exportar datos** (ajustes) no implementados. | Baratos de añadir si se piden. |
 | 6 | Ajustes | **Cerrar todas las sesiones** no implementado (cookie firmada sin store servidor). | Requiere store de sesiones o versión de token. |
-| 7 | Google OAuth | El round-trip real requiere `NUXT_OAUTH_GOOGLE_ID/SECRET`. | Configurar en `.env` (dev y prod) para cerrar el login con Google. |
-| 8 | Transferencias/aportes | `resolverMontos` asume monedas BOB/USD (dos monedas). | Ampliar si se agrega una tercera moneda. |
+| 7 | Transferencias/aportes | `resolverMontos` asume monedas BOB/USD (dos monedas). | Ampliar si se agrega una tercera moneda. |
+
+<!-- Resuelto: #7 Google OAuth. `NUXT_OAUTH_GOOGLE_ID/SECRET` están configurados en dev y prod;
+     `server/routes/auth/google.ts` + `BotonGoogle` en login/registro funcionan (v1.0.0). -->
 
 ## Notas de simplificación (deliberadas, sin acción)
 

@@ -73,9 +73,9 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-023 | google-oauth | SEL-99 | verificada |
 | SPC-024 | presupuestos | SEL-100 | verificada |
 | SPC-025 | get-balances-base | SEL-112 | verificada |
-| SPC-026 | favicon-marca | — | verificada |
-| SPC-027 | menu-usuario | — | verificada |
-| SPC-028 | modo-oscuro | — | verificada |
+| SPC-026 | favicon-marca | SEL-115 | verificada |
+| SPC-027 | menu-usuario | SEL-116 | verificada |
+| SPC-028 | modo-oscuro | SEL-117 | verificada |
 | SPC-029 | migraciones-en-deploy-ci | SEL-265 | verificada |
 | SPC-030 | fondo-predeterminado | SEL-269 | verificada |
 | SPC-031 | mcp-fund-id-y-tests-en-ci | SEL-268 | verificada |
@@ -86,3 +86,5 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-036 | huecos-validacion-mcp | SEL-274 | verificada |
 | SPC-037 | conversion-primera-pata | SEL-275 | verificada |
 | SPC-038 | tipo-de-grupo | SEL-277 | verificada |
+
+El histórico de cada spec (versión en la que quedó verificada y sus commits) está en `docs/PROGRESO.md`.
