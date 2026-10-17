@@ -1,5 +1,7 @@
 # Caudal — Roadmap
 
+Plan de lo que viene. Para lo ya entregado (spec, versión y commit de cada feature, más la línea de releases) ver `docs/PROGRESO.md`.
+
 ## v1.0.0 — entregada (2026-09-24)
 
 Backend completo, shell, PWA, MCP y pase visual. Desplegada en `https://caudal.erfm.dev`.
