@@ -1,6 +1,6 @@
 # SPC-035 — Pago de cuota con dos patas (elegir fondo y cuenta del otro lado)
 
-Estado: aprobada · Issue: SEL-273
+Estado: implementada · Issue: SEL-273
 
 Depende de: [SPC-012](./SPC-012-deudas.md) (deudas/MSI), [SPC-010](./SPC-010-aportes-retiros.md) (aportes entre fondos), [SPC-008](./SPC-008-transacciones.md) (transacciones)
 

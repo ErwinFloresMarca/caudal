@@ -129,9 +129,14 @@ function transaccionPublica(t: FilaTransaccion, extra?: { moneda: Moneda; catego
   }
 }
 
-export async function crearTransaccion(userId: number, fondoId: number, data: DatosTransaccion) {
+// Ejecutor de la escritura: `db` o la transacción abierta por quien llama
+// (SPC-035: el pago de una cuota crea sus dos patas en una sola transacción de BD).
+// La tasa usada (ajustes) se registra fuera del ejecutor.
+type Ejecutor = Pick<typeof db, 'insert'>
+
+export async function crearTransaccion(userId: number, fondoId: number, data: DatosTransaccion, ejecutor: Ejecutor = db) {
   const { moneda, categoria } = await validarOrigen(userId, fondoId, data)
-  const [trx] = await db
+  const [trx] = await ejecutor
     .insert(transacciones)
     .values({
       user_id: userId,

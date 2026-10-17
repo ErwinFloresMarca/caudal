@@ -109,7 +109,7 @@ export const TOOLS: ToolDef[] = [
   { name: 'create_deuda', description: 'Crea una deuda/MSI y sus cuotas.', inputSchema: { type: 'object', properties: { fund_id: FUND, contraparte: { type: 'string' }, direccion: { type: 'string', enum: ['por_pagar', 'por_cobrar'] }, monto: MONTO, moneda: MONEDA, concepto: { type: 'string' }, fecha_inicio: FECHA, num_cuotas: { type: 'integer' }, nota: { type: 'string' } }, required: ['contraparte', 'direccion', 'monto'], additionalProperties: false } },
   { name: 'update_deuda', description: 'Edita una deuda (recalcula las cuotas no pagadas).', inputSchema: { type: 'object', properties: { deuda_id: { type: 'integer' }, contraparte: { type: 'string' }, direccion: { type: 'string', enum: ['por_pagar', 'por_cobrar'] }, monto: MONTO, moneda: MONEDA, concepto: { type: 'string' }, fecha_inicio: FECHA, num_cuotas: { type: 'integer' }, nota: { type: 'string' } }, required: ['deuda_id'], additionalProperties: false } },
   { name: 'delete_deuda', description: 'Borra una deuda y sus cuotas.', inputSchema: { type: 'object', properties: { deuda_id: { type: 'integer' } }, required: ['deuda_id'], additionalProperties: false } },
-  { name: 'pay_cuota', description: 'Paga una cuota (crea la transacción).', inputSchema: { type: 'object', properties: { deuda_id: { type: 'integer' }, cuota_id: { type: 'integer' }, cuenta_id: { type: 'integer' }, categoria_id: { type: 'integer' }, monto: MONTO, fecha: FECHA, tasa_ref: { type: 'number' } }, required: ['deuda_id', 'cuota_id', 'cuenta_id'], additionalProperties: false } },
+  { name: 'pay_cuota', description: 'Paga una cuota (crea la transacción; con otra_cuenta_id, de otro fondo, crea la pata que recibe el importe).', inputSchema: { type: 'object', properties: { deuda_id: { type: 'integer' }, cuota_id: { type: 'integer' }, cuenta_id: { type: 'integer' }, otra_cuenta_id: { type: 'integer' }, categoria_id: { type: 'integer' }, monto: MONTO, fecha: FECHA, tasa_ref: { type: 'number' } }, required: ['deuda_id', 'cuota_id', 'cuenta_id'], additionalProperties: false } },
   { name: 'update_cuota', description: 'Edita una cuota no pagada.', inputSchema: { type: 'object', properties: { deuda_id: { type: 'integer' }, cuota_id: { type: 'integer' }, monto: MONTO, fecha_vencimiento: FECHA }, required: ['deuda_id', 'cuota_id'], additionalProperties: false } },
 
   // Metas
@@ -529,6 +529,7 @@ export async function callTool(userId: number, name: string, args: Record<string
     case 'pay_cuota':
       return pagarCuota(userId, Number(args.deuda_id), Number(args.cuota_id), {
         cuenta_id: Number(args.cuenta_id),
+        otra_cuenta_id: args.otra_cuenta_id == null ? null : Number(args.otra_cuenta_id),
         categoria_id: args.categoria_id == null ? null : Number(args.categoria_id),
         monto_centavos: args.monto == null ? undefined : montoHumano(args.monto),
         fecha: args.fecha as string | undefined,

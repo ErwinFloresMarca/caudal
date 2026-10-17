@@ -6,7 +6,7 @@ import type { Deuda, Cuota } from '~/types/deudas'
 const props = defineProps<{ abierto: boolean; deudaId: number | null }>()
 const emit = defineEmits<{ 'update:abierto': [boolean]; cambio: [] }>()
 
-const { fondoActivo } = useFondoActivo()
+const { fondoActivo, fondos } = useFondoActivo()
 const request = useRequestFetch()
 
 const abiertoLocal = computed({
@@ -29,6 +29,20 @@ const { data: catsData } = await useAsyncData(
   () => (fondoActivo.value ? request<{ categorias: Categoria[] }>(`/api/fondos/${fondoActivo.value.id}/categorias`) : Promise.resolve(null)),
   { watch: [fondoActivo] },
 )
+// Cuentas de cada fondo: para elegir el otro lado del pago (SPC-035).
+const { data: cuentasTodosData } = await useAsyncData(
+  'deuda-cuentas-todos',
+  async () => {
+    const map: Record<number, Cuenta[]> = {}
+    await Promise.all(
+      fondos.value.map(async (f) => {
+        map[f.id] = (await request<{ cuentas: Cuenta[] }>(`/api/fondos/${f.id}/cuentas`)).cuentas
+      }),
+    )
+    return map
+  },
+  { watch: [fondos] },
+)
 const { data: tasaData } = await useAsyncData('deuda-tasa', () => request<{ actual: { valor: number } | null }>('/api/ajustes/tasa'))
 
 const deuda = computed(() => data.value?.deuda ?? null)
@@ -39,12 +53,39 @@ const fechaCorta = (f: string) => new Date(`${f}T00:00:00`).toLocaleDateString('
 
 // Pagar cuota
 const pagando = ref<Cuota | null>(null)
-const pago = reactive({ cuenta_id: 0, categoria_id: 0, monto: '', fecha: new Date().toISOString().slice(0, 10), tasa_ref: '' })
+const pago = reactive({
+  cuenta_id: 0,
+  categoria_id: 0,
+  monto: '',
+  fecha: new Date().toISOString().slice(0, 10),
+  tasa_ref: '',
+  desdeOtro: false,
+  fondo_otro_id: 0,
+  otra_cuenta_id: 0,
+})
 const pagoError = ref('')
 const pagoAbierto = computed({ get: () => !!pagando.value, set: (v: boolean) => { if (!v) pagando.value = null } })
 const cuentaPagoUsd = computed(() => cuentas.value.find((c) => c.id === pago.cuenta_id)?.moneda === 'USD')
 const tipoPago = computed(() => (deuda.value?.direccion === 'por_pagar' ? 'gasto' : 'ingreso'))
 const catsPago = computed(() => categorias.value.filter((c) => c.tipo === tipoPago.value))
+const fondosOtros = computed(() => fondos.value.filter((f) => f.id !== deuda.value?.fondo_id).map((f) => ({ value: f.id, label: f.nombre })))
+const cuentasOtras = computed(() => cuentasTodosData.value?.[pago.fondo_otro_id] ?? [])
+const opcionesCuentasOtras = computed(() => cuentasOtras.value.map((c) => ({ value: c.id, label: `${c.nombre} · ${c.moneda}` })))
+const otraCuentaUsd = computed(() => cuentasOtras.value.find((c) => c.id === pago.otra_cuenta_id)?.moneda === 'USD')
+const tasaNecesaria = computed(() => cuentaPagoUsd.value || (pago.desdeOtro && otraCuentaUsd.value))
+const esPorPagar = computed(() => deuda.value?.direccion === 'por_pagar')
+const textoOtroLado = computed(() =>
+  esPorPagar.value
+    ? 'El fondo de la deuda registra el pago y el elegido recibe el importe.'
+    : 'El fondo de la deuda recibe el importe y el elegido registra el pago.',
+)
+
+watch(
+  () => pago.fondo_otro_id,
+  () => {
+    if (!cuentasOtras.value.some((c) => c.id === pago.otra_cuenta_id)) pago.otra_cuenta_id = cuentasOtras.value[0]?.id ?? 0
+  },
+)
 
 function abrirPagar(c: Cuota) {
   pagando.value = c
@@ -53,6 +94,9 @@ function abrirPagar(c: Cuota) {
   pago.monto = (c.monto_centavos / 100).toFixed(2).replace('.', ',')
   pago.fecha = new Date().toISOString().slice(0, 10)
   pago.tasa_ref = tasaSugerida.value ? String(tasaSugerida.value) : ''
+  pago.desdeOtro = false
+  pago.fondo_otro_id = fondosOtros.value[0]?.value ?? 0
+  pago.otra_cuenta_id = cuentasTodosData.value?.[pago.fondo_otro_id]?.[0]?.id ?? 0
   pagoError.value = ''
 }
 async function confirmarPago() {
@@ -65,8 +109,13 @@ async function confirmarPago() {
     pagoError.value = (e as Error).message
     return
   }
+  if (pago.desdeOtro && !pago.otra_cuenta_id) {
+    pagoError.value = 'Elige la cuenta del otro fondo'
+    return
+  }
   const body: Record<string, unknown> = { cuenta_id: pago.cuenta_id, categoria_id: pago.categoria_id || null, monto_centavos: monto, fecha: pago.fecha }
-  if (cuentaPagoUsd.value) {
+  if (pago.desdeOtro) body.otra_cuenta_id = pago.otra_cuenta_id
+  if (tasaNecesaria.value) {
     const tasa = Number(pago.tasa_ref.replace(',', '.'))
     if (!Number.isFinite(tasa) || tasa <= 0) {
       pagoError.value = 'Indica la tasa para esta cuenta en dólares'
@@ -166,7 +215,7 @@ async function guardarCuota() {
     <template #body>
       <div class="flex flex-col gap-4">
         <label class="flex flex-col gap-1">
-          <span class="text-sm text-ink-muted">Cuenta</span>
+          <span class="text-sm text-ink-muted">Cuenta {{ esPorPagar ? 'que paga' : 'que recibe' }}</span>
           <select v-model.number="pago.cuenta_id" class="input-field">
             <option v-for="c in cuentas" :key="c.id" :value="c.id">{{ c.nombre }} · {{ c.moneda }}</option>
           </select>
@@ -188,10 +237,29 @@ async function guardarCuota() {
             <input v-model="pago.fecha" type="date" class="input-field">
           </label>
         </div>
-        <label v-if="cuentaPagoUsd" class="flex flex-col gap-1">
+        <label v-if="tasaNecesaria" class="flex flex-col gap-1">
           <span class="text-sm text-ink-muted">Tasa (BOB por USD)</span>
           <input v-model="pago.tasa_ref" type="text" inputmode="decimal" placeholder="6,96" class="input-field">
         </label>
+        <div class="card-muted flex flex-col gap-3 p-3">
+          <label class="flex items-center gap-2 text-sm text-ink-muted">
+            <input v-model="pago.desdeOtro" type="checkbox">
+            <span>Registrar el otro fondo</span>
+          </label>
+          <template v-if="pago.desdeOtro">
+            <p class="text-xs text-ink-muted">{{ textoOtroLado }}</p>
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <label class="flex flex-col gap-1">
+                <span class="text-sm text-ink-muted">Fondo</span>
+                <USelect v-model="pago.fondo_otro_id" :items="fondosOtros" class="input-field" />
+              </label>
+              <label class="flex flex-col gap-1">
+                <span class="text-sm text-ink-muted">Cuenta que {{ esPorPagar ? 'recibe' : 'paga' }}</span>
+                <USelect v-model="pago.otra_cuenta_id" :items="opcionesCuentasOtras" class="input-field" />
+              </label>
+            </div>
+          </template>
+        </div>
         <p v-if="pagoError" class="text-sm text-negative">{{ pagoError }}</p>
       </div>
     </template>

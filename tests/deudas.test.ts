@@ -1,12 +1,12 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { randomUUID } from 'node:crypto'
 import { db } from '../server/utils/db'
-import { users, fondos, cuentas, categorias, transacciones, deudas, cuotas } from '../server/db/schema'
+import { users, fondos, cuentas, categorias, transacciones, deudas, cuotas, settings } from '../server/db/schema'
 import { and, eq, inArray, sql } from 'drizzle-orm'
 import { crearFondo } from '../server/utils/fondos'
 import { crearCuenta, getCuenta } from '../server/utils/cuentas'
 import { listarCategorias } from '../server/utils/categorias'
-import { listarTransacciones } from '../server/utils/transacciones'
+import { listarTransacciones, getTransaccion } from '../server/utils/transacciones'
 import {
   parseDeuda,
   parsePago,
@@ -26,6 +26,11 @@ let userId: number
 let userIdOtro: number
 let fondoId: number
 let cuentaBobId: number
+let cuentaUsdId: number
+let fondoOtroId: number
+let cuentaOtroBobId: number
+let cuentaOtroUsdId: number
+let cuentaAjenaId: number
 let catGastoId: number
 let catIngresoId: number
 
@@ -39,6 +44,14 @@ beforeAll(async () => {
   const fondo = await crearFondo(userId, { nombre: 'Fondo Deudas', tipo: 'personal', moneda_base: 'BOB' })
   fondoId = fondo.id
   cuentaBobId = (await crearCuenta(userId, fondoId, { nombre: 'Caja', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 100000 })).id
+  cuentaUsdId = (await crearCuenta(userId, fondoId, { nombre: 'Ahorro USD', tipo: 'ahorro', moneda: 'USD', saldo_inicial_centavos: 0 })).id
+
+  // Segundo fondo del usuario (SPC-035: la otra pata) y una cuenta de otro usuario.
+  fondoOtroId = (await crearFondo(userId, { nombre: 'Fondo Otro', tipo: 'negocio', moneda_base: 'BOB' })).id
+  cuentaOtroBobId = (await crearCuenta(userId, fondoOtroId, { nombre: 'Caja negocio', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 50000 })).id
+  cuentaOtroUsdId = (await crearCuenta(userId, fondoOtroId, { nombre: 'Banco USD', tipo: 'banco', moneda: 'USD', saldo_inicial_centavos: 0 })).id
+  const fondoAjenoId = (await crearFondo(userIdOtro, { nombre: 'Fondo ajeno', tipo: 'personal', moneda_base: 'BOB' })).id
+  cuentaAjenaId = (await crearCuenta(userIdOtro, fondoAjenoId, { nombre: 'Caja ajena', tipo: 'efectivo', moneda: 'BOB', saldo_inicial_centavos: 0 })).id
 
   const cats = await listarCategorias(userId, fondoId)
   catGastoId = cats.find((c) => c.tipo === 'gasto')!.id
@@ -62,6 +75,9 @@ afterAll(async () => {
   await db.delete(categorias).where(eq(categorias.user_id, userIdOtro))
   await db.delete(fondos).where(eq(fondos.user_id, userId))
   await db.delete(fondos).where(eq(fondos.user_id, userIdOtro))
+  // El pago en USD recuerda la tasa usada (ajustes).
+  await db.delete(settings).where(eq(settings.user_id, userId))
+  await db.delete(settings).where(eq(settings.user_id, userIdOtro))
   await db.delete(users).where(eq(users.id, userId))
   await db.delete(users).where(eq(users.id, userIdOtro))
 })
@@ -233,6 +249,139 @@ describe.skipIf(!hasDb)('deudas (repositorio)', () => {
     expect(Number((await db.select({ n: sql<number>`COUNT(*)` }).from(transacciones).where(and(eq(transacciones.user_id, userIdOtro))))[0]!.n)).toBe(0)
     await borrarDeuda(userId, d!.id)
   })
+
+  it('pago con dos patas: gasto en el fondo de la deuda, ingreso en el otro, ligados por grupo_id', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 20000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 2,
+    })
+    const antesDeuda = (await getCuenta(userId, cuentaBobId))!.saldo_actual_centavos
+    const antesOtra = (await getCuenta(userId, cuentaOtroBobId))!.saldo_actual_centavos
+
+    const res = await pagarCuota(userId, d!.id, d!.cuotas![0]!.id, {
+      cuenta_id: cuentaBobId,
+      categoria_id: catGastoId,
+      otra_cuenta_id: cuentaOtroBobId,
+      fecha: '2026-09-05',
+    })
+
+    expect(res.transaccion.tipo).toBe('gasto')
+    expect(res.transaccion.monto_centavos).toBe(10000)
+    expect(res.transaccion.fondo_id).toBe(fondoId)
+    expect(res.transaccion_otra!.tipo).toBe('ingreso')
+    expect(res.transaccion_otra!.monto_centavos).toBe(10000)
+    expect(res.transaccion_otra!.cuenta_id).toBe(cuentaOtroBobId)
+    expect(res.transaccion_otra!.fondo_id).toBe(fondoOtroId)
+
+    const grupoDe = async (id: number) =>
+      (await db.select({ grupo_id: transacciones.grupo_id }).from(transacciones).where(eq(transacciones.id, id)))[0]!.grupo_id
+    expect(await grupoDe(res.transaccion.id)).toBe(res.transaccion.id)
+    expect(await grupoDe(res.transaccion_otra!.id)).toBe(res.transaccion.id)
+
+    expect((await getCuenta(userId, cuentaBobId))!.saldo_actual_centavos).toBe(antesDeuda - 10000)
+    expect((await getCuenta(userId, cuentaOtroBobId))!.saldo_actual_centavos).toBe(antesOtra + 10000)
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('pago con dos patas: rechaza el mismo fondo, una cuenta ajena y una cuenta USD sin tasa', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 10000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const cuotaId = d!.cuotas![0]!.id
+    const otrasAntes = (await listarTransacciones(userId, fondoOtroId)).length
+
+    await expect(pagarCuota(userId, d!.id, cuotaId, { cuenta_id: cuentaBobId, otra_cuenta_id: cuentaBobId })).rejects.toMatchObject({
+      statusCode: 400,
+      message: /fondo distinto/,
+    })
+    await expect(pagarCuota(userId, d!.id, cuotaId, { cuenta_id: cuentaBobId, otra_cuenta_id: cuentaAjenaId })).rejects.toMatchObject({ statusCode: 404 })
+    await expect(pagarCuota(userId, d!.id, cuotaId, { cuenta_id: cuentaBobId, otra_cuenta_id: cuentaOtroUsdId })).rejects.toMatchObject({
+      statusCode: 400,
+      message: /tasa_ref es obligatoria/,
+    })
+
+    // Ningún intento falló a medias: sin transacciones y con la cuota pendiente.
+    expect((await listarTransacciones(userId, fondoOtroId)).length).toBe(otrasAntes)
+    expect((await getDeuda(userId, d!.id))!.cuotas![0]!.pagada).toBe(false)
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('pago con dos patas en deuda por_cobrar: ingreso en el fondo de la deuda y gasto en el otro', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Cliente',
+      direccion: 'por_cobrar',
+      monto_total_centavos: 15000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const antesOtra = (await getCuenta(userId, cuentaOtroBobId))!.saldo_actual_centavos
+
+    const res = await pagarCuota(userId, d!.id, d!.cuotas![0]!.id, {
+      cuenta_id: cuentaBobId,
+      categoria_id: catIngresoId,
+      otra_cuenta_id: cuentaOtroBobId,
+    })
+
+    expect(res.transaccion.tipo).toBe('ingreso')
+    expect(res.transaccion.monto_centavos).toBe(15000)
+    expect(res.transaccion_otra!.tipo).toBe('gasto')
+    expect(res.transaccion_otra!.monto_centavos).toBe(15000)
+    expect((await getCuenta(userId, cuentaOtroBobId))!.saldo_actual_centavos).toBe(antesOtra - 15000)
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('pago con dos patas multimoneda: convierte el importe de la segunda pata con la tasa', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 20000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 2,
+    })
+
+    // Pata de la deuda en BOB → segunda pata en USD: 10000 centavos / 8
+    const res = await pagarCuota(userId, d!.id, d!.cuotas![0]!.id, { cuenta_id: cuentaBobId, otra_cuenta_id: cuentaOtroUsdId, tasa_ref: 8, fecha: '2026-09-05' })
+    expect(res.transaccion_otra!.moneda).toBe('USD')
+    expect(res.transaccion_otra!.monto_centavos).toBe(1250)
+    expect(res.transaccion_otra!.tasa_ref).toBe(8)
+
+    // Pata de la deuda en USD → segunda pata en BOB: 10000 centavos * 8
+    const res2 = await pagarCuota(userId, d!.id, d!.cuotas![1]!.id, { cuenta_id: cuentaUsdId, otra_cuenta_id: cuentaOtroBobId, tasa_ref: 8, fecha: '2026-09-06' })
+    expect(res2.transaccion.moneda).toBe('USD')
+    expect(res2.transaccion.tasa_ref).toBe(8)
+    expect(res2.transaccion_otra!.moneda).toBe('BOB')
+    expect(res2.transaccion_otra!.monto_centavos).toBe(80000)
+    await borrarDeuda(userId, d!.id)
+  })
+
+  it('aislamiento: la segunda pata del pago solo la ve su dueño', async () => {
+    const d = await crearDeuda(userId, fondoId, {
+      contraparte: 'Banco',
+      direccion: 'por_pagar',
+      monto_total_centavos: 10000,
+      moneda: 'BOB',
+      fecha_inicio: '2026-09-01',
+      num_cuotas: 1,
+    })
+    const res = await pagarCuota(userId, d!.id, d!.cuotas![0]!.id, { cuenta_id: cuentaBobId, otra_cuenta_id: cuentaOtroBobId })
+    const otraId = res.transaccion_otra!.id
+
+    expect(await getTransaccion(userIdOtro, otraId)).toBeNull()
+    expect((await listarTransacciones(userIdOtro, fondoOtroId)).length).toBe(0)
+    expect(await getTransaccion(userId, otraId)).not.toBeNull()
+    await borrarDeuda(userId, d!.id)
+  })
 })
 
 describe('parseDeuda / parsePago (puro)', () => {
@@ -249,5 +398,8 @@ describe('parseDeuda / parsePago (puro)', () => {
     expect(() => parsePago({})).toThrow(/cuenta_id/)
     expect(() => parsePago({ cuenta_id: 1, monto_centavos: 0 })).toThrow(/monto_centavos/)
     expect(parsePago({ cuenta_id: 1, tasa_ref: '6,96' }).tasa_ref).toBe(6.96)
+    expect(parsePago({ cuenta_id: 1 }).otra_cuenta_id).toBeNull()
+    expect(parsePago({ cuenta_id: 1, otra_cuenta_id: '2' }).otra_cuenta_id).toBe(2)
+    expect(() => parsePago({ cuenta_id: 1, otra_cuenta_id: 0 })).toThrow(/otra_cuenta_id/)
   })
 })

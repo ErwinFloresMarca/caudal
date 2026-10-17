@@ -1,6 +1,6 @@
 import { and, asc, desc, eq, inArray } from 'drizzle-orm'
 import { db } from './db'
-import { deudas, cuotas } from '../db/schema'
+import { deudas, cuotas, transacciones, cuentas } from '../db/schema'
 import { crearTransaccion, hoyLocal, type TipoTransaccion } from './transacciones'
 import { generarCuotas } from '../../shared/cuotas'
 import { nextDate, type Cadencia } from '../../shared/recurrentes'
@@ -29,6 +29,8 @@ export interface DatosDeuda {
 
 export interface DatosPago {
   cuenta_id: number
+  /** Cuenta del otro fondo que recibe (o entrega) el importe (SPC-035). */
+  otra_cuenta_id?: number | null
   categoria_id?: number | null
   monto_centavos?: number
   fecha?: string
@@ -85,6 +87,13 @@ export function parsePago(body: Record<string, unknown>): DatosPago {
   if (!Number.isInteger(cuenta_id) || cuenta_id <= 0) {
     throw httpError(400, 'cuenta_id es obligatorio')
   }
+  let otra_cuenta_id: number | null = null
+  if (body.otra_cuenta_id != null && body.otra_cuenta_id !== '') {
+    otra_cuenta_id = Number(body.otra_cuenta_id)
+    if (!Number.isInteger(otra_cuenta_id) || otra_cuenta_id <= 0) {
+      throw httpError(400, 'otra_cuenta_id inválido')
+    }
+  }
   let categoria_id: number | null = null
   if (body.categoria_id != null && body.categoria_id !== '') {
     categoria_id = Number(body.categoria_id)
@@ -112,7 +121,18 @@ export function parsePago(body: Record<string, unknown>): DatosPago {
   } else {
     tasa_ref = null
   }
-  return { cuenta_id, categoria_id, monto_centavos, fecha, tasa_ref, nota: texto(body, 'nota') }
+  return { cuenta_id, otra_cuenta_id, categoria_id, monto_centavos, fecha, tasa_ref, nota: texto(body, 'nota') }
+}
+
+// Importe de la segunda pata en la moneda de su cuenta: misma regla que
+// `resolverAporte` (la tasa es BOB por USD).
+// ponytail: la conversión vive también en aportes.ts; unificar si aparece un tercer caso.
+function montoEnMoneda(monto: number, desde: Moneda, hacia: Moneda, tasa: number | null): number {
+  if (desde === hacia) return monto
+  if (tasa == null || !Number.isFinite(tasa) || tasa <= 0) {
+    throw httpError(400, 'tasa_ref es obligatoria para cuentas USD')
+  }
+  return desde === 'USD' ? Math.round(monto * tasa) : Math.round(monto / tasa)
 }
 
 function cuotaPublica(c: FilaCuota, moneda: Moneda) {
@@ -320,14 +340,60 @@ export async function pagarCuota(userId: number, deudaId: number, cuotaId: numbe
   const tipo: TipoTransaccion = d.direccion === 'por_pagar' ? 'gasto' : 'ingreso'
   const monto = pago.monto_centavos ?? c.monto_centavos
   const fecha = pago.fecha ?? hoyLocal()
-  const transaccion = await crearTransaccion(userId, d.fondo_id, {
-    cuenta_id: pago.cuenta_id,
-    categoria_id: pago.categoria_id ?? null,
-    tipo,
-    monto_centavos: monto,
-    fecha,
-    nota: pago.nota ?? d.concepto ?? `Cuota ${c.numero}`,
-    tasa_ref: pago.tasa_ref ?? null,
+  const nota = pago.nota ?? d.concepto ?? `Cuota ${c.numero}`
+
+  // Segunda pata opcional (SPC-035): el fondo de la deuda registra el pago y la cuenta
+  // elegida recibe el importe (espejado si la deuda es por_cobrar).
+  let otraCuenta: { id: number; fondo_id: number; moneda: string } | null = null
+  if (pago.otra_cuenta_id != null) {
+    const [cuenta] = await db
+      .select({ id: cuentas.id, fondo_id: cuentas.fondo_id, moneda: cuentas.moneda })
+      .from(cuentas)
+      .where(and(eq(cuentas.id, pago.otra_cuenta_id), eq(cuentas.user_id, userId)))
+      .limit(1)
+    if (!cuenta) {
+      throw httpError(404, 'Cuenta no encontrada')
+    }
+    if (cuenta.fondo_id === d.fondo_id) {
+      throw httpError(400, 'Elegí un fondo distinto; para el mismo fondo usá el pago simple')
+    }
+    otraCuenta = cuenta
+  }
+
+  const { transaccion, transaccionOtra } = await db.transaction(async (tx) => {
+    const primera = await crearTransaccion(
+      userId,
+      d.fondo_id,
+      {
+        cuenta_id: pago.cuenta_id,
+        categoria_id: pago.categoria_id ?? null,
+        tipo,
+        monto_centavos: monto,
+        fecha,
+        nota,
+        tasa_ref: pago.tasa_ref ?? null,
+      },
+      tx,
+    )
+    if (!otraCuenta) return { transaccion: primera, transaccionOtra: null }
+
+    const segunda = await crearTransaccion(
+      userId,
+      otraCuenta.fondo_id,
+      {
+        cuenta_id: otraCuenta.id,
+        categoria_id: null,
+        tipo: tipo === 'gasto' ? 'ingreso' : 'gasto',
+        monto_centavos: montoEnMoneda(monto, primera.moneda, otraCuenta.moneda as Moneda, pago.tasa_ref ?? null),
+        fecha,
+        nota,
+        tasa_ref: pago.tasa_ref ?? null,
+      },
+      tx,
+    )
+    // Ambas patas comparten grupo_id, como los aportes entre fondos (SPC-010).
+    await tx.update(transacciones).set({ grupo_id: primera.id }).where(inArray(transacciones.id, [primera.id, segunda.id]))
+    return { transaccion: primera, transaccionOtra: segunda }
   })
 
   const [actualizada] = await db
@@ -348,6 +414,7 @@ export async function pagarCuota(userId: number, deudaId: number, cuotaId: numbe
     deuda: await getDeuda(userId, deudaId),
     cuota: actualizada ? cuotaPublica(actualizada, d.moneda as Moneda) : null,
     transaccion,
+    transaccion_otra: transaccionOtra,
   }
 }
 
