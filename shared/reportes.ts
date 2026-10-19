@@ -95,3 +95,63 @@ export function evolucionSaldo(movs: MovResumen[], { desde, hasta, saldoInicialC
     return { fecha, saldo_centavos: saldo }
   })
 }
+
+export interface CategoriaDia {
+  categoria_id: number | null
+  nombre: string
+  color: string | null
+  centavos: number
+}
+
+export interface DiaBarras {
+  fecha: string
+  ingresos: CategoriaDia[]
+  egresos: CategoriaDia[]
+}
+
+export interface OpcionesBarras {
+  desde: string
+  hasta: string
+  base?: Moneda
+  tasaFallback?: number
+  top?: number
+}
+
+// Barras diarias: cada día del rango con sus ingresos y egresos consolidados
+// desglosados por categoría. Las `top` categorías por monto del período van
+// sueltas y el resto se suma en "Otras". Los días sin movimiento vienen vacíos.
+export function barrasDiariasPorCategoria(movs: MovResumen[], { desde, hasta, base = 'BOB' as Moneda, tasaFallback, top = 6 }: OpcionesBarras): DiaBarras[] {
+  const dentro = movs.filter((m) => m.fecha >= desde && m.fecha <= hasta)
+  const clave = (m: MovResumen) => (m.categoria_id == null ? 'sin' : String(m.categoria_id))
+
+  const total = new Map<string, { categoria_id: number | null; nombre: string; color: string | null; centavos: number }>()
+  for (const m of dentro) {
+    const k = clave(m)
+    const acc = total.get(k) ?? { categoria_id: m.categoria_id ?? null, nombre: m.categoria_nombre ?? 'Sin categoría', color: m.categoria_color ?? null, centavos: 0 }
+    acc.centavos += consolidarBase([m], base, tasaFallback)
+    total.set(k, acc)
+  }
+
+  const ranking = [...total.entries()].sort((a, b) => b[1].centavos - a[1].centavos || a[0].localeCompare(b[0]))
+  const orden = new Map<string, number>()
+  ranking.slice(0, top).forEach(([k], i) => orden.set(k, i))
+
+  function desglose(fecha: string, tipo: 'ingreso' | 'gasto'): CategoriaDia[] {
+    const porCat = new Map<string, number>()
+    for (const m of dentro) {
+      if (m.fecha !== fecha || m.tipo !== tipo) continue
+      const k = orden.has(clave(m)) ? clave(m) : 'otras'
+      porCat.set(k, (porCat.get(k) ?? 0) + consolidarBase([m], base, tasaFallback))
+    }
+    return [...porCat.entries()]
+      .map(([k, centavos]) => ({ k, centavos, pos: orden.get(k) ?? orden.size }))
+      .sort((a, b) => a.pos - b.pos)
+      .map(({ k, centavos }) => {
+        if (k === 'otras') return { categoria_id: null, nombre: 'Otras categorías', color: null, centavos }
+        const meta = total.get(k)!
+        return { categoria_id: meta.categoria_id, nombre: meta.nombre, color: meta.color, centavos }
+      })
+  }
+
+  return rangoDias(desde, hasta).map((fecha) => ({ fecha, ingresos: desglose(fecha, 'ingreso'), egresos: desglose(fecha, 'gasto') }))
+}

@@ -80,6 +80,48 @@ const linea = computed(() => {
   const span = max - min || 1
   return pts.map((p, i) => `${(i / (pts.length - 1)) * 100},${40 - ((p.saldo_centavos - min) / span) * 40}`).join(' ')
 })
+
+// Exportar movimientos con los filtros vigentes (misma query que el reporte).
+const csvUrl = computed(() => `/api/reportes/movimientos.csv?${query.value}`)
+
+// Barras diarias por categoría
+const series = ref<'ambos' | 'ingresos' | 'egresos'>('ambos')
+const barras = computed(() => r.value?.barras_diarias ?? [])
+const maxDia = computed(() => {
+  let max = 0
+  for (const d of barras.value) {
+    if (series.value !== 'egresos') max = Math.max(max, d.ingresos.reduce((s, c) => s + c.centavos, 0))
+    if (series.value !== 'ingresos') max = Math.max(max, d.egresos.reduce((s, c) => s + c.centavos, 0))
+  }
+  return max || 1
+})
+const altoBarra = (centavos: number) => `${(centavos / maxDia.value) * 100}%`
+// Paleta de reemplazo: las categorías sin color no pueden compartir todas el gris.
+const PALETA = ['#0E6FFF', '#0FA47F', '#E8A13A', '#E5484D', '#7C5CFF', '#0BA5C7', '#8E9BAE']
+const leyenda = computed(() => {
+  const total = new Map<string, { nombre: string; color: string | null; centavos: number }>()
+  for (const d of barras.value) {
+    for (const c of [...d.ingresos, ...d.egresos]) {
+      const acc = total.get(c.nombre) ?? { nombre: c.nombre, color: c.color, centavos: 0 }
+      acc.centavos += c.centavos
+      acc.color = acc.color ?? c.color
+      total.set(c.nombre, acc)
+    }
+  }
+  const orden = [...total.values()].sort((a, b) => b.centavos - a.centavos)
+  const bucket = orden.findIndex((c) => c.nombre === 'Otras categorías')
+  if (bucket >= 0) orden.push(...orden.splice(bucket, 1))
+  let k = 0
+  return orden.map((c) => ({ ...c, color: c.color ?? PALETA[k++ % PALETA.length]! }))
+})
+const mapaColores = computed(() => new Map(leyenda.value.map((c) => [c.nombre, c.color!])))
+const colorBarra = (nombre: string) => mapaColores.value.get(nombre) ?? 'var(--color-ink-faint)'
+const etiquetasDia = computed(() => {
+  const paso = Math.max(1, Math.ceil(barras.value.length / 8))
+  return barras.value.map((d, i) => (i % paso === 0 ? d.fecha.slice(8) : ''))
+})
+const anchoMinimo = computed(() => (barras.value.length > 45 ? `${barras.value.length * 8}px` : '100%'))
+
 </script>
 
 <template>
@@ -117,6 +159,7 @@ const linea = computed(() => {
         <div class="flex gap-2">
           <button type="button" class="btn-secondary h-12 px-4 text-sm" @click="preset('actual')">Mes actual</button>
           <button type="button" class="btn-secondary h-12 px-4 text-sm" @click="preset('anterior')">Mes pasado</button>
+          <a :href="csvUrl" class="btn-secondary flex h-12 items-center px-4 text-sm" download>Exportar CSV</a>
         </div>
       </div>
     </div>
@@ -188,6 +231,66 @@ const linea = computed(() => {
           </div>
           <p class="mt-2 text-xs text-ink-faint">Verde: ingresos · coral: egresos.</p>
         </div>
+      </div>
+
+      <!-- Barras diarias por categoría -->
+      <div class="card mt-6 p-5">
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="hs-2">Por día y categoría</h2>
+            <p class="mt-1 text-xs text-ink-faint">Arriba ingresos · abajo egresos. Top 6 del período + Otras categorías.</p>
+          </div>
+          <div class="flex gap-2">
+            <button
+              v-for="op in ([['ambos', 'Ambos'], ['ingresos', 'Ingresos'], ['egresos', 'Egresos']] as const)"
+              :key="op[0]"
+              type="button"
+              class="h-9 rounded-full px-4 text-sm font-medium transition-colors"
+              :class="series === op[0] ? 'bg-surface-tint text-ink' : 'border border-border text-ink-muted hover:bg-surface-hover'"
+              @click="series = op[0]"
+            >
+              {{ op[1] }}
+            </button>
+          </div>
+        </div>
+
+        <template v-if="barras.length">
+          <div class="overflow-x-auto">
+            <div class="flex items-stretch gap-0.5" :style="{ height: '12rem', minWidth: anchoMinimo }">
+              <div v-for="d in barras" :key="d.fecha" class="flex min-w-[6px] flex-1 flex-col">
+                <div v-if="series !== 'egresos'" class="flex flex-1 flex-col justify-end">
+                  <span
+                    v-for="(c, i) in d.ingresos"
+                    :key="`i-${i}`"
+                    :style="{ height: altoBarra(c.centavos), background: colorBarra(c.nombre) }"
+                    :title="`${d.fecha} · ${c.nombre}: ${fmt(c.centavos)}`"
+                  />
+                </div>
+                <span v-if="series === 'ambos'" class="h-px w-full shrink-0" style="background: var(--color-border-strong)" />
+                <div v-if="series !== 'ingresos'" class="flex flex-1 flex-col">
+                  <span
+                    v-for="(c, i) in d.egresos"
+                    :key="`e-${i}`"
+                    :style="{ height: altoBarra(c.centavos), background: colorBarra(c.nombre) }"
+                    :title="`${d.fecha} · ${c.nombre}: ${fmt(c.centavos)}`"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="mt-1 flex gap-0.5" :style="{ minWidth: anchoMinimo }">
+              <span v-for="(d, i) in barras" :key="`l-${d.fecha}`" class="min-w-[6px] flex-1 text-center text-[10px] text-ink-faint">
+                {{ etiquetasDia[i] }}
+              </span>
+            </div>
+          </div>
+          <ul v-if="leyenda.length" class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-ink-muted">
+            <li v-for="l in leyenda" :key="l.nombre" class="flex items-center gap-1.5">
+              <span class="h-2.5 w-2.5 rounded-full" :style="{ background: l.color }" />
+              {{ l.nombre }}
+            </li>
+          </ul>
+        </template>
+        <p v-else class="py-8 text-center text-sm text-ink-muted">Sin movimientos en el período.</p>
       </div>
 
       <!-- Evolución del saldo -->
