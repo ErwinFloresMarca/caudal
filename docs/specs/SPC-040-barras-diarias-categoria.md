@@ -12,7 +12,7 @@ Reportes muestra el total del período, una dona de gastos por categoría y la l
 - Función pura en `shared/reportes.ts`: `barrasDiariasPorCategoria(movs, { desde, hasta, base, tasaFallback, top = 6 })` → por cada día del rango (reusa `rangoDias`), el desglose consolidado de ingresos y de egresos por categoría, más `otras`.
 - Agrupación: **top 6 categorías por monto del período + "Otras"**; sin categoría va a "Sin categoría" (gris).
 - `generarReporte` incluye el resultado como `barras_diarias` y la página lo pinta; no hay endpoint nuevo.
-- Gráfica **SVG nativa** (decisión 0006, sin librerías): días en el eje X, **ingresos hacia arriba y egresos hacia abajo** en el mismo gráfico, barras apiladas por categoría con el color de cada una.
+- Gráfica **HTML/CSS nativo** (misma técnica que la serie mensual, decisión 0006: sin librerías): días en el eje X, **ingresos hacia arriba y egresos hacia abajo** en el mismo gráfico, barras apiladas por categoría con el color de cada una.
 - Selector de series: **Ambos | Ingresos | Egresos** (en móvil, "Ambos" con muchas categorías se lee mal).
 - Leyenda con las categorías visibles (nombre + color).
 - Si el rango supera ~45 días, el área de barras conserva un ancho mínimo y hace scroll horizontal en vez de aplastarse.
