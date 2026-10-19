@@ -10,7 +10,7 @@ Registro de atajos deliberados (`ponytail:`), pendientes menores del pase visual
 | 2 | Movimientos (mockup 03) | Faltan las 4 **tarjetas KPI** del encabezado, el **panel lateral** de gastos por categoría y la columna de **saldo running**. | Añadir cuando se quiera más contexto en la lista. |
 | 3 | Presupuestos (SPC-024) | **Widget 50/30/20** no implementado. | Requiere clasificar cada categoría en necesidad/deseo/ahorro (campo nuevo). |
 | 4 | Metas (SPC-013) | El aporte es **solo registro** (no descuenta de una cuenta). | v1 deliberado; ampliar si se pide "aportar y descontar". |
-| 5 | Reportes / Ajustes | **Exportar CSV** (reportes) y **exportar datos** (ajustes) no implementados. | Baratos de añadir si se piden. |
+| 5 | Ajustes | **Exportar todos los datos** desde Ajustes no implementado (el CSV de movimientos ya está en Reportes, SPC-039). | Barato de añadir si se pide. |
 | 6 | Ajustes | **Cerrar todas las sesiones** no implementado (cookie firmada sin store servidor). | Requiere store de sesiones o versión de token. |
 | 7 | Transferencias/aportes | `resolverMontos` asume monedas BOB/USD (dos monedas). | Ampliar si se agrega una tercera moneda. |
 
