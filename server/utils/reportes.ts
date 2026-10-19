@@ -5,7 +5,7 @@ import { ultimaTasa } from './resumen'
 import { getMonedaBase, getTasa } from './ajustes'
 import { convertToBase, formatMoney, type Moneda } from '../../shared/money'
 import { gastosPorCategoria, resumenPeriodo, type MovResumen } from '../../shared/resumen'
-import { evolucionSaldo, serieMensual } from '../../shared/reportes'
+import { evolucionSaldo, serieMensual, barrasDiariasPorCategoria } from '../../shared/reportes'
 
 function httpError(statusCode: number, statusMessage: string): Error & { statusCode: number } {
   return Object.assign(new Error(statusMessage), { statusCode })
@@ -19,6 +19,23 @@ export interface FiltrosReporte {
 }
 
 const LIMITE_CATEGORIAS = 1000 // el cuadre exige todas; la UI recorta a top N
+
+// Fondos del usuario que entran al reporte. Falla si algún id pedido no es suyo.
+export async function fondosDelReporte(userId: number, fondoIds?: number[]) {
+  const todos = await listarFondos(userId)
+  let seleccion = todos
+  if (fondoIds && fondoIds.length > 0) {
+    const set = new Set(fondoIds)
+    seleccion = todos.filter((f) => set.has(f.id))
+    if (seleccion.length !== set.size) {
+      throw httpError(400, 'Algún fondo no existe o no es tuyo')
+    }
+  }
+  if (seleccion.length === 0) {
+    throw httpError(400, 'No hay fondos para reportar')
+  }
+  return seleccion
+}
 
 function aMov(t: Awaited<ReturnType<typeof listarTransacciones>>[number]): MovResumen {
   return {
@@ -41,18 +58,7 @@ export async function generarReporte(userId: number, filtros: FiltrosReporte) {
   const base = filtros.base ?? (await getMonedaBase(userId))
   // Base USD: los movimientos BOB no guardan tasa, se usa la tasa actual como referencia.
   const tasaFallback = base === 'USD' ? (await getTasa(userId)).actual?.valor : undefined
-  const todos = await listarFondos(userId)
-  let seleccion = todos
-  if (filtros.fondoIds && filtros.fondoIds.length > 0) {
-    const set = new Set(filtros.fondoIds)
-    seleccion = todos.filter((f) => set.has(f.id))
-    if (seleccion.length !== set.size) {
-      throw httpError(400, 'Algún fondo no existe o no es tuyo')
-    }
-  }
-  if (seleccion.length === 0) {
-    throw httpError(400, 'No hay fondos para reportar')
-  }
+  const seleccion = await fondosDelReporte(userId, filtros.fondoIds)
 
   const movs: MovResumen[] = []
   let saldoInicialConsolidado = 0
@@ -79,6 +85,7 @@ export async function generarReporte(userId: number, filtros: FiltrosReporte) {
   const flujo = resumenPeriodo(movs, { desde: filtros.desde, hasta: filtros.hasta, base, tasaFallback })
   const categorias = gastosPorCategoria(movs, { desde: filtros.desde, hasta: filtros.hasta, base, tasaFallback, limite: LIMITE_CATEGORIAS })
   const serie = serieMensual(movs, { hasta: filtros.hasta, base, tasaFallback })
+  const barras = barrasDiariasPorCategoria(movs, { desde: filtros.desde, hasta: filtros.hasta, base, tasaFallback })
   const evolucion = evolucionSaldo(movs, { desde: filtros.desde, hasta: filtros.hasta, saldoInicialCentavos: saldoInicialConsolidado, base, tasaFallback })
   const totalGastos = categorias.reduce((s, c) => s + c.centavos, 0)
 
@@ -90,6 +97,7 @@ export async function generarReporte(userId: number, filtros: FiltrosReporte) {
     total_gastos_centavos: totalGastos,
     total_gastos_formateado: formatMoney({ centavos: totalGastos, moneda: base }),
     serie_mensual: serie,
+    barras_diarias: barras,
     evolucion_saldo: evolucion,
     saldo_inicial_centavos: saldoInicialConsolidado,
     nota: 'Consolidado con equivalente histórico (tasa de cada movimiento); las transferencias no afectan el resultado.',
