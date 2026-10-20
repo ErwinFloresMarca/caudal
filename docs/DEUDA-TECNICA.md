@@ -6,12 +6,11 @@ Registro de atajos deliberados (`ponytail:`), pendientes menores del pase visual
 
 | # | Dónde | Qué | Por qué / cuándo arreglar |
 |---|---|---|---|
-| 1 | Movimientos (mockup 03) | Faltan las 4 **tarjetas KPI** del encabezado, el **panel lateral** de gastos por categoría y la columna de **saldo running**. | Añadir cuando se quiera más contexto en la lista. |
-| 2 | Presupuestos (SPC-024) | **Widget 50/30/20** no implementado. | Requiere clasificar cada categoría en necesidad/deseo/ahorro (campo nuevo). |
-| 3 | Metas (SPC-013) | El aporte es **solo registro** (no descuenta de una cuenta). | v1 deliberado; ampliar si se pide "aportar y descontar". |
-| 4 | Ajustes | **Exportar todos los datos** desde Ajustes no implementado (el CSV de movimientos ya está en Reportes, SPC-039). | Barato de añadir si se pide. |
-| 5 | Ajustes | **Cerrar todas las sesiones** no implementado (cookie firmada sin store servidor). | Requiere store de sesiones o versión de token. |
-| 6 | Transferencias/aportes | `resolverMontos` asume monedas BOB/USD (dos monedas). | Ampliar si se agrega una tercera moneda. |
+| 1 | Presupuestos (SPC-024) | **Widget 50/30/20** no implementado. | Requiere clasificar cada categoría en necesidad/deseo/ahorro (campo nuevo). |
+| 2 | Metas (SPC-013) | El aporte es **solo registro** (no descuenta de una cuenta). | v1 deliberado; ampliar si se pide "aportar y descontar". |
+| 3 | Ajustes | **Exportar todos los datos** desde Ajustes no implementado (el CSV de movimientos ya está en Reportes, SPC-039). | Barato de añadir si se pide. |
+| 4 | Ajustes | **Cerrar todas las sesiones** no implementado (cookie firmada sin store servidor). | Requiere store de sesiones o versión de token. |
+| 5 | Transferencias/aportes | `resolverMontos` asume monedas BOB/USD (dos monedas). | Ampliar si se agrega una tercera moneda. |
 
 <!-- Resuelto: #7 Google OAuth. `NUXT_OAUTH_GOOGLE_ID/SECRET` están configurados en dev y prod;
      `server/routes/auth/google.ts` + `BotonGoogle` en login/registro funcionan (v1.0.0). -->

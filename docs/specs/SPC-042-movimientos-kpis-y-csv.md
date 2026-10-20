@@ -1,6 +1,6 @@
 # SPC-042 — Movimientos: KPIs, egresos por categoría y CSV con los filtros de la pantalla
 
-Estado: implementada · Issue: SEL-282
+Estado: verificada · Issue: SEL-282
 Depende de: SPC-016 (búsqueda y filtros), SPC-015 (reportes), SPC-039 (CSV), pantalla 03 del mockup
 
 ## Problema
@@ -39,3 +39,4 @@ Movimientos es hoy solo un listado. Para saber cómo fue el período o en qué s
 - `tipo=gasto` deja ingresos en 0 y 10 egresos; un filtro sin resultados devuelve todo en cero sin errores.
 - `GET /api/movimientos/export.csv?tipo=gasto&...` baja exactamente las 10 filas del filtro.
 - Capturas 1280/390 en claro y oscuro (`03-movimientos-*`, `03-movimientos-dark-*`): en móvil los filtros se apilan en dos filas y el panel pasa debajo de la lista.
+- **Verificado en el deploy de v1.6.0** (run 39389083195, job `deploy` success; `pm2 caudal` 1.6.0 online).

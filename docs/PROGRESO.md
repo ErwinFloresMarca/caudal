@@ -57,6 +57,8 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 | SPC-039 | Exportar movimientos a CSV | SEL-279 | verificada | v1.5.0 | `6b1f2cf` | RFC 4180 + BOM; neutraliza fórmulas; botón en Reportes |
 | SPC-040 | Barras diarias por categoría | SEL-280 | verificada | v1.5.0 | `6d42d87` | Ingresos arriba / egresos abajo; top 6 + "Otras categorías" |
 | SPC-041 | Migraciones en el artefacto (deploy autocontenido) | SEL-281 | verificada | v1.5.1 | `3a9998e` | Runner `drizzle-orm` en `.output/server`; migra antes del swap y hace rollback si el health falla |
+| SPC-042 | Movimientos: KPIs, egresos por categoría y CSV | SEL-282 | verificada | v1.6.0 | `47d0597` | KPIs con los filtros de la pantalla; panel top 6 + "Otras categorías" |
+| SPC-043 | Saldo continuo en Movimientos | SEL-283 | verificada | v1.6.0 | `c0fceda` | Derivado, nunca persistido; alcance por fondo/cuenta |
 
 ## Releases
 
@@ -79,6 +81,7 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 - **v1.4.2** — tipo de grupo: los pagos de cuota dejan de ser aportes (SPC-038).
 - **v1.5.0** — exportar movimientos a CSV (SPC-039) y barras diarias por categoría en Reportes (SPC-040).
 - **v1.5.1** — el deploy deja de depender de un checkout en la VPS: migraciones y `deploy.sh` viajan en el artefacto (SPC-041).
+- **v1.6.0** — Movimientos con KPIs, egresos por categoría, CSV con sus filtros (SPC-042) y saldo continuo (SPC-043).
 
 ## Pendientes
 

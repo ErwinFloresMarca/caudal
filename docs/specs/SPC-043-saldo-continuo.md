@@ -1,6 +1,6 @@
 # SPC-043 — Saldo continuo en Movimientos
 
-Estado: implementada · Issue: SEL-283
+Estado: verificada · Issue: SEL-283
 Depende de: SPC-008 (transacciones), SPC-009 (transferencias), SPC-042 (KPIs y CSV), pantalla 03 del mockup
 
 ## Problema
@@ -40,3 +40,4 @@ La lista de Movimientos dice cuánto se movió en cada fila, pero no **cuánto q
 - **Filtros**: con `tipo=gasto` los saldos siguen siendo absolutos (no se reinician); con `cuenta_id` el alcance y el saldo son de esa cuenta (Caja USD → Bs 2.868,63 = US$ 412,16 al cambio).
 - **Transferencias**: incluidas en la suma; a nivel de fondo su delta es 0 (BOB→BOB), a nivel de cuenta mueven el saldo.
 - Capturas en claro/oscuro a 1280 y 390: el saldo se lee discreto bajo el monto y la nota al pie explica qué es.
+- **Verificado en el deploy de v1.6.0** (run 39389083195; el bundle desplegado incluye `saldo_continuo_centavos` y no re-aplicó migraciones).
