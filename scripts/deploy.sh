@@ -39,7 +39,7 @@ echo "> Migraciones..."
 
 echo "> Cambiando .output..."
 rm -rf "$CURRENT/.output.anterior"
-[ -d "$CURRENT/.output" ] && mv "$CURRENT/.output" "$CURRENT/.output.anterior"
+if [ -d "$CURRENT/.output" ]; then mv "$CURRENT/.output" "$CURRENT/.output.anterior"; fi
 cp -a "$STAGING/.output" "$CURRENT/.output"
 cp -a "$STAGING/ecosystem.config.cjs" "$CURRENT/ecosystem.config.cjs"
 
