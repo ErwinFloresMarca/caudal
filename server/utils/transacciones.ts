@@ -129,6 +129,15 @@ function transaccionPublica(t: FilaTransaccion, extra?: { moneda: Moneda; catego
   }
 }
 
+// Fila del listado (join con cuenta y categoría) → forma pública.
+function publicaDeFila(f: Awaited<ReturnType<typeof listadoQuery>>[number]) {
+  return transaccionPublica(f.trx, {
+    moneda: f.cuenta_moneda as Moneda,
+    cuentaNombre: f.cuenta_nombre,
+    categoria: f.categoria_id ? { id: f.categoria_id, nombre: f.categoria_nombre!, icono: f.categoria_icono, color: f.categoria_color } : null,
+  })
+}
+
 // Ejecutor de la escritura: `db` o la transacción abierta por quien llama
 // (SPC-035: el pago de una cuota crea sus dos patas en una sola transacción de BD).
 // La tasa usada (ajustes) se registra fuera del ejecutor.
@@ -191,13 +200,7 @@ export async function listarTransacciones(userId: number, fondoId: number, { des
       ),
     )
     .orderBy(desc(transacciones.fecha), desc(transacciones.id))
-  return filas.map((f) =>
-    transaccionPublica(f.trx, {
-      moneda: f.cuenta_moneda as Moneda,
-      cuentaNombre: f.cuenta_nombre,
-      categoria: f.categoria_id ? { id: f.categoria_id, nombre: f.categoria_nombre!, icono: f.categoria_icono, color: f.categoria_color } : null,
-    }),
-  )
+  return filas.map(publicaDeFila)
 }
 
 export interface FiltrosBusqueda {
@@ -217,12 +220,9 @@ export interface FiltrosBusqueda {
   cursor?: { valor: string | number; id: number }
 }
 
-// Búsqueda con filtros combinables + paginación por cursor. El cursor es
-// `fecha|id` (orden fecha) o `monto|id` (orden monto): no pierde ni repite filas.
-export async function buscarTransacciones(userId: number, filtros: FiltrosBusqueda) {
-  const limite = Math.min(Math.max(filtros.limite ?? 50, 1), 200)
-  const orden = filtros.orden ?? 'fecha'
-
+// Condiciones compartidas por la búsqueda paginada, el resumen y el CSV: así los
+// tres ven exactamente el mismo filtro. El cursor y la paginación se agregan aparte.
+function condicionesFiltros(userId: number, filtros: FiltrosBusqueda) {
   const conds = [eq(transacciones.user_id, userId)]
   if (filtros.fondoIds?.length) conds.push(inArray(transacciones.fondo_id, filtros.fondoIds))
   if (filtros.cuenta_id) conds.push(eq(transacciones.cuenta_id, filtros.cuenta_id))
@@ -238,6 +238,16 @@ export async function buscarTransacciones(userId: number, filtros: FiltrosBusque
     const like = `%${filtros.q}%`
     conds.push(or(ilike(transacciones.nota, like), ilike(categorias.nombre, like))!)
   }
+  return conds
+}
+
+// Búsqueda con filtros combinables + paginación por cursor. El cursor es
+// `fecha|id` (orden fecha) o `monto|id` (orden monto): no pierde ni repite filas.
+export async function buscarTransacciones(userId: number, filtros: FiltrosBusqueda) {
+  const limite = Math.min(Math.max(filtros.limite ?? 50, 1), 200)
+  const orden = filtros.orden ?? 'fecha'
+
+  const conds = condicionesFiltros(userId, filtros)
   if (filtros.cursor) {
     const { valor, id } = filtros.cursor
     if (orden === 'monto') {
@@ -256,18 +266,20 @@ export async function buscarTransacciones(userId: number, filtros: FiltrosBusque
 
   const hayMas = filas.length > limite
   const pagina = filas.slice(0, limite)
-  const transaccionesPagina = pagina.map((f) =>
-    transaccionPublica(f.trx, {
-      moneda: f.cuenta_moneda as Moneda,
-      cuentaNombre: f.cuenta_nombre,
-      categoria: f.categoria_id ? { id: f.categoria_id, nombre: f.categoria_nombre!, icono: f.categoria_icono, color: f.categoria_color } : null,
-    }),
-  )
+  const transaccionesPagina = pagina.map(publicaDeFila)
   const ultimo = pagina.at(-1)
   const siguiente_cursor =
     hayMas && ultimo ? (orden === 'monto' ? `${ultimo.trx.monto_centavos}|${ultimo.trx.id}` : `${ultimo.trx.fecha}|${ultimo.trx.id}`) : null
 
   return { transacciones: transaccionesPagina, siguiente_cursor }
+}
+
+// Todas las filas del filtro, sin paginar: resumen y CSV. Mismo orden que la lista.
+export async function listarFiltradas(userId: number, filtros: FiltrosBusqueda) {
+  const filas = await listadoQuery()
+    .where(and(...condicionesFiltros(userId, filtros)))
+    .orderBy(desc(transacciones.fecha), desc(transacciones.id))
+  return filas.map(publicaDeFila)
 }
 
 export async function getTransaccion(userId: number, id: number) {

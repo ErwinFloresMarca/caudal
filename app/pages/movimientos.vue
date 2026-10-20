@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { Cuenta, Categoria, Movimiento, MovimientoEditable } from '~/types/movimientos'
+import { formatMoney } from '#shared/money'
+import type { Cuenta, Categoria, Movimiento, MovimientoEditable, ResumenMovimientos } from '~/types/movimientos'
 
 const { fondoActivo, fondos } = useFondoActivo()
 const request = useRequestFetch()
@@ -55,12 +56,31 @@ const cuentas = computed(() => cuentasData.value?.cuentas ?? [])
 const categorias = computed(() => catsData.value?.categorias ?? [])
 const tasaSugerida = computed(() => tasaData.value?.actual?.valor ?? null)
 
+const resumen = ref<ResumenMovimientos | null>(null)
+
+// Misma query para la lista, el resumen y el CSV: los tres ven el mismo filtro.
+function paramsFiltros() {
+  const params = new URLSearchParams()
+  for (const k of CLAVES) if (filtros[k]) params.set(k, filtros[k]!)
+  return params
+}
+const csvUrl = computed(() => `/api/movimientos/export.csv?${paramsFiltros().toString()}`)
+
+async function cargarResumen() {
+  const r = await request<{ resumen: ResumenMovimientos }>(`/api/movimientos/resumen?${paramsFiltros().toString()}`)
+  resumen.value = r.resumen
+}
+
+function recargar() {
+  cargar(true)
+  cargarResumen()
+}
+
 async function cargar(reset: boolean) {
   if (!reset && !cursor.value) return
   cargando.value = true
   try {
-    const params = new URLSearchParams()
-    for (const k of CLAVES) if (filtros[k]) params.set(k, filtros[k]!)
+    const params = paramsFiltros()
     params.set('limite', '30')
     if (!reset && cursor.value) params.set('cursor', cursor.value)
     const r = await request<{ transacciones: Movimiento[]; siguiente_cursor: string | null }>(`/api/movimientos?${params.toString()}`)
@@ -79,13 +99,13 @@ watch(
     for (const k of CLAVES) if (filtros[k]) query[k] = filtros[k]!
     router.replace({ query })
     clearTimeout(timer)
-    timer = setTimeout(() => cargar(true), 250)
+    timer = setTimeout(recargar, 250)
   },
   { deep: true },
 )
 watch(fondoActivo, () => {
   filtros.fondo_id = ''
-  cargar(true)
+  recargar()
 })
 
 const grupos = computed(() => {
@@ -97,6 +117,12 @@ const grupos = computed(() => {
   }
   return [...map.entries()]
 })
+
+const kpis = computed(() => resumen.value?.kpis ?? null)
+const fmt = (centavos: number) => formatMoney({ centavos, moneda: resumen.value?.moneda ?? 'BOB' })
+const maxCategoria = computed(() => Math.max(1, ...(resumen.value?.por_categoria ?? []).map((c) => c.centavos)))
+const anchoCategoria = (centavos: number) => `${(centavos / maxCategoria.value) * 100}%`
+const mayorGasto = computed(() => resumen.value?.por_categoria[0] ?? null)
 
 const activos = computed(() => Object.entries(filtros).filter(([, v]) => v))
 function limpiar() {
@@ -124,14 +150,14 @@ async function confirmarBorrado() {
   try {
     await $fetch(`/api/movimientos/${porBorrar.value.id}`, { method: 'DELETE' })
     porBorrar.value = null
-    await cargar(true)
+    recargar()
   } finally {
     borrando.value = false
   }
 }
 
 onMounted(() => {
-  cargar(true)
+  recargar()
   if (route.query.nuevo === '1') {
     abrirNuevo()
     router.replace({ query: { ...route.query, nuevo: undefined } })
@@ -152,6 +178,44 @@ onMounted(() => {
       </button>
     </div>
 
+    <!-- KPIs del filtro vigente (SPC-042) -->
+    <div v-if="kpis" class="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div class="card p-4">
+        <p class="text-xs uppercase tracking-wide text-ink-faint">Total ingresos</p>
+        <p class="mt-1 text-lg font-bold tabular-nums text-positive">{{ fmt(kpis.ingresos_centavos) }}</p>
+        <p class="mt-0.5 text-xs text-ink-faint">{{ kpis.entradas }} {{ kpis.entradas === 1 ? 'entrada' : 'entradas' }}</p>
+      </div>
+      <div class="card p-4">
+        <p class="text-xs uppercase tracking-wide text-ink-faint">Total egresos</p>
+        <p class="mt-1 text-lg font-bold tabular-nums text-negative">{{ fmt(kpis.egresos_centavos) }}</p>
+        <p class="mt-0.5 text-xs text-ink-faint">
+          {{ kpis.salidas }} {{ kpis.salidas === 1 ? 'egreso' : 'egresos' }}<template v-if="kpis.ingresos_centavos > 0"> · {{ kpis.porcentaje_consumido }} % consumido</template>
+        </p>
+      </div>
+      <div class="card p-4">
+        <div class="flex flex-wrap items-center justify-between gap-1">
+          <p class="whitespace-nowrap text-xs uppercase tracking-wide text-ink-faint">Flujo neto</p>
+          <span
+            class="rounded-full px-2 py-0.5 text-[10px] font-semibold"
+            :class="kpis.superavit ? 'bg-positive/10 text-positive' : 'bg-negative/10 text-negative'"
+          >
+            {{ kpis.superavit ? 'SUPERÁVIT' : 'DÉFICIT' }}
+          </span>
+        </div>
+        <p class="mt-1 text-lg font-bold tabular-nums" :class="kpis.superavit ? 'text-positive' : 'text-negative'">
+          {{ kpis.neto_centavos >= 0 ? '+' : '' }}{{ fmt(kpis.neto_centavos) }}
+        </p>
+        <p class="mt-0.5 text-xs text-ink-faint">
+          {{ kpis.ingresos_centavos > 0 ? `${kpis.tasa_ahorro} % de ahorro` : 'Sin ingresos en el período' }}
+        </p>
+      </div>
+      <div class="card p-4">
+        <p class="text-xs uppercase tracking-wide text-ink-faint">Operaciones</p>
+        <p class="mt-1 text-lg font-bold tabular-nums text-ink">{{ kpis.operaciones }}</p>
+        <p class="mt-0.5 text-xs text-ink-faint">{{ kpis.entradas }} ingresos · {{ kpis.salidas }} egresos</p>
+      </div>
+    </div>
+
     <!-- Filtros -->
     <div class="card mb-5 p-4">
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -159,15 +223,20 @@ onMounted(() => {
           <UIcon name="i-material-symbols-search" class="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-ink-faint" />
           <input v-model="filtros.q" type="search" placeholder="Buscar por nota o categoría" class="input-field pl-10">
         </div>
-        <div class="flex gap-2">
-          <select v-model="filtros.tipo" class="input-field flex-1 sm:w-auto">
+        <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+          <select v-model="filtros.tipo" class="input-field w-full sm:w-auto">
             <option value="">Ingresos y gastos</option>
             <option value="ingreso">Ingresos</option>
             <option value="gasto">Gastos</option>
           </select>
-          <button type="button" class="btn-secondary h-12 shrink-0 px-4 text-sm" @click="avanzados = !avanzados">
-            <UIcon name="i-material-symbols-tune" class="size-5" /> Filtros
-          </button>
+          <div class="flex gap-2">
+            <button type="button" class="btn-secondary h-12 flex-1 shrink-0 justify-center px-4 text-sm sm:flex-none" @click="avanzados = !avanzados">
+              <UIcon name="i-material-symbols-tune" class="size-5" /> Filtros
+            </button>
+            <a :href="csvUrl" class="btn-secondary flex h-12 flex-1 shrink-0 items-center justify-center gap-1 px-4 text-sm sm:flex-none" download title="Exportar con estos filtros">
+              <UIcon name="i-material-symbols-download" class="size-5" /> <span class="hidden sm:inline">CSV</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -236,8 +305,9 @@ onMounted(() => {
       </div>
     </div>
 
+    <div class="grid gap-5 lg:grid-cols-3">
     <!-- Lista -->
-    <div class="card p-2">
+    <div class="card p-2 lg:col-span-2">
       <div v-for="[fecha, items] in grupos" :key="fecha">
         <p class="px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-wide text-ink-faint">{{ etiquetaFecha(fecha) }}</p>
         <ul class="divide-y divide-border">
@@ -279,13 +349,33 @@ onMounted(() => {
       </div>
     </div>
 
+    <!-- Egresos por categoría (SPC-042) -->
+    <aside class="card h-fit p-5">
+      <h2 class="hs-2">Egresos por categoría</h2>
+      <p v-if="mayorGasto" class="mt-1 text-xs text-ink-faint">Mayor gasto: {{ mayorGasto.nombre }} · {{ mayorGasto.porcentaje }} %</p>
+      <ul v-if="resumen?.por_categoria.length" class="mt-4 flex flex-col gap-4">
+        <li v-for="c in resumen.por_categoria" :key="c.categoria_id ?? 'sin'">
+          <div class="flex items-center justify-between gap-2 text-sm">
+            <span class="truncate text-ink">{{ c.nombre }}</span>
+            <span class="whitespace-nowrap tabular-nums text-ink-muted">{{ fmt(c.centavos) }}</span>
+          </div>
+          <div class="mt-1.5 h-2 w-full rounded-full bg-surface-muted">
+            <div class="h-2 rounded-full" :style="{ width: anchoCategoria(c.centavos), background: c.color ?? 'var(--color-brand)' }" />
+          </div>
+        </li>
+      </ul>
+      <p v-else class="py-8 text-center text-sm text-ink-muted">Sin egresos en el período.</p>
+      <p class="mt-4 text-xs text-ink-faint">Las transferencias y aportes entre fondos no alteran el resultado del período.</p>
+    </aside>
+    </div>
+
     <FormMovimiento
       v-model:abierto="formAbierto"
       :movimiento="enEdicion"
       :cuentas="cuentas"
       :categorias="categorias"
       :tasa-sugerida="tasaSugerida"
-      @guardado="cargar(true)"
+      @guardado="recargar"
     />
 
     <!-- Confirmar borrado -->
