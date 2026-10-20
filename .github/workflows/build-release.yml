@@ -69,8 +69,18 @@ jobs:
           NITRO_PRESET: node-server
         run: pnpm build
 
-      - name: Empaquetar .output
-        run: tar -czf caudal-output.tar.gz .output ecosystem.config.cjs
+      - name: Empaquetar artefacto de deploy
+        run: |
+          # El deploy no depende de un checkout en la VPS (SPC-041): el runner,
+          # las migraciones y deploy.sh viajan dentro del artefacto.
+          cp -r server/db/migrations .output/migrations
+          cp scripts/migrate.mjs .output/server/migrate.mjs
+          # El runner usa el migrator de drizzle-orm, que Nitro no traza porque la
+          # app no lo importa: se copia el paquete completo (sin tipos ni mapas).
+          cp -rL node_modules/drizzle-orm/. .output/server/node_modules/drizzle-orm/
+          find .output/server/node_modules/drizzle-orm \( -name '*.d.ts' -o -name '*.d.cts' -o -name '*.map' \) -delete
+          cp scripts/deploy.sh deploy.sh
+          tar -czf caudal-output.tar.gz .output ecosystem.config.cjs deploy.sh
 
       - name: Definir versión
         id: version
@@ -113,10 +123,11 @@ jobs:
       VPS_KEY: ${{ secrets.VPS_SSH_KEY }}
       VPS_PASSPHRASE: ${{ secrets.VPS_SSH_KEY_PASSPHRASE }}
     steps:
-      # Un solo camino de deploy: el mismo script que se ejecuta a mano. Él
-      # descarga el release del tag, migra desde el checkout del repo y reinicia
-      # pm2; si la migración falla, el script aborta y este job queda en rojo.
-      - name: Desplegar en la VPS (deploy.sh)
+      # Un solo camino de deploy, y autocontenido (SPC-041): la CI baja el
+      # artefacto del tag, extrae el deploy.sh que viene en él (no el del repo)
+      # y lo ejecuta. Ese script migra desde .output/migrations, cambia el código
+      # y verifica el health check; si algo falla, el job queda en rojo.
+      - name: Desplegar en la VPS (deploy.sh del release)
         if: ${{ env.VPS_HOST != '' && env.VPS_KEY != '' }}
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -127,6 +138,9 @@ jobs:
           passphrase: ${{ env.VPS_PASSPHRASE }}
           script: |
             set -e
-            # El script vive en el repo (SPC-032); la ruta del checkout debe coincidir
-            # con CAUDAL_REPO_DIR, que deploy.sh valida antes de migrar.
-            bash /root/apps/opencode-workdir/caudal/scripts/deploy.sh "${{ needs.build.outputs.tag }}"
+            TAG="${{ needs.build.outputs.tag }}"
+            TMP="/tmp/caudal-bootstrap-$TAG"
+            rm -rf "$TMP" && mkdir -p "$TMP"
+            gh release download "$TAG" --repo ErwinFloresMarca/caudal --pattern caudal-output.tar.gz --clobber --dir "$TMP"
+            tar -xzf "$TMP/caudal-output.tar.gz" -C "$TMP" deploy.sh
+            bash "$TMP/deploy.sh" "$TAG"
