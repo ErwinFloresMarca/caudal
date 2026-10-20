@@ -56,6 +56,7 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 | SPC-038 | El tipo de grupo: los pagos de cuota no son aportes | SEL-277 | verificada | v1.4.2 | `88870a9` | Columna `grupo_tipo` (decisión 0009); migración 0004 |
 | SPC-039 | Exportar movimientos a CSV | SEL-279 | verificada | v1.5.0 | `6b1f2cf` | RFC 4180 + BOM; neutraliza fórmulas; botón en Reportes |
 | SPC-040 | Barras diarias por categoría | SEL-280 | verificada | v1.5.0 | `6d42d87` | Ingresos arriba / egresos abajo; top 6 + "Otras categorías" |
+| SPC-041 | Migraciones en el artefacto (deploy autocontenido) | SEL-281 | verificada | v1.5.1 | `3a9998e` | Runner `drizzle-orm` en `.output/server`; migra antes del swap y hace rollback si el health falla |
 
 ## Releases
 
@@ -77,6 +78,7 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 - **v1.4.1** — conversión de la primera pata del pago de cuota (SPC-037).
 - **v1.4.2** — tipo de grupo: los pagos de cuota dejan de ser aportes (SPC-038).
 - **v1.5.0** — exportar movimientos a CSV (SPC-039) y barras diarias por categoría en Reportes (SPC-040).
+- **v1.5.1** — el deploy deja de depender de un checkout en la VPS: migraciones y `deploy.sh` viajan en el artefacto (SPC-041).
 
 ## Pendientes
 

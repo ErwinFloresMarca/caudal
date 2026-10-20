@@ -88,6 +88,6 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-038 | tipo-de-grupo | SEL-277 | verificada |
 | SPC-039 | exportar-movimientos-csv | SEL-279 | verificada |
 | SPC-040 | barras-diarias-categoria | SEL-280 | verificada |
-| SPC-041 | migraciones-en-artefacto | SEL-281 | implementada |
+| SPC-041 | migraciones-en-artefacto | SEL-281 | verificada |
 
 El histórico de cada spec (versión en la que quedó verificada y sus commits) está en `docs/PROGRESO.md`.

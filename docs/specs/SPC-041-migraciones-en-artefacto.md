@@ -1,6 +1,6 @@
 # SPC-041 — Migraciones en el artefacto: deploy autocontenido
 
-Estado: implementada · Issue: SEL-281
+Estado: verificada · Issue: SEL-281
 Depende de: SPC-020 (deploy), SPC-022 (release), SPC-029 (migraciones en el deploy), SPC-032 (`deploy.sh` versionado)
 
 ## Problema
@@ -38,4 +38,4 @@ Además el orden actual es peligroso: `deploy.sh` borra `$CURRENT/.output` **ant
 - Extraído como en la VPS y corrido contra una base **vacía** (`caudal_migrate_test`): 5 migraciones aplicadas, `drizzle.__drizzle_migrations` con 5 filas y 15 tablas en `public`. Segunda corrida: no aplica nada (idempotente).
 - `bash -n scripts/deploy.sh` OK y sin referencias a `REPO_DIR`, `git` ni `pnpm`.
 - Prueba negativa: `CAUDAL_APP_DIR=/tmp/... bash scripts/deploy.sh v1.5.0` → aborta con "El artefacto v1.5.0 no trae el runner" **antes** de tocar nada.
-- Falta el deploy real de v1.6.0 para pasar a `verificada`.
+- **Verificado en el deploy real de v1.5.1** (run 39379375767, job `deploy` success): el log de la VPS muestra `> Migraciones desde /var/www/caudal/staging-al6rCt/.output/migrations` y `> Migraciones al día`; `drizzle.__drizzle_migrations` sigue en **5** (no re-aplicó), `pm2 caudal` 1.5.1 online, health `200` y sin restos de staging ni de `.output.anterior`.
