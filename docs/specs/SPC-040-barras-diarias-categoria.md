@@ -1,6 +1,6 @@
 # SPC-040 — Barras diarias por categoría en Reportes
 
-Estado: implementada · Issue: SEL-280
+Estado: verificada · Issue: SEL-280
 Depende de: SPC-008 (transacciones), SPC-015 (reportes), decisión 0006 (gráficas SVG)
 
 ## Problema
@@ -32,7 +32,8 @@ Reportes muestra el total del período, una dona de gastos por categoría y la l
 
 - `pnpm test`: `tests/barras.test.ts`, 6 casos (días vacíos, separación ingreso/egreso, suma por día, top 6 + Otras, conversión USD, sin categoría).
 - Cuadre comprobado con datos demo: suma de barras del período = `flujo.consolidado` (Bs 6.972,80 / Bs 6.026,25).
-- Capturas en `.screenshots/10-reportes-{1280,390}.png`: barras día a día, ingresos arriba / egresos abajo, leyenda por monto, sin desbordes en 390px. Falta el deploy para pasar a `verificada`.
+- Capturas en `.screenshots/10-reportes-{1280,390}.png`: barras día a día, ingresos arriba / egresos abajo, leyenda por monto, sin desbordes en 390px.
+- **Verificado en el deploy de v1.5.0** (run 39376253170, `pm2 caudal` 1.5.0 online; el bundle desplegado incluye `barras_diarias`).
 
 ## Modo oscuro
 

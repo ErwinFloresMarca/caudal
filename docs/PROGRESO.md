@@ -54,6 +54,8 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 | SPC-036 | Cerrar huecos de validación del MCP | SEL-274 | verificada | v1.4.0 | `c723863` | Cierra los huecos que dejó SPC-033 |
 | SPC-037 | Convertir la primera pata si la cuenta está en otra moneda | SEL-275 | verificada | v1.4.1 | `b1a2742` | Sin `tasa_ref` y monedas distintas → 400 |
 | SPC-038 | El tipo de grupo: los pagos de cuota no son aportes | SEL-277 | verificada | v1.4.2 | `88870a9` | Columna `grupo_tipo` (decisión 0009); migración 0004 |
+| SPC-039 | Exportar movimientos a CSV | SEL-279 | verificada | v1.5.0 | `6b1f2cf` | RFC 4180 + BOM; neutraliza fórmulas; botón en Reportes |
+| SPC-040 | Barras diarias por categoría | SEL-280 | verificada | v1.5.0 | `6d42d87` | Ingresos arriba / egresos abajo; top 6 + "Otras categorías" |
 
 ## Releases
 
@@ -74,9 +76,10 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 - **v1.4.0** — pago de cuota con dos patas (SPC-035) y huecos de validación del MCP cerrados (SPC-036).
 - **v1.4.1** — conversión de la primera pata del pago de cuota (SPC-037).
 - **v1.4.2** — tipo de grupo: los pagos de cuota dejan de ser aportes (SPC-038).
+- **v1.5.0** — exportar movimientos a CSV (SPC-039) y barras diarias por categoría en Reportes (SPC-040).
 
 ## Pendientes
 
-- **Deuda técnica y atajos deliberados**: `docs/DEUDA-TECNICA.md` (migraciones desde checkout en el VPS, KPIs de movimientos, widget 50/30/20, aportes a metas solo registro, exportar CSV, cerrar todas las sesiones, soporte solo BOB/USD).
+- **Deuda técnica y atajos deliberados**: `docs/DEUDA-TECNICA.md` (migraciones desde checkout en el VPS, KPIs de movimientos, widget 50/30/20, aportes a metas solo registro, exportar todos los datos desde Ajustes, cerrar todas las sesiones, soporte solo BOB/USD).
 - **Fase 2 (fuera de v1)**: importar CSV / estados de cuenta, sincronización bancaria y multi-divisa avanzada.
 - **Deuda ponytail anotada**: unificar la conversión de moneda duplicada entre `server/utils/deudas.ts` y `server/utils/aportes.ts`.

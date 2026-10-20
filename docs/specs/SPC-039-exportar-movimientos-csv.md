@@ -1,6 +1,6 @@
 # SPC-039 — Exportar movimientos a CSV
 
-Estado: implementada · Issue: SEL-279
+Estado: verificada · Issue: SEL-279
 Depende de: SPC-008 (transacciones), SPC-015 (reportes)
 
 ## Problema
@@ -32,4 +32,5 @@ Hoy los movimientos solo se leen dentro de la app. Para cuadrar un mes contra un
 
 - `pnpm test`: 23 archivos / 210 tests en verde (`tests/csv.test.ts`, 6 casos).
 - Dev en `:3072` con datos demo: `GET /api/reportes/movimientos.csv` → `200`, `text/csv`, `Content-Disposition` correcto, BOM `EF BB BF` y CRLF; 17 filas en un rango de dos meses; `fondos=999999` → `400`.
-- Botón visible en Reportes (1280 y 390). Falta el deploy para pasar a `verificada`.
+- Botón visible en Reportes (1280 y 390).
+- **Verificado en el deploy de v1.5.0** (run 39376253170, job `deploy` OK): `GET /api/reportes/movimientos.csv` responde `401` sin sesión en producción.

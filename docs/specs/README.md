@@ -86,7 +86,7 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-036 | huecos-validacion-mcp | SEL-274 | verificada |
 | SPC-037 | conversion-primera-pata | SEL-275 | verificada |
 | SPC-038 | tipo-de-grupo | SEL-277 | verificada |
-| SPC-039 | exportar-movimientos-csv | SEL-279 | implementada |
-| SPC-040 | barras-diarias-categoria | SEL-280 | implementada |
+| SPC-039 | exportar-movimientos-csv | SEL-279 | verificada |
+| SPC-040 | barras-diarias-categoria | SEL-280 | verificada |
 
 El histórico de cada spec (versión en la que quedó verificada y sus commits) está en `docs/PROGRESO.md`.
