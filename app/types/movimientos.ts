@@ -29,6 +29,8 @@ export interface Movimiento extends MovimientoEditable {
   monto_formateado: string
   cuenta_nombre: string | null
   categoria: Categoria | null
+  /** Saldo total de las cuentas del alcance después de este movimiento (moneda base). */
+  saldo_continuo_centavos?: number | null
 }
 
 export interface KpisMovimientos {

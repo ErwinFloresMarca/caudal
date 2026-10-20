@@ -322,8 +322,17 @@ onMounted(() => {
               </span>
             </span>
             <span class="flex items-center gap-2">
-              <span class="whitespace-nowrap font-semibold tabular-nums" :class="m.tipo === 'ingreso' ? 'text-positive' : 'text-negative'">
-                {{ m.tipo === 'ingreso' ? '+' : '−' }} {{ m.monto_formateado }}
+              <span class="flex flex-col items-end">
+                <span class="whitespace-nowrap font-semibold tabular-nums" :class="m.tipo === 'ingreso' ? 'text-positive' : 'text-negative'">
+                  {{ m.tipo === 'ingreso' ? '+' : '−' }} {{ m.monto_formateado }}
+                </span>
+                <span
+                  v-if="m.saldo_continuo_centavos != null"
+                  class="whitespace-nowrap text-[11px] tabular-nums text-ink-faint"
+                  title="Saldo total de tus cuentas después de este movimiento"
+                >
+                  {{ fmt(m.saldo_continuo_centavos) }}
+                </span>
               </span>
               <span class="flex opacity-0 transition-opacity group-hover:opacity-100">
                 <button type="button" class="grid h-8 w-8 place-items-center rounded-full text-ink-muted hover:bg-surface-hover" title="Editar" @click="abrirEditar(m)">
@@ -340,6 +349,10 @@ onMounted(() => {
 
       <p v-if="!cargando && !filas.length" class="py-10 text-center text-sm text-ink-muted">
         {{ activos.length ? 'Sin resultados para los filtros activos.' : 'Aún no registraste movimientos.' }}
+      </p>
+
+      <p v-if="filas.length" class="px-3 pb-2 pt-3 text-[11px] text-ink-faint">
+        El saldo bajo cada monto es el total de tus cuentas ({{ resumen?.moneda ?? 'BOB' }}) después de ese movimiento. Las transferencias mueven plata entre cuentas, no el total.
       </p>
 
       <div v-if="cursor" class="flex justify-center py-4">
