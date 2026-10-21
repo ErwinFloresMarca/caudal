@@ -39,13 +39,14 @@ export default defineEventHandler(async (event) => {
     id: users.id,
     email: users.email,
     name: users.name,
+    session_version: users.session_version,
   })
   if (!created) {
     throw createError({ statusCode: 500, statusMessage: 'No se pudo crear el usuario' })
   }
 
   await setUserSession(event, {
-    user: { id: created.id, email: created.email, name: created.name },
+    user: { id: created.id, email: created.email, name: created.name, session_version: created.session_version },
   })
 
   // Moneda base por defecto elegida en el registro (SPC-017).

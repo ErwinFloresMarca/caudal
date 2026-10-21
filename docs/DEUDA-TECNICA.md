@@ -4,13 +4,12 @@ Registro de atajos deliberados (`ponytail:`), pendientes menores del pase visual
 
 ## Deuda técnica (con techo conocido)
 
-| # | Dónde | Qué | Por qué / cuándo arreglar |
-|---|---|---|---|
-| 1 | Ajustes | **Cerrar todas las sesiones** no implementado (cookie firmada sin store servidor). | Requiere store de sesiones o versión de token. |
-| 2 | Transferencias/aportes | `resolverMontos` asume monedas BOB/USD (dos monedas). | Ampliar si se agrega una tercera moneda. |
+**No hay pendientes abiertos.** Todo lo que quedó es simplificación deliberada (abajo) o Fase 2.
 
-<!-- Resuelto: #7 Google OAuth. `NUXT_OAUTH_GOOGLE_ID/SECRET` están configurados en dev y prod;
-     `server/routes/auth/google.ts` + `BotonGoogle` en login/registro funcionan (v1.0.0). -->
+<!-- Resueltos: cerrar todas las sesiones (SPC-047, versión de sesión sin store), exportar datos
+     (SPC-046), 50/30/20 (SPC-045), aportes a metas (SPC-044), KPIs/saldo de Movimientos
+     (SPC-042/043), migraciones en el artefacto (SPC-041), CSV de movimientos (SPC-039),
+     Google OAuth (v1.0.0). -->
 
 ## Notas de simplificación (deliberadas, sin acción)
 

@@ -4,6 +4,7 @@ declare module '#auth-utils' {
     email: string
     name: string
     avatar_url?: string | null
+    session_version?: number
   }
 
   interface UserSession {

@@ -135,6 +135,23 @@ async function cerrarSesion() {
   await navigateTo('/login')
 }
 
+const cerrarTodasAbierto = ref(false)
+const cerrandoTodas = ref(false)
+const errorCerrarTodas = ref('')
+async function cerrarTodasLasSesiones() {
+  errorCerrarTodas.value = ''
+  cerrandoTodas.value = true
+  try {
+    await $fetch('/api/ajustes/cerrar-sesiones', { method: 'POST' })
+    await clear()
+    await navigateTo('/login')
+  } catch (e) {
+    errorCerrarTodas.value = (e as { data?: { statusMessage?: string } })?.data?.statusMessage ?? 'No se pudieron cerrar las sesiones'
+  } finally {
+    cerrandoTodas.value = false
+  }
+}
+
 // Datos
 const borrarAbierto = ref(false)
 const confirmacion = ref('')
@@ -247,7 +264,10 @@ async function borrarCuenta() {
           <p class="text-sm font-semibold text-ink">Sesión</p>
           <p class="text-sm text-ink-muted">{{ user?.email }}</p>
         </div>
-        <button type="button" class="btn-secondary h-10 shrink-0 px-4 text-sm" @click="cerrarSesion">Cerrar sesión</button>
+        <div class="flex shrink-0 flex-wrap justify-end gap-2">
+          <button type="button" class="btn-secondary h-10 px-4 text-sm" @click="cerrarSesion">Cerrar sesión</button>
+          <button type="button" class="btn-secondary h-10 px-4 text-sm text-negative" @click="cerrarTodasAbierto = true">Cerrar todas</button>
+        </div>
       </div>
 
       <!-- Datos -->
@@ -410,6 +430,23 @@ async function borrarCuenta() {
     </UModal>
 
     <!-- Borrar cuenta -->
+    <UModal v-model:open="cerrarTodasAbierto" title="Cerrar todas las sesiones">
+      <template #body>
+        <p class="text-sm text-ink-muted">
+          Cierra la sesión en todos los dispositivos, incluido este. Las API keys del MCP no se revocan.
+        </p>
+        <p v-if="errorCerrarTodas" class="mt-2 text-sm text-negative">{{ errorCerrarTodas }}</p>
+      </template>
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <button type="button" class="btn-secondary h-11 px-5 text-sm" @click="cerrarTodasAbierto = false">Cancelar</button>
+          <button type="button" class="btn-primary h-11 bg-negative px-5 text-sm hover:bg-negative" :disabled="cerrandoTodas" @click="cerrarTodasLasSesiones">
+            {{ cerrandoTodas ? 'Cerrando…' : 'Cerrar todas' }}
+          </button>
+        </div>
+      </template>
+    </UModal>
+
     <UModal v-model:open="borrarAbierto" title="Borrar cuenta">
       <template #body>
         <div class="flex flex-col gap-3">

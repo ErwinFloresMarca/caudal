@@ -27,6 +27,8 @@ export const users = pgTable('users', {
   password_hash: text('password_hash'),
   avatar_url: text('avatar_url'),
   timezone: text('timezone').notNull().default('UTC'),
+  // Versión de sesión: "cerrar todas" la incrementa y los cookies viejos dejan de valer (SPC-047).
+  session_version: integer('session_version').notNull().default(0),
   created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 }, (t) => [
   uniqueIndex('users_email_idx').on(t.email),

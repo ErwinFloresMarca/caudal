@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm'
 import { db } from './db'
 import { apiKeys } from '../db/schema'
 import { hashApiKey, isApiKeyFormat } from '../../shared/api-keys'
+import { sesionVigente } from './sesiones'
 
 type AuthContext = { authUserId?: number }
 
@@ -38,6 +39,12 @@ export async function authUserId(event: H3Event): Promise<number> {
   const id = Number((user as { id?: number } | undefined)?.id)
   if (!Number.isInteger(id) || id <= 0) {
     throw createError({ statusCode: 401, statusMessage: 'No autorizado' })
+  }
+  // "Cerrar todas las sesiones" (SPC-047): la cookie vieja deja de valer.
+  const version = (user as { session_version?: number } | undefined)?.session_version
+  if (!(await sesionVigente(id, version))) {
+    await clearUserSession(event)
+    throw createError({ statusCode: 401, statusMessage: 'La sesión fue cerrada en todos los dispositivos. Volvé a entrar.' })
   }
   event.context.authUserId = id
   return id
