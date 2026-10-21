@@ -1,8 +1,9 @@
 import { and, asc, desc, eq, inArray } from 'drizzle-orm'
 import { db } from './db'
-import { metasAhorro, aportesMeta, cuentas, categorias, transacciones } from '../db/schema'
+import { metasAhorro, aportesMeta, cuentas, transacciones } from '../db/schema'
 import { crearTransaccion } from './transacciones'
 import { getTasa } from './ajustes'
+import { categoriaSistema } from './categorias'
 import { calcularProgreso } from '../../shared/metas'
 import { formatMoney, type Moneda } from '../../shared/money'
 
@@ -232,26 +233,6 @@ async function validarCuenta(userId: number, fondoId: number, cuentaId: number, 
   }
 }
 
-// El gasto del aporte se lee como "Ahorro" en reportes, no como "Otros".
-// shortcut: sin unique (user, fondo, nombre, tipo); dos aportes simultáneos podrían
-// crear la categoría dos veces. Se resuelve si aparece duplicada.
-async function categoriaAhorro(userId: number, fondoId: number, ejecutor: Pick<typeof db, 'insert'>) {
-  const [existente] = await db
-    .select({ id: categorias.id })
-    .from(categorias)
-    .where(and(eq(categorias.user_id, userId), eq(categorias.fondo_id, fondoId), eq(categorias.nombre, 'Ahorro'), eq(categorias.tipo, 'gasto')))
-    .limit(1)
-  if (existente) return existente.id
-  const [nueva] = await ejecutor
-    .insert(categorias)
-    .values({ user_id: userId, fondo_id: fondoId, nombre: 'Ahorro', tipo: 'gasto', icono: 'savings', color: '#0FA47F' })
-    .returning({ id: categorias.id })
-  if (!nueva) {
-    throw httpError(500, 'No se pudo crear la categoría Ahorro')
-  }
-  return nueva.id
-}
-
 export async function crearAporteMeta(userId: number, metaId: number, data: DatosAporteMeta) {
   const meta = await metaPropia(userId, metaId)
   const moneda = meta.moneda as Moneda
@@ -270,7 +251,7 @@ export async function crearAporteMeta(userId: number, metaId: number, data: Dato
     }
     datosTrx = {
       cuenta_id: data.cuenta_id,
-      categoria_id: await categoriaAhorro(userId, meta.fondo_id, db),
+      categoria_id: await categoriaSistema(userId, meta.fondo_id, { nombre: 'Ahorro', tipo: 'gasto', icono: 'savings', color: '#0FA47F', clasificacion: 'ahorro' }),
       tipo: data.monto_centavos > 0 ? 'gasto' : 'ingreso',
       monto_centavos: Math.abs(data.monto_centavos),
       fecha: data.fecha,

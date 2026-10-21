@@ -53,3 +53,52 @@ export function diasRestantesDelMes(mes: string, hoy: string): number {
   if (my > hy || (my === hy && mm > hm)) return total
   return Math.max(0, total - hd + 1)
 }
+
+// Regla 50/30/20: proporción ideal del ingreso entre necesidades, deseos y ahorro.
+export const REGLA_503020 = [
+  { clave: 'necesidad', nombre: 'Necesidades', ideal_pct: 50 },
+  { clave: 'deseo', nombre: 'Deseos', ideal_pct: 30 },
+  { clave: 'ahorro', nombre: 'Ahorro', ideal_pct: 20 },
+] as const
+
+export type ClaveTramo = (typeof REGLA_503020)[number]['clave']
+
+export interface TramoDistribucion {
+  clave: ClaveTramo
+  nombre: string
+  ideal_pct: number
+  real_pct: number
+  centavos: number
+  desvio_pct: number
+}
+
+export interface Distribucion503020 {
+  ingresos_centavos: number
+  total_gastos_centavos: number
+  tramos: TramoDistribucion[]
+  sin_clasificar_centavos: number
+  sin_clasificar_pct: number
+}
+
+const pct = (parte: number, total: number) => (total > 0 ? Math.round((parte / total) * 100) : 0)
+
+// Los porcentajes reales se calculan sobre los INGRESOS del mes, no sobre los gastos:
+// así "50 % en necesidades" significa la mitad de lo que entró. Lo no clasificado se
+// informa aparte en lugar de repartirse entre los tramos.
+export function distribucion503020(
+  ingresosCentavos: number,
+  montos: { necesidad: number; deseo: number; ahorro: number; sin_clasificar: number },
+): Distribucion503020 {
+  const tramos = REGLA_503020.map((t) => {
+    const centavos = montos[t.clave]
+    const real_pct = pct(centavos, ingresosCentavos)
+    return { ...t, real_pct, centavos, desvio_pct: real_pct - t.ideal_pct }
+  })
+  return {
+    ingresos_centavos: ingresosCentavos,
+    total_gastos_centavos: montos.necesidad + montos.deseo + montos.ahorro + montos.sin_clasificar,
+    tramos,
+    sin_clasificar_centavos: montos.sin_clasificar,
+    sin_clasificar_pct: pct(montos.sin_clasificar, ingresosCentavos),
+  }
+}

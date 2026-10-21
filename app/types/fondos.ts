@@ -14,6 +14,7 @@ export interface CategoriaEditable {
   tipo: string
   icono: string | null
   color: string | null
+  clasificacion?: 'necesidad' | 'deseo' | 'ahorro' | null
   es_predefinida: boolean
   activa: boolean
 }

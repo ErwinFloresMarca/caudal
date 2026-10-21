@@ -105,6 +105,8 @@ export const categorias = pgTable('categorias', {
   tipo: text('tipo').notNull(),
   icono: text('icono'),
   color: text('color'),
+  // Clasificación para la regla 50/30/20 (SPC-045). null = sin clasificar.
+  clasificacion: text('clasificacion'),
   es_predefinida: boolean('es_predefinida').notNull().default(false),
   activa: boolean('activa').notNull().default(true),
   created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),

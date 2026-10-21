@@ -151,6 +151,35 @@ describe.skipIf(!hasDb)('presupuestos (repositorio)', () => {
     const lista = await listarPresupuestos(userId, fondoId, mes)
     expect(lista.presupuestos.some((x) => x.id === p!.id)).toBe(false)
   })
+
+  it('distribución 50/30/20: usa los ingresos del mes y clasifica los gastos', async () => {
+    // Fondo propio para que los números no dependan de los otros tests.
+    const fondo2 = await crearFondo(userId, { nombre: 'Fondo 503020', tipo: 'personal', moneda_base: 'BOB' })
+    const cuenta2 = (await crearCuenta(userId, fondo2.id, { nombre: 'Caja', tipo: 'efectivo', moneda: 'BOB' })).id
+    const cats = await listarCategorias(userId, fondo2.id)
+    const ingreso = cats.find((c) => c.tipo === 'ingreso')!
+    const comida = cats.find((c) => c.nombre === 'Comida')!
+    const ocio = cats.find((c) => c.nombre === 'Ocio')!
+    const otros = cats.find((c) => c.nombre === 'Otros' && c.tipo === 'gasto')!
+
+    expect(comida.clasificacion).toBe('necesidad')
+    expect(ocio.clasificacion).toBe('deseo')
+
+    await crearTransaccion(userId, fondo2.id, { cuenta_id: cuenta2, categoria_id: ingreso.id, tipo: 'ingreso', monto_centavos: 1000000 })
+    await crearTransaccion(userId, fondo2.id, { cuenta_id: cuenta2, categoria_id: comida.id, tipo: 'gasto', monto_centavos: 500000 })
+    await crearTransaccion(userId, fondo2.id, { cuenta_id: cuenta2, categoria_id: ocio.id, tipo: 'gasto', monto_centavos: 100000 })
+    await crearTransaccion(userId, fondo2.id, { cuenta_id: cuenta2, categoria_id: otros.id, tipo: 'gasto', monto_centavos: 50000 })
+
+    const r = await listarPresupuestos(userId, fondo2.id, mes)
+    expect(r.distribucion.ingresos_centavos).toBe(1000000)
+    expect(r.distribucion.tramos.map((t) => [t.clave, t.real_pct])).toEqual([
+      ['necesidad', 50],
+      ['deseo', 10],
+      ['ahorro', 0],
+    ])
+    expect(r.distribucion.tramos[1]!.desvio_pct).toBe(-20)
+    expect(r.distribucion.sin_clasificar_centavos).toBe(50000)
+  })
 })
 
 describe('parsePresupuesto (puro)', () => {

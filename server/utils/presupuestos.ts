@@ -5,7 +5,7 @@ import { getFondo } from './fondos'
 import { hoyLocal } from './transacciones'
 import { rangoMes } from '../../shared/resumen'
 import { mesesAtras } from '../../shared/reportes'
-import { compensar, diasRestantesDelMes, disponible, disponiblePorDia, estadoPresupuesto } from '../../shared/presupuestos'
+import { compensar, diasRestantesDelMes, disponible, disponiblePorDia, distribucion503020, estadoPresupuesto } from '../../shared/presupuestos'
 import { formatMoney, type Moneda } from '../../shared/money'
 
 // Error HTTP sin depender de h3 (para que vitest pueda importar el repositorio).
@@ -146,6 +146,53 @@ async function historialMeses(userId: number, fondoId: number, mes: string, mone
   })
 }
 
+// Ingresos del mes del fondo en su moneda base (misma regla que el consumo: sin conversión).
+async function ingresosMes(userId: number, fondoId: number, mes: string, moneda: Moneda): Promise<number> {
+  const { desde, hasta } = rangoMes(`${mes}-01`)
+  const [fila] = await db
+    .select({ total: sql<number>`COALESCE(SUM(${transacciones.monto_centavos}), 0)` })
+    .from(transacciones)
+    .innerJoin(cuentas, eq(cuentas.id, transacciones.cuenta_id))
+    .where(
+      and(
+        eq(transacciones.user_id, userId),
+        eq(transacciones.fondo_id, fondoId),
+        eq(transacciones.tipo, 'ingreso'),
+        eq(cuentas.moneda, moneda),
+        sql`${transacciones.fecha} >= ${desde}`,
+        sql`${transacciones.fecha} <= ${hasta}`,
+      ),
+    )
+  return Number(fila?.total ?? 0)
+}
+
+async function gastosPorClasificacion(userId: number, fondoId: number, mes: string, moneda: Moneda) {
+  const { desde, hasta } = rangoMes(`${mes}-01`)
+  const filas = await db
+    .select({ clasificacion: categorias.clasificacion, total: sql<number>`COALESCE(SUM(${transacciones.monto_centavos}), 0)` })
+    .from(transacciones)
+    .innerJoin(cuentas, eq(cuentas.id, transacciones.cuenta_id))
+    .leftJoin(categorias, eq(categorias.id, transacciones.categoria_id))
+    .where(
+      and(
+        eq(transacciones.user_id, userId),
+        eq(transacciones.fondo_id, fondoId),
+        eq(transacciones.tipo, 'gasto'),
+        eq(cuentas.moneda, moneda),
+        sql`${transacciones.fecha} >= ${desde}`,
+        sql`${transacciones.fecha} <= ${hasta}`,
+      ),
+    )
+    .groupBy(categorias.clasificacion)
+  const montos = { necesidad: 0, deseo: 0, ahorro: 0, sin_clasificar: 0 }
+  for (const f of filas) {
+    const monto = Number(f.total)
+    if (f.clasificacion === 'necesidad' || f.clasificacion === 'deseo' || f.clasificacion === 'ahorro') montos[f.clasificacion] += monto
+    else montos.sin_clasificar += monto
+  }
+  return montos
+}
+
 export async function listarPresupuestos(userId: number, fondoId: number, mes: string) {
   if (!MES_RE.test(mes)) throw httpError(400, 'mes debe usar formato YYYY-MM')
   const fondo = await getFondo(userId, fondoId)
@@ -167,6 +214,10 @@ export async function listarPresupuestos(userId: number, fondoId: number, mes: s
   const consumido = items.reduce((s, i) => s + i.consumido_centavos, 0)
   const restante = disponible(consumido, asignado)
 
+  const ingresos = await ingresosMes(userId, fondoId, mes, moneda)
+  const montos = await gastosPorClasificacion(userId, fondoId, mes, moneda)
+  const base = distribucion503020(ingresos, montos)
+
   return {
     mes,
     moneda,
@@ -183,6 +234,12 @@ export async function listarPresupuestos(userId: number, fondoId: number, mes: s
     },
     presupuestos: items,
     historial: await historialMeses(userId, fondoId, mes, moneda),
+    distribucion: {
+      ...base,
+      ingresos_formateado: formatMoney({ centavos: ingresos, moneda }),
+      sin_clasificar_formateado: formatMoney({ centavos: base.sin_clasificar_centavos, moneda }),
+      tramos: base.tramos.map((t) => ({ ...t, formateado: formatMoney({ centavos: t.centavos, moneda }) })),
+    },
   }
 }
 

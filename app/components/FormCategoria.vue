@@ -16,7 +16,7 @@ const ICONOS = [
   'inventory_2', 'local_shipping', 'campaign', 'build', 'handyman', 'request_quote',
 ]
 
-const form = reactive({ nombre: '', tipo: 'gasto', icono: ICONOS[0]!, color: COLORES[0]!, activa: true })
+const form = reactive({ nombre: '', tipo: 'gasto', icono: ICONOS[0]!, color: COLORES[0]!, clasificacion: '' as '' | 'necesidad' | 'deseo' | 'ahorro', activa: true })
 const error = ref('')
 const guardando = ref(false)
 
@@ -31,12 +31,14 @@ watch(
       form.tipo = c.tipo
       form.icono = c.icono ?? ICONOS[0]!
       form.color = c.color ?? COLORES[0]!
+      form.clasificacion = c.clasificacion ?? ''
       form.activa = c.activa
     } else {
       form.nombre = ''
       form.tipo = 'gasto'
       form.icono = ICONOS[0]!
       form.color = COLORES[0]!
+      form.clasificacion = ''
       form.activa = true
     }
   },
@@ -56,13 +58,13 @@ async function guardar() {
       } else {
         await $fetch(`/api/fondos/${props.fondoId}/categorias/${props.categoria.id}`, {
           method: 'PATCH',
-          body: { nombre: form.nombre, tipo: form.tipo, icono: form.icono, color: form.color, activa: true },
+          body: { nombre: form.nombre, tipo: form.tipo, icono: form.icono, color: form.color, clasificacion: form.clasificacion || null, activa: true },
         })
       }
     } else {
       await $fetch(`/api/fondos/${props.fondoId}/categorias`, {
         method: 'POST',
-        body: { nombre: form.nombre, tipo: form.tipo, icono: form.icono, color: form.color },
+        body: { nombre: form.nombre, tipo: form.tipo, icono: form.icono, color: form.color, clasificacion: form.clasificacion || null },
       })
     }
     emit('guardado')
@@ -131,6 +133,17 @@ async function guardar() {
             </button>
           </div>
         </div>
+
+        <label v-if="form.tipo === 'gasto'" class="flex flex-col gap-1">
+          <span class="text-sm text-ink-muted">Clasificación 50/30/20</span>
+          <select v-model="form.clasificacion" class="input-field">
+            <option value="">Sin clasificar</option>
+            <option value="necesidad">Necesidad</option>
+            <option value="deseo">Deseo</option>
+            <option value="ahorro">Ahorro</option>
+          </select>
+          <span class="text-xs text-ink-faint">Solo se usa para el widget de distribución del ingreso.</span>
+        </label>
 
         <label v-if="categoria" class="flex items-center justify-between gap-3">
           <span class="text-sm text-ink-muted">Categoría activa</span>

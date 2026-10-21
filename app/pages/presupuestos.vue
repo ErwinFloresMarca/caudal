@@ -33,6 +33,12 @@ const { data: catsData } = await useAsyncData(
 const resp = computed(() => data.value?.presupuestos ?? null)
 const categorias = computed(() => catsData.value?.categorias ?? [])
 const estadoFiltro = ref<'todos' | EstadoPresupuesto>('todos')
+const COLOR_TRAMO: Record<string, string> = {
+  necesidad: 'var(--color-brand)',
+  deseo: 'var(--color-warning)',
+  ahorro: 'var(--color-positive)',
+}
+const colorTramo = (clave: string) => COLOR_TRAMO[clave] ?? 'var(--color-ink-faint)'
 const lista = computed(() => {
   const all = resp.value?.presupuestos ?? []
   return estadoFiltro.value === 'todos' ? all : all.filter((p) => p.estado === estadoFiltro.value)
@@ -130,6 +136,42 @@ const maxHist = computed(() => Math.max(1, ...barras.value.map((h) => Math.max(h
           <p class="mt-1 text-xl font-bold tabular-nums text-ink">{{ resp.kpis.gasto_diario_permitido_formateado }}</p>
           <p class="text-xs text-ink-faint">{{ resp.dias_restantes }} días restantes</p>
         </div>
+      </div>
+
+      <!-- Regla 50/30/20 (SPC-045) -->
+      <div class="card mt-4 p-5">
+        <div class="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <h2 class="hs-2">Regla 50/30/20</h2>
+            <p class="mt-1 text-xs text-ink-faint">
+              Sobre {{ resp.distribucion.ingresos_formateado }} de ingresos del mes en {{ resp.moneda }}.
+            </p>
+          </div>
+          <NuxtLink :to="`/fondos/${fondoActivo?.id}`" class="text-xs font-semibold text-brand hover:text-brand-600">
+            Clasificar categorías
+          </NuxtLink>
+        </div>
+
+        <div v-if="resp.distribucion.ingresos_centavos > 0" class="mt-4 flex flex-col gap-4">
+          <div v-for="t in resp.distribucion.tramos" :key="t.clave">
+            <div class="flex items-center justify-between gap-2 text-sm">
+              <span class="text-ink">{{ t.nombre }} <span class="text-ink-faint">· ideal {{ t.ideal_pct }} %</span></span>
+              <span class="whitespace-nowrap tabular-nums" :class="t.desvio_pct > 5 ? 'text-negative' : 'text-ink-muted'">
+                {{ t.real_pct }} % · {{ t.formateado }}
+              </span>
+            </div>
+            <div class="relative mt-1.5 h-2 w-full rounded-full bg-surface-muted">
+              <div class="h-2 rounded-full" :style="{ width: `${Math.min(100, t.real_pct)}%`, background: colorTramo(t.clave) }" />
+              <span class="absolute -top-1 h-4 w-0.5 rounded bg-ink-faint" :style="{ left: `${t.ideal_pct}%` }" :title="`Ideal: ${t.ideal_pct} %`" />
+            </div>
+          </div>
+          <p v-if="resp.distribucion.sin_clasificar_centavos > 0" class="text-xs text-ink-faint">
+            {{ resp.distribucion.sin_clasificar_formateado }} ({{ resp.distribucion.sin_clasificar_pct }} %) está en categorías sin clasificar: no se reparte entre los tramos.
+          </p>
+        </div>
+        <p v-else class="py-6 text-center text-sm text-ink-muted">
+          Registrá ingresos del mes para ver la distribución.
+        </p>
       </div>
 
       <!-- Filtros -->

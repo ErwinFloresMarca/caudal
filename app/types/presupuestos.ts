@@ -37,4 +37,13 @@ export interface PresupuestosResp {
   }
   presupuestos: Presupuesto[]
   historial: { mes: string; asignado_centavos: number; gastado_centavos: number; porcentaje: number }[]
+  distribucion: {
+    ingresos_centavos: number
+    ingresos_formateado: string
+    total_gastos_centavos: number
+    tramos: { clave: 'necesidad' | 'deseo' | 'ahorro'; nombre: string; ideal_pct: number; real_pct: number; desvio_pct: number; centavos: number; formateado: string }[]
+    sin_clasificar_centavos: number
+    sin_clasificar_pct: number
+    sin_clasificar_formateado: string
+  }
 }

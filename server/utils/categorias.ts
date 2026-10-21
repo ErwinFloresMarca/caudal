@@ -15,34 +15,38 @@ export interface DatosCategoria {
   tipo: TipoCategoria
   icono?: string | null
   color?: string | null
+  clasificacion?: Clasificacion | null
   activa?: boolean
 }
 
 type FilaCategoria = typeof categorias.$inferSelect
 
 // Presets por tipo de fondo. Colores/iconos limitados a tokens del DESIGN.md.
-export const PRESETS_FONDO: Record<TipoFondo, { nombre: string; tipo: TipoCategoria; icono: string; color: string }[]> = {
+// Clasificación para la regla 50/30/20 (SPC-045).
+export type Clasificacion = 'necesidad' | 'deseo' | 'ahorro'
+
+export const PRESETS_FONDO: Record<TipoFondo, { nombre: string; tipo: TipoCategoria; icono: string; color: string; clasificacion?: Clasificacion | null }[]> = {
   personal: [
-    { nombre: 'Comida', tipo: 'gasto', icono: 'restaurant', color: '#E5484D' },
-    { nombre: 'Transporte', tipo: 'gasto', icono: 'directions_bus', color: '#0E6FFF' },
-    { nombre: 'Servicios', tipo: 'gasto', icono: 'receipt_long', color: '#5B6B85' },
-    { nombre: 'Salud', tipo: 'gasto', icono: 'ecg_heart', color: '#0FA47F' },
-    { nombre: 'Ocio', tipo: 'gasto', icono: 'sports_esports', color: '#E8A13A' },
-    { nombre: 'Vivienda', tipo: 'gasto', icono: 'home', color: '#0E6FFF' },
-    { nombre: 'Compras', tipo: 'gasto', icono: 'shopping_bag', color: '#0FA47F' },
-    { nombre: 'Otros', tipo: 'gasto', icono: 'category', color: '#8E9BAE' },
+    { nombre: 'Comida', tipo: 'gasto', icono: 'restaurant', color: '#E5484D', clasificacion: 'necesidad' },
+    { nombre: 'Transporte', tipo: 'gasto', icono: 'directions_bus', color: '#0E6FFF', clasificacion: 'necesidad' },
+    { nombre: 'Servicios', tipo: 'gasto', icono: 'receipt_long', color: '#5B6B85', clasificacion: 'necesidad' },
+    { nombre: 'Salud', tipo: 'gasto', icono: 'ecg_heart', color: '#0FA47F', clasificacion: 'necesidad' },
+    { nombre: 'Ocio', tipo: 'gasto', icono: 'sports_esports', color: '#E8A13A', clasificacion: 'deseo' },
+    { nombre: 'Vivienda', tipo: 'gasto', icono: 'home', color: '#0E6FFF', clasificacion: 'necesidad' },
+    { nombre: 'Compras', tipo: 'gasto', icono: 'shopping_bag', color: '#0FA47F', clasificacion: 'deseo' },
+    { nombre: 'Otros', tipo: 'gasto', icono: 'category', color: '#8E9BAE', clasificacion: null },
     { nombre: 'Sueldo', tipo: 'ingreso', icono: 'payments', color: '#0FA47F' },
     { nombre: 'Venta', tipo: 'ingreso', icono: 'storefront', color: '#0E6FFF' },
     { nombre: 'Otros', tipo: 'ingreso', icono: 'savings', color: '#8E9BAE' },
   ],
   negocio: [
-    { nombre: 'Insumos', tipo: 'gasto', icono: 'construction', color: '#E5484D' },
-    { nombre: 'Empaque', tipo: 'gasto', icono: 'inventory_2', color: '#5B6B85' },
-    { nombre: 'Envíos', tipo: 'gasto', icono: 'local_shipping', color: '#0E6FFF' },
-    { nombre: 'Impuestos', tipo: 'gasto', icono: 'request_quote', color: '#E8A13A' },
-    { nombre: 'Herramientas', tipo: 'gasto', icono: 'handyman', color: '#5B6B85' },
-    { nombre: 'Marketing', tipo: 'gasto', icono: 'campaign', color: '#0E6FFF' },
-    { nombre: 'Otros', tipo: 'gasto', icono: 'category', color: '#8E9BAE' },
+    { nombre: 'Insumos', tipo: 'gasto', icono: 'construction', color: '#E5484D', clasificacion: 'necesidad' },
+    { nombre: 'Empaque', tipo: 'gasto', icono: 'inventory_2', color: '#5B6B85', clasificacion: 'necesidad' },
+    { nombre: 'Envíos', tipo: 'gasto', icono: 'local_shipping', color: '#0E6FFF', clasificacion: 'necesidad' },
+    { nombre: 'Impuestos', tipo: 'gasto', icono: 'request_quote', color: '#E8A13A', clasificacion: 'necesidad' },
+    { nombre: 'Herramientas', tipo: 'gasto', icono: 'handyman', color: '#5B6B85', clasificacion: 'necesidad' },
+    { nombre: 'Marketing', tipo: 'gasto', icono: 'campaign', color: '#0E6FFF', clasificacion: 'deseo' },
+    { nombre: 'Otros', tipo: 'gasto', icono: 'category', color: '#8E9BAE', clasificacion: null },
     { nombre: 'Venta', tipo: 'ingreso', icono: 'storefront', color: '#0FA47F' },
     { nombre: 'Servicios', tipo: 'ingreso', icono: 'build', color: '#0E6FFF' },
     { nombre: 'Otros', tipo: 'ingreso', icono: 'savings', color: '#8E9BAE' },
@@ -56,6 +60,7 @@ function categoriaPublica(c: FilaCategoria) {
     tipo: c.tipo,
     icono: c.icono,
     color: c.color,
+    clasificacion: c.clasificacion ?? null,
     es_predefinida: c.es_predefinida,
     activa: c.activa,
   }
@@ -70,11 +75,20 @@ export function parseCategoria(body: Record<string, unknown>): DatosCategoria {
   if (tipo !== 'ingreso' && tipo !== 'gasto') {
     throw httpError(400, 'tipo debe ser ingreso o gasto')
   }
+  let clasificacion: Clasificacion | null | undefined
+  if (body.clasificacion !== undefined) {
+    const valor = body.clasificacion == null || body.clasificacion === '' ? null : String(body.clasificacion)
+    if (valor !== null && valor !== 'necesidad' && valor !== 'deseo' && valor !== 'ahorro') {
+      throw httpError(400, 'clasificacion debe ser necesidad, deseo, ahorro o vacío')
+    }
+    clasificacion = valor
+  }
   return {
     nombre,
     tipo,
     icono: body.icono == null ? null : String(body.icono),
     color: body.color == null ? null : String(body.color),
+    clasificacion,
     activa: body.activa == null ? undefined : Boolean(body.activa),
   }
 }
@@ -102,6 +116,7 @@ export async function sembrarCategorias(userId: number, fondoId: number, tipoFon
       tipo: p.tipo,
       icono: p.icono,
       color: p.color,
+      clasificacion: p.clasificacion ?? null,
       es_predefinida: true,
       activa: true,
     })),
@@ -113,7 +128,7 @@ export async function sembrarCategorias(userId: number, fondoId: number, tipoFon
 export async function categoriaSistema(
   userId: number,
   fondoId: number,
-  data: { nombre: string; tipo: TipoCategoria; icono: string; color: string },
+  data: { nombre: string; tipo: TipoCategoria; icono: string; color: string; clasificacion?: Clasificacion | null },
 ): Promise<number> {
   const [existente] = await db
     .select({ id: categorias.id })
@@ -131,6 +146,7 @@ export async function categoriaSistema(
       tipo: data.tipo,
       icono: data.icono,
       color: data.color,
+      clasificacion: data.clasificacion ?? null,
       es_predefinida: true,
       activa: true,
     })
@@ -175,6 +191,7 @@ export async function crearCategoria(userId: number, fondoId: number, data: Dato
       tipo: data.tipo,
       icono: data.icono,
       color: data.color,
+      clasificacion: data.clasificacion ?? null,
       es_predefinida: false,
       activa: data.activa ?? true,
     })
@@ -197,6 +214,7 @@ export async function editarCategoria(userId: number, id: number, data: DatosCat
       tipo: data.tipo ?? (categoria.tipo as TipoCategoria),
       icono: data.icono == null ? categoria.icono : data.icono,
       color: data.color == null ? categoria.color : data.color,
+      clasificacion: data.clasificacion === undefined ? categoria.clasificacion : data.clasificacion,
       activa: data.activa ?? categoria.activa,
     })
     .where(and(eq(categorias.id, id), eq(categorias.user_id, userId)))

@@ -43,6 +43,13 @@
       "when": 1792544302339,
       "tag": "0005_woozy_fat_cobra",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792553638351,
+      "tag": "0006_thin_apocalypse",
+      "breakpoints": true
     }
   ]
 }

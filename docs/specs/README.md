@@ -92,5 +92,6 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-042 | movimientos-kpis-y-csv | SEL-282 | verificada |
 | SPC-043 | saldo-continuo | SEL-283 | verificada |
 | SPC-044 | aportes-metas-mueven-dinero | SEL-284 | verificada |
+| SPC-045 | widget-50-30-20 | SEL-285 | implementada |
 
 El histórico de cada spec (versión en la que quedó verificada y sus commits) está en `docs/PROGRESO.md`.
