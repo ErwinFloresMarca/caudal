@@ -60,6 +60,7 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 | SPC-042 | Movimientos: KPIs, egresos por categoría y CSV | SEL-282 | verificada | v1.6.0 | `47d0597` | KPIs con los filtros de la pantalla; panel top 6 + "Otras categorías" |
 | SPC-043 | Saldo continuo en Movimientos | SEL-283 | verificada | v1.6.0 | `c0fceda` | Derivado, nunca persistido; alcance por fondo/cuenta |
 | SPC-044 | Aportes a metas que mueven dinero | SEL-284 | verificada | v1.7.0 | `3398a01` | Transacción espejo con categoría "Ahorro"; una sola puerta de entrada (409 desde Movimientos) |
+| SPC-045 | Widget 50/30/20 | SEL-285 | verificada | v1.8.0 | `3b8a08c` | `categorias.clasificacion` + widget sobre los ingresos del mes; lo sin clasificar se informa aparte |
 
 ## Releases
 
@@ -84,6 +85,7 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 - **v1.5.1** — el deploy deja de depender de un checkout en la VPS: migraciones y `deploy.sh` viajan en el artefacto (SPC-041).
 - **v1.6.0** — Movimientos con KPIs, egresos por categoría, CSV con sus filtros (SPC-042) y saldo continuo (SPC-043).
 - **v1.7.0** — los aportes a metas descuentan de la cuenta elegida (SPC-044) y arreglo del desborde de Movimientos en móvil.
+- **v1.8.0** — widget 50/30/20 en Presupuestos con clasificación de categorías (SPC-045).
 
 ## Pendientes
 
