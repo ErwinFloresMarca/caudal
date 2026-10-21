@@ -6,9 +6,8 @@ Registro de atajos deliberados (`ponytail:`), pendientes menores del pase visual
 
 | # | Dónde | Qué | Por qué / cuándo arreglar |
 |---|---|---|---|
-| 1 | Ajustes | **Exportar todos los datos** desde Ajustes no implementado (el CSV de movimientos ya está en Reportes, SPC-039). | Barato de añadir si se pide. |
-| 2 | Ajustes | **Cerrar todas las sesiones** no implementado (cookie firmada sin store servidor). | Requiere store de sesiones o versión de token. |
-| 3 | Transferencias/aportes | `resolverMontos` asume monedas BOB/USD (dos monedas). | Ampliar si se agrega una tercera moneda. |
+| 1 | Ajustes | **Cerrar todas las sesiones** no implementado (cookie firmada sin store servidor). | Requiere store de sesiones o versión de token. |
+| 2 | Transferencias/aportes | `resolverMontos` asume monedas BOB/USD (dos monedas). | Ampliar si se agrega una tercera moneda. |
 
 <!-- Resuelto: #7 Google OAuth. `NUXT_OAUTH_GOOGLE_ID/SECRET` están configurados en dev y prod;
      `server/routes/auth/google.ts` + `BotonGoogle` en login/registro funcionan (v1.0.0). -->

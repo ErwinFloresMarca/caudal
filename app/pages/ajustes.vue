@@ -251,6 +251,16 @@ async function borrarCuenta() {
       </div>
 
       <!-- Datos -->
+      <div class="card flex flex-wrap items-center justify-between gap-4 p-5">
+        <div>
+          <p class="text-sm font-semibold text-ink">Exportar datos</p>
+          <p class="text-sm text-ink-muted">Todo tu historial en un JSON (movimientos, cuentas, deudas, metas, presupuestos). No incluye contraseñas ni API keys.</p>
+        </div>
+        <a href="/api/ajustes/exportar" class="btn-secondary flex h-10 shrink-0 items-center px-4 text-sm" download>
+          Descargar JSON
+        </a>
+      </div>
+
       <div class="card flex items-center justify-between gap-4 border-negative p-5">
         <div>
           <p class="text-sm font-semibold text-negative">Borrar cuenta</p>
