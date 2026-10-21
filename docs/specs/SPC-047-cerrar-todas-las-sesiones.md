@@ -1,6 +1,6 @@
 # SPC-047 — Cerrar todas las sesiones
 
-Estado: implementada · Issue: SEL-287
+Estado: verificada · Issue: SEL-287
 Depende de: SPC-003 (auth), SPC-017 (ajustes)
 
 ## Problema
@@ -40,4 +40,4 @@ La sesión es una cookie firmada sin store en servidor: "cerrar sesión" solo bo
 - **Dos navegadores** (mismo usuario): A cierra todas → A cae en `/login`; B, sin tocar nada, al navegar cae en `/login`; B vuelve a entrar sin problema.
 - **API keys**: creada una key, "cerrar todas" → la cookie vieja responde **401** y la API key sigue respondiendo **200** (no se revoca, como dice el modal).
 - El modal se ve bien a 390px.
-- Falta el deploy para pasar a `verificada`.
+- **Verificado en el deploy de v1.9.0** (run 39544492340): migración `0007` aplicada desde el artefacto (`drizzle.__drizzle_migrations` = **8**), columna `users.session_version` presente y las **5 cuentas en versión 0** conservan su sesión (no se deslogueó a nadie al desplegar). `POST /api/ajustes/cerrar-sesiones` responde **401** sin sesión (ruta viva).

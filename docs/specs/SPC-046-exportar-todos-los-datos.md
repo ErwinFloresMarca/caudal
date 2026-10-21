@@ -1,6 +1,6 @@
 # SPC-046 — Exportar todos los datos desde Ajustes
 
-Estado: implementada · Issue: SEL-286
+Estado: verificada · Issue: SEL-286
 Depende de: SPC-002 (modelo de datos), SPC-017 (ajustes), SPC-039 (CSV de movimientos)
 
 ## Problema
@@ -42,4 +42,4 @@ Los datos viven solo dentro de la app: no hay respaldo ni forma de llevárselos.
 
 - `tests/exportar.test.ts`: 4 casos — incluye todas las tablas (14 filas de cuota y aportes por padre), no exporta `password_hash`/`key_hash`, aísla al otro usuario y el JSON vuelve a parsearse con los datos intactos. 232 tests en total, lint, typecheck y build en verde.
 - En navegador (390px): la tarjeta "Exportar datos" y el botón se ven sin desbordes; la **descarga real** genera `caudal-datos-2026-10-21.json` (48 KB) con `version: 1`, tablas `fondos 5 / cuentas 7 / categorías 56 / transacciones 33 / transferencias 1 / recurrentes 3 / deudas 4 / cuotas 6 / metas 3 / aportes 3 / presupuestos 4 / ajustes 2 / api_keys 3` y **sin ningún hash**.
-- Falta el deploy para pasar a `verificada`.
+- **Verificado en el deploy de v1.9.0** (run 39544492340, `deploy` success, `pm2` 1.9.0): `GET /api/ajustes/exportar` responde **401** sin sesión en producción (ruta viva) y el bundle incluye el exportador.

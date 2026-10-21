@@ -61,6 +61,8 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 | SPC-043 | Saldo continuo en Movimientos | SEL-283 | verificada | v1.6.0 | `c0fceda` | Derivado, nunca persistido; alcance por fondo/cuenta |
 | SPC-044 | Aportes a metas que mueven dinero | SEL-284 | verificada | v1.7.0 | `3398a01` | Transacción espejo con categoría "Ahorro"; una sola puerta de entrada (409 desde Movimientos) |
 | SPC-045 | Widget 50/30/20 | SEL-285 | verificada | v1.8.0 | `3b8a08c` | `categorias.clasificacion` + widget sobre los ingresos del mes; lo sin clasificar se informa aparte |
+| SPC-046 | Exportar todos los datos | SEL-286 | verificada | v1.9.0 | `9cd5886` | JSON con 14 colecciones; sin hashes ni API keys en claro |
+| SPC-047 | Cerrar todas las sesiones | SEL-287 | verificada | v1.9.0 | `0b0c367` | `users.session_version`; API keys no se revocan; el cliente valida contra el servidor |
 
 ## Releases
 
@@ -86,6 +88,7 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 - **v1.6.0** — Movimientos con KPIs, egresos por categoría, CSV con sus filtros (SPC-042) y saldo continuo (SPC-043).
 - **v1.7.0** — los aportes a metas descuentan de la cuenta elegida (SPC-044) y arreglo del desborde de Movimientos en móvil.
 - **v1.8.0** — widget 50/30/20 en Presupuestos con clasificación de categorías (SPC-045).
+- **v1.9.0** — exportar todos los datos en JSON (SPC-046) y cerrar todas las sesiones (SPC-047).
 
 ## Pendientes
 
