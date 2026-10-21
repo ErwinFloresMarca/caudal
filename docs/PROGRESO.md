@@ -59,6 +59,7 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 | SPC-041 | Migraciones en el artefacto (deploy autocontenido) | SEL-281 | verificada | v1.5.1 | `3a9998e` | Runner `drizzle-orm` en `.output/server`; migra antes del swap y hace rollback si el health falla |
 | SPC-042 | Movimientos: KPIs, egresos por categoría y CSV | SEL-282 | verificada | v1.6.0 | `47d0597` | KPIs con los filtros de la pantalla; panel top 6 + "Otras categorías" |
 | SPC-043 | Saldo continuo en Movimientos | SEL-283 | verificada | v1.6.0 | `c0fceda` | Derivado, nunca persistido; alcance por fondo/cuenta |
+| SPC-044 | Aportes a metas que mueven dinero | SEL-284 | verificada | v1.7.0 | `3398a01` | Transacción espejo con categoría "Ahorro"; una sola puerta de entrada (409 desde Movimientos) |
 
 ## Releases
 
@@ -82,6 +83,7 @@ Orden de implementación (el del índice de `docs/specs/README.md`), no numéric
 - **v1.5.0** — exportar movimientos a CSV (SPC-039) y barras diarias por categoría en Reportes (SPC-040).
 - **v1.5.1** — el deploy deja de depender de un checkout en la VPS: migraciones y `deploy.sh` viajan en el artefacto (SPC-041).
 - **v1.6.0** — Movimientos con KPIs, egresos por categoría, CSV con sus filtros (SPC-042) y saldo continuo (SPC-043).
+- **v1.7.0** — los aportes a metas descuentan de la cuenta elegida (SPC-044) y arreglo del desborde de Movimientos en móvil.
 
 ## Pendientes
 

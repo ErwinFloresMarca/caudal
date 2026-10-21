@@ -1,6 +1,6 @@
 # SPC-044 — Aportes a metas que mueven dinero
 
-Estado: implementada · Issue: SEL-284
+Estado: verificada · Issue: SEL-284
 Depende de: SPC-013 (metas), SPC-008 (transacciones), SPC-035 (patrón de pago de cuota)
 
 ## Problema
@@ -47,4 +47,4 @@ El formulario de aporte a una meta deja elegir una **cuenta de origen**, pero el
 - Gates: 222 tests, lint, typecheck y build en verde.
 - **Verificado en navegador** (Playwright, 390px): modal de alta muestra el aviso y la cuenta seleccionable; modal de edición muestra "La cuenta no se puede cambiar" con el selector **deshabilitado** y el valor de la cuenta.
 - De paso se corrigió un desborde real en Movimientos móvil (ver nota del commit): la fila no encogía (`scrollWidth` 523 en 390) y las acciones de editar/borrar eran invisibles en táctil.
-- Falta el deploy para pasar a `verificada`.
+- **Verificado en el deploy de v1.7.0** (run 39538062648, job `deploy` success): la migración `0005` se aplicó desde el artefacto (`drizzle.__drizzle_migrations` pasó a **6**) y la columna `aportes_meta.transaccion_id` existe en producción; `pm2 caudal` 1.7.0 online y health `200`.

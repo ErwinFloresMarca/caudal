@@ -91,6 +91,6 @@ Proyecto en Linear: [Caudal](https://linear.app/self-proyects/project/caudal-523
 | SPC-041 | migraciones-en-artefacto | SEL-281 | verificada |
 | SPC-042 | movimientos-kpis-y-csv | SEL-282 | verificada |
 | SPC-043 | saldo-continuo | SEL-283 | verificada |
-| SPC-044 | aportes-metas-mueven-dinero | SEL-284 | implementada |
+| SPC-044 | aportes-metas-mueven-dinero | SEL-284 | verificada |
 
 El histórico de cada spec (versión en la que quedó verificada y sus commits) está en `docs/PROGRESO.md`.
