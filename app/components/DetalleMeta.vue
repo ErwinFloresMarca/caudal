@@ -131,10 +131,15 @@ async function borrarAporte(a: AporteMeta) {
         </div>
         <label class="flex flex-col gap-1">
           <span class="text-sm text-ink-muted">Cuenta (opcional)</span>
-          <select v-model.number="aporte.cuenta_id" class="input-field">
+          <select v-model.number="aporte.cuenta_id" class="input-field" :disabled="!!editando">
             <option :value="0">Sin cuenta</option>
             <option v-for="c in cuentas" :key="c.id" :value="c.id">{{ c.nombre }} · {{ c.moneda }}</option>
           </select>
+          <span class="text-xs text-ink-faint">
+            {{ editando
+              ? 'La cuenta no se puede cambiar: borrá el aporte y creálo de nuevo.'
+              : 'Si elegís una cuenta, el monto se descuenta de ella. Sin cuenta, solo se registra el avance.' }}
+          </span>
         </label>
         <label class="flex flex-col gap-1"><span class="text-sm text-ink-muted">Nota</span><input v-model="aporte.nota" type="text" placeholder="Opcional" class="input-field"></label>
         <p v-if="error" class="text-sm text-negative">{{ error }}</p>

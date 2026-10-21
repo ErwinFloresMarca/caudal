@@ -234,6 +234,8 @@ export const aportesMeta = pgTable('aportes_meta', {
   id: id('id'),
   meta_id: integer('meta_id').notNull().references(() => metasAhorro.id),
   cuenta_id: integer('cuenta_id').references(() => cuentas.id),
+  // Transacción espejo cuando el aporte descuenta de una cuenta (SPC-044). Null = solo registro.
+  transaccion_id: integer('transaccion_id').references(() => transacciones.id),
   monto_centavos: integer('monto_centavos').notNull(),
   fecha: date('fecha').notNull(),
   nota: text('nota'),

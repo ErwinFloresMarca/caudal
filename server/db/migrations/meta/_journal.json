@@ -36,6 +36,13 @@
       "when": 1792206765682,
       "tag": "0004_vengeful_madame_masque",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792544302339,
+      "tag": "0005_woozy_fat_cobra",
+      "breakpoints": true
     }
   ]
 }

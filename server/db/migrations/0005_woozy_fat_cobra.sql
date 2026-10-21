@@ -1,0 +1,2 @@
+ALTER TABLE "aportes_meta" ADD COLUMN "transaccion_id" integer;--> statement-breakpoint
+ALTER TABLE "aportes_meta" ADD CONSTRAINT "aportes_meta_transaccion_id_transacciones_id_fk" FOREIGN KEY ("transaccion_id") REFERENCES "public"."transacciones"("id") ON DELETE no action ON UPDATE no action;

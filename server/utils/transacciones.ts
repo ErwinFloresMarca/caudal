@@ -305,6 +305,9 @@ export async function editarTransaccion(userId: number, id: number, data: DatosT
   if (!trx) {
     throw httpError(404, 'Transacción no encontrada')
   }
+  if (trx.fuente === 'meta') {
+    throw httpError(409, 'Este movimiento lo genera un aporte a una meta: editalo desde la meta')
+  }
   if (data.cuenta_id !== trx.cuenta_id) {
     throw httpError(400, 'No se puede cambiar la cuenta de una transacción')
   }
@@ -335,6 +338,9 @@ export async function borrarTransaccion(userId: number, id: number) {
     .limit(1)
   if (!trx) {
     throw httpError(404, 'Transacción no encontrada')
+  }
+  if (trx.fuente === 'meta') {
+    throw httpError(409, 'Este movimiento lo genera un aporte a una meta: borralo desde la meta')
   }
   await db.delete(transacciones).where(and(eq(transacciones.id, id), eq(transacciones.user_id, userId)))
   return trx

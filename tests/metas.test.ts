@@ -1,10 +1,9 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { randomUUID } from 'node:crypto'
 import { db } from '../server/utils/db'
-import { users, fondos, cuentas, categorias, metasAhorro, aportesMeta } from '../server/db/schema'
+import { users, fondos, cuentas, categorias, metasAhorro, aportesMeta, transacciones } from '../server/db/schema'
 import { eq, inArray } from 'drizzle-orm'
 import { crearFondo } from '../server/utils/fondos'
-import { crearCuenta } from '../server/utils/cuentas'
 import {
   parseMeta,
   parseAporteMeta,
@@ -18,6 +17,8 @@ import {
   borrarAporteMeta,
 } from '../server/utils/metas'
 import { calcularProgreso } from '#shared/metas'
+import { editarTransaccion, borrarTransaccion } from '../server/utils/transacciones'
+import { crearCuenta, getCuenta } from '../server/utils/cuentas'
 
 const hasDb = Boolean(process.env.DATABASE_URL)
 
@@ -27,6 +28,7 @@ let fondoId: number
 let otroFondoId: number
 let cuentaId: number
 let cuentaOtroFondoId: number
+let cuentaUsdId: number
 
 beforeAll(async () => {
   if (!hasDb) return
@@ -42,6 +44,7 @@ beforeAll(async () => {
 
   cuentaId = (await crearCuenta(userId, fondoId, { nombre: 'Ahorro', tipo: 'ahorro', moneda: 'BOB', saldo_inicial_centavos: 0 })).id
   cuentaOtroFondoId = (await crearCuenta(userId, otroFondoId, { nombre: 'Otra', tipo: 'efectivo', moneda: 'BOB' })).id
+  cuentaUsdId = (await crearCuenta(userId, fondoId, { nombre: 'Ahorro USD', tipo: 'ahorro', moneda: 'USD' })).id
 })
 
 afterAll(async () => {
@@ -52,6 +55,8 @@ afterAll(async () => {
   }
   await db.delete(metasAhorro).where(eq(metasAhorro.user_id, userId))
   await db.delete(metasAhorro).where(eq(metasAhorro.user_id, userIdOtro))
+  await db.delete(transacciones).where(eq(transacciones.user_id, userId))
+  await db.delete(transacciones).where(eq(transacciones.user_id, userIdOtro))
   await db.delete(cuentas).where(eq(cuentas.user_id, userId))
   await db.delete(cuentas).where(eq(cuentas.user_id, userIdOtro))
   await db.delete(categorias).where(eq(categorias.user_id, userId))
@@ -141,6 +146,97 @@ describe.skipIf(!hasDb)('metas (repositorio)', () => {
     // un retiro negativo resta
     const retiro = await crearAporteMeta(userId, meta!.id, { monto_centavos: -5000 })
     expect(retiro.meta!.progreso.acumulado_centavos).toBe(15000)
+    await borrarMeta(userId, meta!.id)
+  })
+
+  it('aporte con cuenta descuenta del saldo y crea el gasto de Ahorro', async () => {
+    const meta = await crearMeta(userId, fondoId, { nombre: 'Con descuento', monto_objetivo_centavos: 100000, moneda: 'BOB' })
+    const antes = (await getCuenta(userId, cuentaId))!.saldo_actual_centavos
+
+    const res = await crearAporteMeta(userId, meta!.id, { monto_centavos: 30000, cuenta_id: cuentaId })
+    expect(res.aporte!.transaccion_id).toBeTruthy()
+
+    const despues = (await getCuenta(userId, cuentaId))!.saldo_actual_centavos
+    expect(despues).toBe(antes - 30000)
+
+    const [trx] = await db.select().from(transacciones).where(eq(transacciones.id, res.aporte!.transaccion_id!))
+    expect(trx).toMatchObject({ tipo: 'gasto', monto_centavos: 30000, fuente: 'meta' })
+    const [cat] = await db.select().from(categorias).where(eq(categorias.id, trx!.categoria_id!))
+    expect(cat!.nombre).toBe('Ahorro')
+
+    await borrarMeta(userId, meta!.id)
+  })
+
+  it('un retiro con cuenta devuelve la plata (ingreso)', async () => {
+    const meta = await crearMeta(userId, fondoId, { nombre: 'Retiro con cuenta', monto_objetivo_centavos: 100000, moneda: 'BOB' })
+    await crearAporteMeta(userId, meta!.id, { monto_centavos: 30000, cuenta_id: cuentaId })
+    const antes = (await getCuenta(userId, cuentaId))!.saldo_actual_centavos
+
+    const retiro = await crearAporteMeta(userId, meta!.id, { monto_centavos: -12000, cuenta_id: cuentaId })
+    expect((await getCuenta(userId, cuentaId))!.saldo_actual_centavos).toBe(antes + 12000)
+
+    const [trx] = await db.select().from(transacciones).where(eq(transacciones.id, retiro.aporte!.transaccion_id!))
+    expect(trx).toMatchObject({ tipo: 'ingreso', monto_centavos: 12000, fuente: 'meta' })
+
+    await borrarMeta(userId, meta!.id)
+  })
+
+  it('editar el aporte actualiza la misma transacción', async () => {
+    const meta = await crearMeta(userId, fondoId, { nombre: 'Editar con cuenta', monto_objetivo_centavos: 100000, moneda: 'BOB' })
+    const creado = await crearAporteMeta(userId, meta!.id, { monto_centavos: 20000, cuenta_id: cuentaId })
+    const trxId = creado.aporte!.transaccion_id!
+
+    const editado = await editarAporteMeta(userId, meta!.id, creado.aporte!.id, { monto_centavos: 45000 })
+    expect(editado.aporte!.transaccion_id).toBe(trxId)
+    const [trx] = await db.select().from(transacciones).where(eq(transacciones.id, trxId))
+    expect(trx!.monto_centavos).toBe(45000)
+
+    await expect(
+      editarAporteMeta(userId, meta!.id, creado.aporte!.id, { monto_centavos: 45000, cuenta_id: cuentaOtroFondoId }),
+    ).rejects.toMatchObject({ statusCode: 400, message: /No se puede cambiar la cuenta/ })
+
+    await borrarMeta(userId, meta!.id)
+  })
+
+  it('borrar el aporte borra su transacción', async () => {
+    const meta = await crearMeta(userId, fondoId, { nombre: 'Borrar con cuenta', monto_objetivo_centavos: 100000, moneda: 'BOB' })
+    const creado = await crearAporteMeta(userId, meta!.id, { monto_centavos: 15000, cuenta_id: cuentaId })
+    const trxId = creado.aporte!.transaccion_id!
+
+    await borrarAporteMeta(userId, meta!.id, creado.aporte!.id)
+    expect((await db.select().from(transacciones).where(eq(transacciones.id, trxId))).length).toBe(0)
+
+    await borrarMeta(userId, meta!.id)
+  })
+
+  it('borrar la meta conserva las transacciones de sus aportes', async () => {
+    const meta = await crearMeta(userId, fondoId, { nombre: 'Historia', monto_objetivo_centavos: 100000, moneda: 'BOB' })
+    const creado = await crearAporteMeta(userId, meta!.id, { monto_centavos: 25000, cuenta_id: cuentaId })
+    const trxId = creado.aporte!.transaccion_id!
+
+    await borrarMeta(userId, meta!.id)
+    expect((await db.select().from(transacciones).where(eq(transacciones.id, trxId))).length).toBe(1)
+  })
+
+  it('rechaza la cuenta de otra moneda que la meta', async () => {
+    const meta = await crearMeta(userId, fondoId, { nombre: 'Solo BOB', monto_objetivo_centavos: 100000, moneda: 'BOB' })
+    await expect(crearAporteMeta(userId, meta!.id, { monto_centavos: 10000, cuenta_id: cuentaUsdId })).rejects.toMatchObject({
+      statusCode: 400,
+      message: /debe estar en BOB/,
+    })
+    await borrarMeta(userId, meta!.id)
+  })
+
+  it('la transacción de un aporte no se edita ni borra desde Movimientos', async () => {
+    const meta = await crearMeta(userId, fondoId, { nombre: 'Una puerta', monto_objetivo_centavos: 100000, moneda: 'BOB' })
+    const creado = await crearAporteMeta(userId, meta!.id, { monto_centavos: 10000, cuenta_id: cuentaId })
+    const trxId = creado.aporte!.transaccion_id!
+
+    await expect(
+      editarTransaccion(userId, trxId, { cuenta_id: cuentaId, tipo: 'gasto', monto_centavos: 9999 }),
+    ).rejects.toMatchObject({ statusCode: 409 })
+    await expect(borrarTransaccion(userId, trxId)).rejects.toMatchObject({ statusCode: 409 })
+
     await borrarMeta(userId, meta!.id)
   })
 
