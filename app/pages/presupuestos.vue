@@ -118,22 +118,22 @@ const maxHist = computed(() => Math.max(1, ...barras.value.map((h) => Math.max(h
 
     <template v-if="resp">
       <!-- KPIs -->
-      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div class="card p-5">
-          <p class="text-sm text-ink-muted">Asignado</p>
-          <p class="mt-1 text-xl font-bold tabular-nums text-ink">{{ resp.kpis.asignado_formateado }}</p>
+      <div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
+        <div class="card min-w-0 p-4 sm:p-5">
+          <p class="text-xs text-ink-muted sm:text-sm">Asignado</p>
+          <p class="mt-1 truncate text-lg font-bold tabular-nums text-ink sm:text-xl">{{ resp.kpis.asignado_formateado }}</p>
         </div>
-        <div class="card p-5">
-          <p class="text-sm text-ink-muted">Consumido</p>
-          <p class="mt-1 text-xl font-bold tabular-nums text-ink">{{ resp.kpis.consumido_formateado }}</p>
+        <div class="card min-w-0 p-4 sm:p-5">
+          <p class="text-xs text-ink-muted sm:text-sm">Consumido</p>
+          <p class="mt-1 truncate text-lg font-bold tabular-nums text-ink sm:text-xl">{{ resp.kpis.consumido_formateado }}</p>
         </div>
-        <div class="card p-5">
-          <p class="text-sm text-ink-muted">Disponible restante</p>
-          <p class="mt-1 text-xl font-bold tabular-nums" :class="resp.kpis.disponible_centavos > 0 ? 'text-positive' : 'text-negative'">{{ resp.kpis.disponible_formateado }}</p>
+        <div class="card min-w-0 p-4 sm:p-5">
+          <p class="text-xs text-ink-muted sm:text-sm">Disponible restante</p>
+          <p class="mt-1 truncate text-lg font-bold tabular-nums sm:text-xl" :class="resp.kpis.disponible_centavos > 0 ? 'text-positive' : 'text-negative'">{{ resp.kpis.disponible_formateado }}</p>
         </div>
-        <div class="card p-5">
-          <p class="text-sm text-ink-muted">Gasto diario permitido</p>
-          <p class="mt-1 text-xl font-bold tabular-nums text-ink">{{ resp.kpis.gasto_diario_permitido_formateado }}</p>
+        <div class="card min-w-0 p-4 sm:p-5">
+          <p class="text-xs text-ink-muted sm:text-sm">Gasto diario permitido</p>
+          <p class="mt-1 truncate text-lg font-bold tabular-nums text-ink sm:text-xl">{{ resp.kpis.gasto_diario_permitido_formateado }}</p>
           <p class="text-xs text-ink-faint">{{ resp.dias_restantes }} días restantes</p>
         </div>
       </div>
