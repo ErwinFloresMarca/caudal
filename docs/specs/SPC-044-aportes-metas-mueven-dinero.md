@@ -45,4 +45,6 @@ El formulario de aporte a una meta deja elegir una **cuenta de origen**, pero el
 - `tests/metas.test.ts`: 20 casos (8 nuevos) — saldo baja/sube, transacción `fuente='meta'` con categoría "Ahorro", edición en la misma transacción, borrado en cascada, meta borrada conserva transacciones, moneda distinta, 409 desde Movimientos.
 - E2E en dev (`:3072`) con la API real: aporte de US$ 50 desde "Caja" → saldo 41.216 → 36.216 centavos, movimiento 4351 con categoría Ahorro y `fuente=meta`; `PATCH`/`DELETE` de ese movimiento → **409**; retiro de US$ 20 → ingreso y saldo 38.216; meta en BOB con cuenta USD → **400** "La cuenta debe estar en BOB, como la meta"; borrar el aporte borra su transacción.
 - Gates: 222 tests, lint, typecheck y build en verde.
+- **Verificado en navegador** (Playwright, 390px): modal de alta muestra el aviso y la cuenta seleccionable; modal de edición muestra "La cuenta no se puede cambiar" con el selector **deshabilitado** y el valor de la cuenta.
+- De paso se corrigió un desborde real en Movimientos móvil (ver nota del commit): la fila no encogía (`scrollWidth` 523 en 390) y las acciones de editar/borrar eran invisibles en táctil.
 - Falta el deploy para pasar a `verificada`.

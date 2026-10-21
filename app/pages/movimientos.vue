@@ -307,12 +307,12 @@ onMounted(() => {
 
     <div class="grid gap-5 lg:grid-cols-3">
     <!-- Lista -->
-    <div class="card p-2 lg:col-span-2">
+    <div class="card min-w-0 p-2 lg:col-span-2">
       <div v-for="[fecha, items] in grupos" :key="fecha">
         <p class="px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-wide text-ink-faint">{{ etiquetaFecha(fecha) }}</p>
         <ul class="divide-y divide-border">
           <li v-for="m in items" :key="m.id" class="group flex items-center justify-between gap-3 px-3 py-3">
-            <span class="flex min-w-0 items-center gap-3">
+            <span class="flex min-w-0 flex-1 items-center gap-3">
               <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-surface-muted" :style="{ color: m.categoria?.color ?? 'var(--color-ink-muted)' }">
                 <UIcon :name="iconoMaterial(m.categoria?.icono)" class="size-5" />
               </span>
@@ -321,8 +321,8 @@ onMounted(() => {
                 <span class="truncate text-xs text-ink-faint">{{ m.categoria?.nombre ?? 'Sin categoría' }} · {{ m.cuenta_nombre ?? '—' }}</span>
               </span>
             </span>
-            <span class="flex items-center gap-2">
-              <span class="flex flex-col items-end">
+            <span class="flex shrink-0 items-center gap-1">
+              <span class="flex shrink-0 flex-col items-end">
                 <span class="whitespace-nowrap font-semibold tabular-nums" :class="m.tipo === 'ingreso' ? 'text-positive' : 'text-negative'">
                   {{ m.tipo === 'ingreso' ? '+' : '−' }} {{ m.monto_formateado }}
                 </span>
@@ -334,7 +334,7 @@ onMounted(() => {
                   {{ fmt(m.saldo_continuo_centavos) }}
                 </span>
               </span>
-              <span class="flex opacity-0 transition-opacity group-hover:opacity-100">
+              <span class="flex transition-opacity lg:opacity-0 lg:group-hover:opacity-100">
                 <button type="button" class="grid h-8 w-8 place-items-center rounded-full text-ink-muted hover:bg-surface-hover" title="Editar" @click="abrirEditar(m)">
                   <UIcon name="i-material-symbols-edit" class="size-4" />
                 </button>
